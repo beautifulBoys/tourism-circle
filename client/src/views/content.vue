@@ -1,0 +1,252 @@
+<template>
+  <div class="content">
+    <div class="header">
+      <img class="swiper" :src="data.pictures[0]"/>
+      <div class="user">
+        <div class="icon"><img class="user-icon" src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(1).jpg"/></div>
+        <div class="text">旅行的意义</div>
+      </div>
+    </div>
+    <div class="body1">
+      <div class="info">
+        <span class="title">{{data.contentInfo.title}}</span>
+        <span class="date"><span class="tag">● </span> {{data.contentInfo.date}}</span>
+      </div>
+      <div class="content-text">{{data.contentInfo.content}}</div>
+      <div class="control">
+        <div class="left">
+          <img v-for="(item, index) in data.browseList" :src="item.icon" :class="{se: index !== 0}"/>
+          <span class="kan">{{data.browseList.length}}人浏览</span>
+        </div>
+        <div class="right">
+          <span class="star"></span>
+          <span class="down"></span>
+        </div>
+      </div>
+    </div>
+    <div class="recommend" style="display:none;">
+
+    </div>
+    <div class="comment">
+      <div class="row" v-for="item in data.commentList">
+        <div class="left">
+          <img class="user-icon" :src="item.user.icon"/>
+        </div>
+        <div class="right">
+          <div class="line1">{{item.user.name}}
+            <div class="zan-box">
+              <span class="zan after"></span>
+              <span class="zan-num">12</span>
+            </div>
+          </div>
+          <div class="line2">{{item.comment.content}}</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</template>
+<script>
+  import dataJson from './content.json';
+  export default {
+    data () {
+      return {
+        data: dataJson
+      };
+    },
+    mounted () {
+
+    },
+    methods: {
+      leftEvent () {
+        this.$emit('sidebarMenu');
+      }
+    }
+  };
+</script>
+
+<style lang="less" scoped>
+  @import "../lib/swiper.css";
+  .content {
+    width: 100%;
+    height: 100%;
+    background: #eee;
+    overflow-y: scroll;
+    .header {
+      width: 100%;
+      height: 280px;
+      background: red;
+      position: relative;
+      .swiper {
+        width: 100%;
+        height: 100%;
+      }
+      .user {
+        line-height: 40px;
+        height: 40px;
+        border-radius: 20px;
+        background: #fff;
+        display: flex;
+        position: absolute;
+        bottom: 15px;
+        left: 15px;
+        .icon {
+          width: 40px;
+          .user-icon {
+            width: 90%;
+            height: 90%;
+            margin: 5%;
+            border-radius: 100%;
+          }
+        }
+        .text {
+          flex: 1;
+          padding: 0 15px 0 10px;
+          font-size: 14px;
+        }
+      }
+
+
+    }
+    .body1 {
+      width: 100%;
+      padding: 15px;
+      background: #fff;
+      box-sizing: border-box;
+      .info {
+        .title {
+          width: 100%;
+          display: block;
+          line-height: 25px;
+        }
+        .date {
+          width: 100%;
+          color: #888;
+          font-size: 12px;
+          .tag {
+            font-size: 8px;
+            color: #3c95d8;
+          }
+        }
+      }
+      .content-text {
+        font-size: 14px;
+        line-height: 22px;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+      }
+      .control {
+        height: 30px;
+        width: 100%;
+        padding-top: 10px;
+        .left {
+          width: 50%;
+          float: left;
+          img {
+            width: 26px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            &.se {
+              margin-left: -10px;
+            }
+          }
+          .kan {
+            line-height: 30px;
+            vertical-align: top;
+            height: 30px;
+            font-size: 12px;
+          }
+        }
+        .right {
+          width: 50%;
+          height: 30px;
+          float: right;
+          text-align: right;
+          .star {
+            width: 35px;
+            height: 30px;
+            display: inline-block;
+            background: url("../images/svg/travel_star1.svg") no-repeat center center;
+            background-size: 20px;
+          }
+          .down {
+            width: 35px;
+            height: 30px;
+            display: inline-block;
+            background: url("../images/svg/travel_msg1.svg") no-repeat center center;
+            background-size: 20px;
+          }
+        }
+      }
+    }
+    .recommend {
+      width: 100%;
+      height: 100px;
+      margin: 10px 0;
+      background: #fff;
+    }
+    .comment {
+      width: 100%;
+      background: #fff;
+      padding: 10px 15px;
+      margin-top: 10px;
+      box-sizing: border-box;
+      .row {
+        display: flex;
+        margin-top: 10px;
+        .left {
+          width: 22px;
+          height: 22px;
+          margin-right: 10px;
+          .user-icon {
+            width: 100%;
+            height: 100%;
+            border-radius: 100%;
+          }
+        }
+        .right {
+          flex: 1;
+          border-bottom: 1px solid #eee;
+          .line1 {
+            line-height: 22px;
+            font-size: 12px;
+            color: #888;
+            .zan-box {
+              height: 30px;
+              float: right;
+              display: flex;
+              margin-top: -6px;
+              padding: 0 3px;
+              .zan-num {
+                flex: 1;
+                line-height: 33px;
+                display: inline-block;
+              }
+              .zan {
+                width: 20px;
+                height: 30px;
+                display: inline-block;
+                &.before {
+                  background: url(../images/content/zan_before.svg) no-repeat center center;
+                  background-size: 20px;
+                }
+                &.after {
+                  background: url(../images/content/zan_after.svg) no-repeat center center;
+                  background-size: 20px;
+                }
+              }
+
+            }
+          }
+          .line2 {
+            line-height: 20px;
+            font-size: 14px;
+            margin: 5px 0 8px 0;
+          }
+        }
+      }
+
+    }
+
+  }
+</style>
