@@ -1,4 +1,6 @@
 const router = require('koa-router')()
+// import data from './data.js';
+const data = require('./data.js');
 
 router.get('/', async (ctx, next) => {
   await ctx.render('index', {
@@ -6,8 +8,8 @@ router.get('/', async (ctx, next) => {
   })
 })
 
-router.get('/string', async (ctx, next) => {
-  ctx.body = 'koa2 string'
+router.post('/string', async (ctx, next) => {
+  ctx.body = data;
 })
 
 router.get('/json', async (ctx, next) => {

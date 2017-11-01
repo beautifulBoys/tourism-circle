@@ -6,8 +6,8 @@ router.get('/', function (ctx, next) {
   ctx.body = 'this is a users response!'
 })
 
-router.get('/bar', function (ctx, next) {
-  ctx.body = 'this is a users/bar response'
+router.get('/bar/aa', function (ctx, next) {
+  ctx.body = 'this is a users/bar/aa response'
 })
 
 module.exports = router

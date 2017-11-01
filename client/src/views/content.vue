@@ -1,22 +1,24 @@
 <template>
   <div class="content">
     <div class="header">
-      <img class="swiper" :src="data.pictures[0]"/>
+      <img class="swiper" :src="pictures[0]"/>
       <div class="user">
-        <div class="icon"><img class="user-icon" src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(1).jpg"/></div>
+        <div class="icon">
+          <img class="user-icon" src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(1).jpg"/>
+        </div>
         <div class="text">旅行的意义</div>
       </div>
     </div>
     <div class="body1">
       <div class="info">
-        <span class="title">{{data.contentInfo.title}}</span>
-        <span class="date"><span class="tag">● </span> {{data.contentInfo.date}}</span>
+        <span class="title">{{contentInfo.title}}</span>
+        <span class="date"><span class="tag">● </span> {{contentInfo.date}}</span>
       </div>
-      <div class="content-text">{{data.contentInfo.content}}</div>
+      <div class="content-text">{{contentInfo.content}}</div>
       <div class="control">
         <div class="left">
-          <img v-for="(item, index) in data.browseList" :src="item.icon" :class="{se: index !== 0}"/>
-          <span class="kan">{{data.browseList.length}}人浏览</span>
+          <img v-for="(item, index) in browseList" :src="item.icon" :class="{se: index !== 0}"/>
+          <span class="kan">{{browseList.length}}人浏览</span>
         </div>
         <div class="right">
           <span class="star"></span>
@@ -28,7 +30,7 @@
 
     </div>
     <div class="comment">
-      <div class="row" v-for="item in data.commentList">
+      <div class="row" v-for="item in commentList">
         <div class="left">
           <img class="user-icon" :src="item.user.icon"/>
         </div>
@@ -36,7 +38,7 @@
           <div class="line1">{{item.user.name}}
             <div class="zan-box">
               <span class="zan after"></span>
-              <span class="zan-num">12</span>
+              <span class="zan-num">{{item.comment.starNum}}</span>
             </div>
           </div>
           <div class="line2">{{item.comment.content}}</div>
@@ -47,15 +49,30 @@
   </div>
 </template>
 <script>
-  import dataJson from './content.json';
+  // import dataJson from './content.json';
   export default {
     data () {
       return {
-        data: dataJson
+        pictures: [],
+        contentInfo: {
+          title: '',
+          date: '',
+          content: ''
+        },
+        browseList: [],
+        commentList: []
       };
     },
     mounted () {
-
+      this.ajax.bind().then(res => {
+        console.log(res);
+        this.pictures = res.pictures;
+        this.contentInfo = res.contentInfo;
+        this.browseList = res.browseList;
+        this.commentList = res.commentList;
+      }).catch(err => {
+        console.log(err.message);
+      });
     },
     methods: {
       leftEvent () {
@@ -105,8 +122,6 @@
           font-size: 14px;
         }
       }
-
-
     }
     .body1 {
       width: 100%;
