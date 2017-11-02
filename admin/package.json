@@ -11,9 +11,14 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
-    "element-ui": "^2.0.2",
+    "axios": "^0.17.0",
+    "element-ui": "^1.4.9",
+    "json-loader": "^0.5.7",
+    "swiper": "^4.0.3",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.0",
+    "buffer": "^5.0.8"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

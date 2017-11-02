@@ -1,23 +1,60 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+    <div class="left-container">
+      <side-menu></side-menu>
+    </div>
+    <div class="right-container">
+      <div class="header"></div>
+      <div class="main-box">
+        <router-view></router-view>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import sideNenu from './components/side_menu.vue';
 export default {
-  name: 'app'
-}
+  name: 'app',
+  components: {
+    'side-menu': sideNenu
+  }
+};
 </script>
 
+<style lang="less" scoped>
+  #app {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    .left-container {
+      width: 240px;
+      background: #324157;
+
+    }
+    .right-container {
+      flex: 1;
+      display: flex;
+      flex-flow: column;
+      .header {
+        height: 60px;
+        background: #20A0FF;
+      }
+      .main-box {
+        flex: 1;
+        width: 100%;
+        background: #fff;
+        overflow: auto;
+      }
+    }
+  }
+</style>
+
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
 }
 </style>
