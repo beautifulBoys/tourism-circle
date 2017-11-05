@@ -9,7 +9,6 @@
       placeholder="请输入旅游趣事或心得~"
       v-model="content">
     </el-input>
-    <input class="input tag-input" placeholder="请输入标签（6 字以内），回车确认" v-model="tag" @keyup.enter="addTagEvent()"/>
 
 
     <input type="file" id="file" @change="picture()"/>
@@ -28,14 +27,8 @@
 
 
     <br/>
-    <el-tag
-      class="tag"
-      v-for="tag in tagList"
-      :key="tag.name"
-      :closable="true"
-      :type="tag.type">
-      {{tag.name}}
-    </el-tag>
+    <input class="input tag-input" placeholder="请输入标签（6 字以内），回车确认" v-model="tag" @keyup.enter="addTagEvent()"/>
+    <el-tag class="tag" v-for="tag in tagList" :key="tag.name" :closable="true" @close="closeEvent(tag)" :type="tag.type">{{tag.name}}</el-tag>
   </div>
 </template>
 <script>
@@ -60,7 +53,11 @@
         this.tagList.push({ name: this.tag, type: 'primary' });
         this.tag = '';
       },
-
+      closeEvent (tag) {
+        this.tagList = this.tagList.filter((item) => {
+          return item !== tag;
+        });
+      },
       handleAvatarSuccess (res, file) {
         this.imageUrl = URL.createObjectURL(file.raw);
       },

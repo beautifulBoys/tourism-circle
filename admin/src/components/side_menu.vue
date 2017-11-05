@@ -12,7 +12,7 @@
       <el-submenu index="1">
         <template slot="title"><i class="el-icon-message"></i>逛圈子</template>
         <el-menu-item-group>
-          <el-menu-item index="1-1">最新动态</el-menu-item>
+          <el-menu-item index="circles">最新动态</el-menu-item>
           <el-menu-item index="1-2">最热动态</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
@@ -27,7 +27,7 @@
         <template slot="title"><i class="el-icon-message"></i>个人中心</template>
         <el-menu-item-group>
           <el-menu-item index="posting">发表帖子</el-menu-item>
-          <el-menu-item index="3-2">我发表的</el-menu-item>
+          <el-menu-item index="posted">我发表的</el-menu-item>
           <el-menu-item index="3-2">我点赞的</el-menu-item>
           <el-menu-item index="3-2">我评论的</el-menu-item>
           <el-menu-item index="3-2">私人空间</el-menu-item>

@@ -9,15 +9,31 @@
         <router-view></router-view>
       </div>
     </div>
+    <div class="talk" @click="dialogEvent()"></div>
+    <el-dialog title="与 最美夕阳 聊天中..." :visible.sync="talkShow">
+      <talk-component class="talk-box"></talk-component>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import sideNenu from './components/side_menu.vue';
+import talkComponent from './components/talk_component.vue';
 export default {
   name: 'app',
   components: {
-    'side-menu': sideNenu
+    'side-menu': sideNenu,
+    'talk-component': talkComponent
+  },
+  data () {
+    return {
+      talkShow: false
+    };
+  },
+  methods: {
+    dialogEvent () {
+      this.talkShow = true;
+    }
   }
 };
 </script>
@@ -46,6 +62,22 @@ export default {
         background: #fff;
         overflow: auto;
       }
+    }
+    .talk {
+      width: 60px;
+      height: 60px;
+      position: fixed;
+      bottom: 20px;
+      right: 40px;
+      border-radius: 50%;
+      background: red;
+    }
+    .talk-box {
+      width: 100%;
+      height: 400px;
+      margin: -30px 0 -30px 0;
+      box-sizing: border-sizing;
+      border-radius: 5px;
     }
   }
 </style>
