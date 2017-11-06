@@ -9,7 +9,7 @@
       theme="dark">
       <div class="logo"></div>
       <el-menu-item index="/"><i class="el-icon-setting"></i>首页</el-menu-item>
-      <el-submenu :index="index + 1" v-for="(item, index) in menuList">
+      <el-submenu :index="(index + 1).toString()" v-for="(item, index) in menuList">
         <template slot="title"><i class="el-icon-message"></i>{{item.text}}</template>
         <el-menu-item-group>
           <el-menu-item :index="item1.path" v-for="item1 in item.list">{{item1.text}}</el-menu-item>
@@ -49,7 +49,8 @@
               {path: 'posted', text: '我发表的'},
               {path: 'likes', text: '我点赞的'},
               {path: 'comments', text: '我评论的'},
-              {path: 'space', text: '私人空间'}
+              {path: 'space', text: '私人空间'},
+              {path: 'gallery', text: '我的图库'}
             ]
           },
           {

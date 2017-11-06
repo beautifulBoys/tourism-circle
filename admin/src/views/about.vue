@@ -1,5 +1,5 @@
 <template>
-  <div class="circle">
+  <div class="newest">
     <h1>最新动态</h1>
     <div class="content-box">
       <div class="left">
@@ -52,7 +52,7 @@
 </script>
 
 <style lang="less" scoped>
-  .circle {
+  .newest {
     box-sizing: border-box;
     padding: 20px;
     h1 {
