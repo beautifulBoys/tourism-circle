@@ -3,7 +3,7 @@
   <h1>发表帖子</h1>
 
 
-  <el-form :label-position="labelPosition" label-width="80px" :model="formValue">
+  <el-form :label-position="'right'" label-width="80px" :model="formValue">
     <el-form-item label="分享标题">
       <el-input v-model="formValue.title" placeholder="20 字以内"></el-input>
     </el-form-item>
@@ -17,21 +17,19 @@
     <el-form-item label="正文内容">
       <el-input class="textarea" type="textarea" :autosize="{minRows: 6}" placeholder="请输入旅游趣事或心得~" v-model="formValue.content"></el-input>
     </el-form-item>
-    <el-form-item label="活动性质">
-      <el-checkbox-group v-model="formValue.comments">
-        <el-checkbox label="美食/餐厅线上活动" name="comments"></el-checkbox>
-        <el-checkbox label="地推活动" name="comments"></el-checkbox>
-        <el-checkbox label="线下主题活动" name="comments"></el-checkbox>
-        <el-checkbox label="单纯品牌曝光" name="comments"></el-checkbox>
-      </el-checkbox-group>
+    <el-form-item label="添加图片">
+      <div class="add-picture">+</div>
+      <div class="add-picture">+</div>
+      <div class="add-picture">+</div>
+      <div class="add-picture">+</div>
+      <div class="add-picture">+</div>
+      <div class="add-picture">+</div>
+      <div class="add-picture">+</div>
+      <div class="add-picture">+</div>
+      <div class="add-picture">+</div>
+      <div class="add-picture">+</div>
     </el-form-item>
-    <el-form-item label="景点评级">
-      <el-rate v-model="formValue.rate" :colors="['#99A9BF', '#F7BA2A', '#FF9900']"></el-rate>
-    </el-form-item>
-    <el-form-item label="门票价格">
-      <el-rate v-model="formValue.rate" :colors="['#99A9BF', '#F7BA2A', '#FF9900']"></el-rate>
-    </el-form-item>
-    <el-form-item label="推荐星级">
+    <el-form-item label="推荐指数">
       <el-rate v-model="formValue.rate" :colors="['#99A9BF', '#F7BA2A', '#FF9900']"></el-rate>
     </el-form-item>
     <el-form-item label="旅游标签">
@@ -39,6 +37,7 @@
       <el-tag class="tag" v-for="tag in tagList" :key="tag.name" :closable="true" @close="closeEvent(tag)" :type="tag.type">{{tag.name}}</el-tag>
     </el-form-item>
   </el-form>
+  <el-button type="primary":loading="true">发　表</el-button>
 
 </div>
 </template>
@@ -62,12 +61,7 @@ export default {
         tag: ''
       },
       options: cityData.china,
-      title: '',
-      tag: '',
-      content: '',
-      tagList: [],
-      imageUrl: '',
-      fileSrc: ''
+      tagList: []
     };
   },
   methods: {
@@ -127,6 +121,25 @@ export default {
     .tag {
         margin: 0 10px 20px;
     }
+    .add-picture {
+      width: 150px;
+      height: 150px;
+      border-radius: 5px;
+      border: 2px dashed #aaa;
+      line-height: 150px;
+      text-align: center;
+      font-size: 50px;
+      color: rgba(50, 65, 87, 0.4);
+      cursor: pointer;
+      transition: all .3s;
+      margin: 10px;
+      display: inline-block;
+      &:hover {
+        border: 2px dashed rgb(32, 160, 255);
+        color: rgba(32, 160, 255, 0.8);
+        box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      }
+    }
 
 }
 </style>
@@ -171,5 +184,12 @@ export default {
 
 .el-input-width-200px {
   width: 200px;
+}
+</style>
+<style>
+.el-tag {
+  line-height: 34px;
+  height: 36px;
+  padding: 0 10px;
 }
 </style>

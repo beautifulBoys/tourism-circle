@@ -9,12 +9,14 @@
       theme="dark">
       <div class="logo"></div>
       <el-menu-item index="/"><i class="el-icon-setting"></i>首页</el-menu-item>
-      <el-submenu :index="(index + 1).toString()" v-for="(item, index) in menuList">
-        <template slot="title"><i class="el-icon-message"></i>{{item.text}}</template>
-        <el-menu-item-group>
-          <el-menu-item :index="item1.path" v-for="item1 in item.list">{{item1.text}}</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
+      <template v-for="(item, index) in menuList">
+        <el-submenu :index="index + ''">
+          <template slot="title"><i class="el-icon-message"></i>{{item.text}}</template>
+          <el-menu-item-group>
+            <el-menu-item :index="item1.path" :key="index1" v-for="(item1, index1) in item.list">{{item1.text}}</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+      </template>
     </el-menu>
   </el-col>
 

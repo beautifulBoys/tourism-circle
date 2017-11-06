@@ -16,7 +16,6 @@
 
       };
     },
-
     methods: {
       addTagEvent () {
         console.log('aa');
