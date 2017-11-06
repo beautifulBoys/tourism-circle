@@ -20,7 +20,8 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: Login
-    }, {
+    },
+    {
       path: '/main',
       component: Box,
       children: [
@@ -33,18 +34,14 @@ export default new Router({
           component: Home
         },
         {
-          path: '/1',
-          component: Home
+          path: '/circles',
+          name: 'circles',
+          component: Circles
         },
         {
           path: '/posted',
           name: 'posted',
           component: Posted
-        },
-        {
-          path: '/circles',
-          name: 'circles',
-          component: Circles
         }
       ]
     }

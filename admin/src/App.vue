@@ -1,18 +1,6 @@
 <template>
   <div id="app">
-    <div class="left-container">
-      <side-menu></side-menu>
-    </div>
-    <div class="right-container">
-      <div class="header"></div>
-      <div class="main-box">
-        <router-view></router-view>
-      </div>
-    </div>
-    <div class="talk" @click="dialogEvent()"></div>
-    <el-dialog title="与 最美夕阳 聊天中..." :visible.sync="talkShow">
-      <talk-component class="talk-box"></talk-component>
-    </el-dialog>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -38,50 +26,6 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-  #app {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    .left-container {
-      width: 240px;
-      background: #324157;
-
-    }
-    .right-container {
-      flex: 1;
-      display: flex;
-      flex-flow: column;
-      .header {
-        height: 60px;
-        background: #20A0FF;
-      }
-      .main-box {
-        flex: 1;
-        width: 100%;
-        background: #fff;
-        overflow: auto;
-      }
-    }
-    .talk {
-      width: 60px;
-      height: 60px;
-      position: fixed;
-      bottom: 20px;
-      right: 40px;
-      border-radius: 50%;
-      background: red;
-    }
-    .talk-box {
-      width: 100%;
-      height: 400px;
-      margin: -30px 0 -30px 0;
-      box-sizing: border-sizing;
-      border-radius: 5px;
-    }
-  }
-</style>
-
 <style>
 html, body {
   margin: 0;
@@ -92,5 +36,6 @@ html, body {
 #app {
   width: 100%;
   height: 100%;
+  display: flex;
 }
 </style>
