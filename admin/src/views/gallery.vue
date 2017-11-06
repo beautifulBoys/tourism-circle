@@ -1,19 +1,20 @@
 <template>
   <div class="gallery">
-    <template v-for="item in [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]">
-      <card></card>
+    <template v-for="item in list">
+      <card :data="item"></card>
     </template>
   </div>
 </template>
 <script>
   import card from '../components/card.vue';
+  import data from './gallery.json';
   export default {
     components: {
       'card': card
     },
     data () {
       return {
-
+        list: data.list
       };
     },
     methods: {

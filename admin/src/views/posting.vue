@@ -18,17 +18,18 @@
       <el-input class="textarea" type="textarea" :autosize="{minRows: 6}" placeholder="请输入旅游趣事或心得~" v-model="formValue.content"></el-input>
     </el-form-item>
     <el-form-item label="添加图片">
-      <div class="add-picture">+</div>
-      <div class="add-picture">+</div>
-      <div class="add-picture">+</div>
-      <div class="add-picture">+</div>
-      <div class="add-picture">+</div>
-      <div class="add-picture">+</div>
-      <div class="add-picture">+</div>
-      <div class="add-picture">+</div>
-      <div class="add-picture">+</div>
-      <div class="add-picture">+</div>
+      <div class="add-picture" @click="addImgEvent()">+</div>
     </el-form-item>
+    <el-dialog title="选择图片" :visible.sync="imgCheckShow">
+      <div class="img-box">
+        <img :src="item" />
+        <load-img :src="item" v-for="item in imgList" class="img-item" :style="'img-item'"></load-img>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
     <el-form-item label="推荐指数">
       <el-rate v-model="formValue.rate" :colors="['#99A9BF', '#F7BA2A', '#FF9900']"></el-rate>
     </el-form-item>
@@ -37,16 +38,21 @@
       <el-tag class="tag" v-for="tag in tagList" :key="tag.name" :closable="true" @close="closeEvent(tag)" :type="tag.type">{{tag.name}}</el-tag>
     </el-form-item>
   </el-form>
-  <el-button type="primary":loading="true">发　表</el-button>
+  <div class="footer">
+    <el-button type="primary":loading="true">发　表</el-button>
+  </div>
 
 </div>
 </template>
 <script>
 import upload from '../components/upload.vue';
 import cityData from './city.json';
+import gallery from './gallery.json';
+import loadImg from '../components/load_img.vue';
 export default {
   components: {
-    'upload': upload
+    'upload': upload,
+    'load-img': loadImg
   },
   data () {
     return {
@@ -60,6 +66,8 @@ export default {
         content: '',
         tag: ''
       },
+      imgList: gallery.list,
+      imgCheckShow: false,
       options: cityData.china,
       tagList: []
     };
@@ -71,6 +79,9 @@ export default {
         type: 'primary'
       });
       this.formValue.tag = '';
+    },
+    addImgEvent () {
+      this.imgCheckShow = true;
     },
     closeEvent (tag) {
       this.tagList = this.tagList.filter((item) => {
@@ -139,6 +150,24 @@ export default {
         color: rgba(32, 160, 255, 0.8);
         box-shadow: 0 0 10px rgba(0,0,0,0.2);
       }
+    }
+    .img-box {
+      width: 100%;
+      height: 400px;
+      background: red;
+      margin: -15px 0 -20px 0;
+      overflow-y: auto;
+      .img-item {
+        margin: 5px;
+        border-radius: 3px;
+        display: inline-block;
+      }
+    }
+    .footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 50px 0;
     }
 
 }

@@ -46,7 +46,7 @@ export default {
     .left-container {
         width: 240px;
         background: #324157;
-
+        overflow-y: auto;
     }
     .right-container {
         flex: 1;
@@ -55,6 +55,8 @@ export default {
         .header {
             height: 60px;
             background: #20A0FF;
+            box-shadow: 0 5px 7px rgba(0,0,0,0.2);
+            z-index: 10;
         }
         .main-box {
             flex: 1;

@@ -1,23 +1,26 @@
 <template>
-  <div class="card">
-    <load-img :src="data"></load-img>
-    <div class="title">速度防守打法的.jpg</div>
-    <div class="control-box">
-      <div class="btn left" title="复制">复制</div>
-      <div class="btn" title="查看">查看</div>
-      <div class="btn right" title="删除">删除</div>
-    </div>
+  <div>
+    <img ref="img" :src="img" class="img-lixin"/></div>
   </div>
 </template>
 <script>
-import loadImg from './load_img.vue';
+import zhanweiData from './zhanwei.js';
   export default {
-    props: ['data'],
-    components: {
-      'load-img': loadImg
-    },
+  props: ['src'],
     data () {
-      return {};
+      return {
+        img: zhanweiData
+      };
+    },
+    mounted () {
+      let newImg = new Image();
+      newImg.src = this.src;
+      newImg.setAttribute('class', 'img-lixin');
+      newImg.onload = () => {
+        let child = this.$refs.img;
+        let parent = child.parentNode;
+        parent.replaceChild(newImg, child);
+      };
     },
     methods: {
       handleOpen () {},
@@ -101,4 +104,10 @@ import loadImg from './load_img.vue';
     }
   }
 
-</style>
+  </style>
+  <style>
+  .img-lixin {
+    width: 100%;
+    border-radius: 3px;
+  }
+  </style>

@@ -15,6 +15,10 @@
                 圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室
                 圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室
                 圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室
+                圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室
+                圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室
+                圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室
+                圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室
               </div>
               <div class="img-box">
                 <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/3/c1.jpg"/>
@@ -54,7 +58,7 @@
 <style lang="less" scoped>
   .newest {
     box-sizing: border-box;
-    padding: 20px;
+    padding: 20px 30px;
     h1 {
       font-size: 20px;
       font-weight: 700;
@@ -75,10 +79,11 @@
           .li-left {
             width: 60px;
             height: 60px;
-            margin-right: 15px;
+            margin-right: 20px;
             img {
               width: 100%;
               height: 100%;
+              border-radius: 5px;
             }
           }
           .li-right {
