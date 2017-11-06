@@ -11,8 +11,7 @@
     </el-input>
 
 
-    <input type="file" id="file" @change="picture()"/>
-    <img :src="fileSrc"/>
+    <upload></upload>
 
     <el-upload
       class="avatar-uploader"
@@ -32,7 +31,11 @@
   </div>
 </template>
 <script>
+import upload from '../components/upload.vue';
   export default {
+    components: {
+      'upload': upload
+    },
     data () {
       return {
         title: '',
@@ -85,7 +88,7 @@
 <style lang="less" scoped>
   .posting {
     box-sizing: border-box;
-    padding: 20px;
+    padding: 20px 30px;
     h1 {
       font-size: 20px;
       font-weight: 700;

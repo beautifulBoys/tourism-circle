@@ -6,23 +6,19 @@ import Posted from '@/views/posted.vue';
 import Circles from '@/views/circles.vue';
 import Login from '@/views/login.vue';
 import Box from '@/views/box.vue';
+import Likes from '@/views/likes.vue';
 
 Vue.use(Router);
 
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'Home',
-      component: Home
-    },
-    {
       path: '/login',
       name: 'login',
       component: Login
     },
     {
-      path: '/main',
+      path: '/',
       component: Box,
       children: [
         {
@@ -42,6 +38,11 @@ export default new Router({
           path: '/posted',
           name: 'posted',
           component: Posted
+        },
+        {
+          path: '/likes',
+          name: 'likes',
+          component: Likes
         }
       ]
     }

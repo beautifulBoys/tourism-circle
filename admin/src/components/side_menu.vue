@@ -9,49 +9,10 @@
       theme="dark">
       <div class="logo"></div>
       <el-menu-item index="/"><i class="el-icon-setting"></i>首页</el-menu-item>
-      <el-submenu index="1">
-        <template slot="title"><i class="el-icon-message"></i>逛圈子</template>
+      <el-submenu :index="index + 1" v-for="(item, index) in menuList">
+        <template slot="title"><i class="el-icon-message"></i>{{item.text}}</template>
         <el-menu-item-group>
-          <el-menu-item index="circles">最新动态</el-menu-item>
-          <el-menu-item index="1-2">最热动态</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="2">
-        <template slot="title"><i class="el-icon-message"></i>我的圈友</template>
-        <el-menu-item-group>
-          <el-menu-item index="2-1">选项1</el-menu-item>
-          <el-menu-item index="2-2">选项2</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="3">
-        <template slot="title"><i class="el-icon-message"></i>个人中心</template>
-        <el-menu-item-group>
-          <el-menu-item index="posting">发表帖子</el-menu-item>
-          <el-menu-item index="posted">我发表的</el-menu-item>
-          <el-menu-item index="3-2">我点赞的</el-menu-item>
-          <el-menu-item index="3-2">我评论的</el-menu-item>
-          <el-menu-item index="3-2">私人空间</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="4">
-        <template slot="title"><i class="el-icon-message"></i>数据中心</template>
-        <el-menu-item-group>
-          <el-menu-item index="3-1">发表帖子</el-menu-item>
-          <el-menu-item index="3-2">我发表的</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="5">
-        <template slot="title"><i class="el-icon-message"></i>设置</template>
-        <el-menu-item-group>
-          <el-menu-item index="3-1">发表帖子</el-menu-item>
-          <el-menu-item index="3-2">我发表的</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="6">
-        <template slot="title"><i class="el-icon-message"></i>说明</template>
-        <el-menu-item-group>
-          <el-menu-item index="3-1">发表帖子</el-menu-item>
-          <el-menu-item index="3-2">我发表的</el-menu-item>
+          <el-menu-item :index="item1.path" v-for="item1 in item.list">{{item1.text}}</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>
@@ -63,7 +24,57 @@
   export default {
     data () {
       return {
-        defaultActive: '1'
+        defaultActive: '1',
+        menuList: [
+          {
+            text: '逛圈子',
+            list: [
+              {path: 'newest', text: '最新动态'},
+              {path: 'hotest', text: '最热动态'},
+              {path: 'mostest', text: '最多评论'}
+            ]
+          },
+          {
+            text: '我的圈子',
+            list: [
+              {path: 'friend', text: '我的圈友'},
+              {path: 'following', text: '我的关注'},
+              {path: 'followers', text: '我的粉丝'}
+            ]
+          },
+          {
+            text: '个人中心',
+            list: [
+              {path: 'posting', text: '发帖子'},
+              {path: 'posted', text: '我发表的'},
+              {path: 'likes', text: '我点赞的'},
+              {path: 'comments', text: '我评论的'},
+              {path: 'space', text: '私人空间'}
+            ]
+          },
+          {
+            text: '数据中心',
+            list: [
+              {path: 'friends', text: '圈友列表'},
+              {path: '3-2', text: '我的相关访问数据'}
+            ]
+          },
+          {
+            text: '设置',
+            list: [
+              {path: 'personal', text: '个人设置'},
+              {path: 'permission', text: '权限设置'},
+              {path: 'admin', text: '管理员权限设置'}
+            ]
+          },
+          {
+            text: '说明',
+            list: [
+              {path: 'about', text: '关于本站'},
+              {path: 'contact', text: '联系我'}
+            ]
+          }
+        ]
       };
     },
     methods: {

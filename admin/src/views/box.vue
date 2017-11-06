@@ -39,46 +39,46 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .box {
+.box {
     width: 100%;
     height: 100%;
     display: flex;
     .left-container {
-      width: 240px;
-      background: #324157;
+        width: 240px;
+        background: #324157;
 
     }
     .right-container {
-      flex: 1;
-      display: flex;
-      flex-flow: column;
-      .header {
-        height: 60px;
-        background: #20A0FF;
-      }
-      .main-box {
         flex: 1;
-        width: 100%;
-        background: #fff;
-        overflow: auto;
-      }
+        display: flex;
+        flex-flow: column;
+        .header {
+            height: 60px;
+            background: #20A0FF;
+        }
+        .main-box {
+            flex: 1;
+            width: 100%;
+            background: #fff;
+            overflow: auto;
+        }
     }
     .talk {
-      width: 60px;
-      height: 60px;
-      position: fixed;
-      bottom: 20px;
-      right: 40px;
-      border-radius: 50%;
-      background: red;
-      cursor: pointer;
+        width: 60px;
+        height: 60px;
+        position: fixed;
+        bottom: 20px;
+        right: 40px;
+        border-radius: 50%;
+        background: red;
+        cursor: pointer;
     }
     .talk-box {
-      width: 100%;
-      height: 400px;
-      margin: -20px 0;
-      box-sizing: border-sizing;
-      border-radius: 5px;
+        width: 100%;
+        height: 500px;
+        margin: -20px 0;
+        box-sizing: border-sizing;
+        border-radius: 5px;
     }
-  }
+}
 </style>

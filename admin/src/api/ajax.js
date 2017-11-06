@@ -16,10 +16,33 @@ let ajaxConfig = {
   }
 };
 
+let ajaxConfigForm = {
+  baseURL: '/api/',
+  headers: {
+    'Content-Type': 'multipart/form-data'
+  }
+};
+
 var _ajax = axios.create(ajaxConfig);
+var _ajaxForm = axios.create(ajaxConfigForm);
 
 // 拦截response(有加载等待)
 _ajax.interceptors.response.use((response) => {
+  if (response.status === 200) {
+      return response.data;
+  } else {
+    console.log('请求出错啦，status：' + response.status);
+    throw new Error('Internal Server Error');
+  }
+}, (error) => {
+  if (error.message) {
+    console.log(error.message);
+
+  }
+  throw error;
+});
+
+_ajaxForm.interceptors.response.use((response) => {
   if (response.status === 200) {
       return response.data;
   } else {
@@ -89,6 +112,11 @@ var ajax1 = {
     return _ajax.delete(url, data).catch(_ajaxCatch);
   }
 };
+var ajax2 = {
+  post (url, data) {
+    return _ajaxForm.post(url, data).catch(_ajaxCatch);
+  }
+};
 
 
 // if (Cookie.get('passport')) {
@@ -96,4 +124,4 @@ var ajax1 = {
 //   ajax.setHeader('userId', Cookie.get('userId'));
 // }
 // window.ajax = ajax;
-export default ajax1;
+export {ajax1, ajax2};
