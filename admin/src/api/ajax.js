@@ -6,7 +6,7 @@ import Vue from 'vue';
 // import Cookie from 'js-cookie';
 let ajaxConfig = {
   baseURL: '/api/',
-  // baseURL: 'http://ehr.sit.ffan.com/api',
+    // baseURL: 'http://10.209.96.67:3000/',
   transformResponse: [function (data) {
     return JSON.parse(data);
   }],
@@ -35,15 +35,10 @@ _ajax.interceptors.response.use((response) => {
 });
 
 // 统一的错误处理函数
-function _ajaxCatch (err, only) {
-  console.log(err, only);
+function _ajaxCatch (err) {
   throw err;
 };
 
-function _ajaxCatchOnly (err) { // only 有些请求不需要统一弹出提示。
-  console.log(err);
-  throw err;
-}
 
 // 加载等待 - 添加等待
 _ajax.interceptors.request.use(function (config) {

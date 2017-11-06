@@ -6,17 +6,15 @@ import router from './router';
 import store from './vuex/index.js';
 
 import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
-
-import iView from 'iview';
 import 'element-ui/lib/theme-default/index.css';
 
 import ajax from './api/ajax_router.js';
+import cookie from './lib/cookie.js';
 
 Vue.use(ElementUI);
-Vue.use(iView);
 Vue.config.productionTip = false;
 Vue.prototype.ajax = ajax;
+Vue.prototype.cookie = cookie;
 
 /* eslint-disable no-new */
 new Vue({
