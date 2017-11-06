@@ -22,12 +22,11 @@
     </el-form-item>
     <el-dialog title="选择图片" :visible.sync="imgCheckShow">
       <div class="img-box">
-        <img :src="item" />
-        <load-img :src="item" v-for="item in imgList" class="img-item" :style="'img-item'"></load-img>
+        <load-img :src="item" v-for="(item, index) in imgList" :key="index" class="img-item"></load-img>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button @click="imgCheckShow = false">取 消</el-button>
+        <el-button type="primary" @click="imgCheckShow = false">确 定</el-button>
       </span>
     </el-dialog>
     <el-form-item label="推荐指数">
@@ -69,7 +68,8 @@ export default {
       imgList: gallery.list,
       imgCheckShow: false,
       options: cityData.china,
-      tagList: []
+      tagList: [],
+      dialogVisible: false
     };
   },
   methods: {
