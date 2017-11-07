@@ -10,7 +10,7 @@
   </div>
 </template>
 <script>
-import loadImg from './load_img.vue';
+import loadImg from '../load_img.vue';
   export default {
     props: ['data'],
     components: {

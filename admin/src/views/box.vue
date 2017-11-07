@@ -13,6 +13,7 @@
     <el-dialog title="与 最美夕阳 聊天中..." :visible.sync="talkShow">
       <talk-component class="talk-box"></talk-component>
     </el-dialog>
+    <div class="scan"></div>
   </div>
 </template>
 

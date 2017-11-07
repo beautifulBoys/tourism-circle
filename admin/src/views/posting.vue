@@ -19,7 +19,7 @@
     </el-form-item>
     <el-form-item label="添加图片">
       <div class="add-picture" v-for="item in postImgList" :style="{background: `url(${item.url}) no-repeat center center`}"></div>
-      <div class="add-picture" @click="imgCheckDialogShow = true">+</div>
+      <div class="add-picture" v-show="!(postImgList.length >= 10)" @click="imgCheckDialogShow = true">+</div>
     </el-form-item>
     <el-dialog title="选择图片" :visible.sync="imgCheckDialogShow">
       <div class="img-box">
@@ -47,20 +47,23 @@
 <script>
 import upload from '../components/upload.vue';
 import loadImg from '../components/posting/picture.vue';
-import {mapState, mapMutations, mapActions} from 'vuex';
+import {mapState, mapMutations, mapActions, mapGetters} from 'vuex';
 export default {
   components: {
     'upload': upload,
     'load-img': loadImg
   },
-  computed: mapState({
-    formValue: state => state.posting.formValue,
-    imgList: state => state.posting.imgList,
-    cityData: state => state.posting.cityData,
-    tagList: state => state.posting.tagList,
-    postImgList: state => state.posting.postImgList,
-    postStatus: state => state.posting.postStatus
-  }),
+  computed: {
+    ...mapState({
+      formValue: state => state.posting.formValue,
+      imgList: state => state.posting.imgList,
+      cityData: state => state.posting.cityData,
+      tagList: state => state.posting.tagList,
+      postImgList: state => state.posting.postImgList,
+      postStatus: state => state.posting.postStatus
+    }),
+    ...mapGetters(['postImgListLengthStatus'])
+  },
   data () {
     return {
       labelPosition: 'right',

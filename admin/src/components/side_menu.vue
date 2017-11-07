@@ -33,7 +33,8 @@
             list: [
               {path: 'newest', text: '最新动态'},
               {path: 'hotest', text: '最热动态'},
-              {path: 'mostest', text: '最多评论'}
+              {path: 'mostest', text: '最多评论'},
+              {path: 'allfriend', text: '所有圈友'}
             ]
           },
           {

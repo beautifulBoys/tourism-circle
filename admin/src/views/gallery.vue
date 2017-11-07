@@ -6,7 +6,7 @@
   </div>
 </template>
 <script>
-  import card from '../components/card.vue';
+  import card from '../components/gallery/card.vue';
   import {mapState} from 'vuex';
   export default {
     components: {

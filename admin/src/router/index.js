@@ -6,6 +6,7 @@ import Login from '@/views/login.vue';
 import Newest from '@/views/newest.vue';
 import Hotest from '@/views/hotest.vue';
 import Mostest from '@/views/mostest.vue';
+import Allfriend from '@/views/allfriend.vue';
 
 import Friend from '@/views/friend.vue';
 import Following from '@/views/following.vue';
@@ -42,6 +43,7 @@ export default new Router({
         { path: '/newest', component: Newest },
         { path: '/hotest', component: Hotest },
         { path: '/mostest', component: Mostest },
+        { path: '/allfriend', component: Allfriend },
 
         {path: 'friend', component: Friend},
         {path: 'following', component: Following},
