@@ -68,6 +68,10 @@ export default {
             width: 100%;
             height: 100%;
             border-radius: 4px;
+            transition: box-shadow .5s;
+            &:hover {
+              box-shadow: 0 0 10px rgba(0,0,0,0.4);
+            }
         }
     }
     .li-right {
@@ -76,6 +80,10 @@ export default {
         border: 1px solid #ddd;
         font-size: 16px;
         border-radius: 5px;
+        transition: box-shadow .5s;
+        &:hover {
+          box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
         .title {
             line-height: 45px;
             font-size: 16px;
