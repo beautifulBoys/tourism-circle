@@ -1,21 +1,24 @@
 <template>
-  <div>
-    <img ref="img" :src="img" class="img-lixin"/></div>
+  <div class="img-box-picture" :class="{checked: checked}" @click="checkEvent()">
+    <img ref="img" :src="img" class="img-lixin-picture"/>
+    <div class="sign"></div>
+    <div class="text">✔</div>
   </div>
 </template>
 <script>
-import zhanweiData from './zhanwei.js';
+import zhanweiData from '../zhanwei.js';
   export default {
-  props: ['src'],
+  props: ['data'],
     data () {
       return {
-        img: zhanweiData
+        img: zhanweiData,
+        checked: false
       };
     },
     mounted () {
       let newImg = new Image();
-      newImg.src = this.src;
-      newImg.setAttribute('class', 'img-lixin');
+      newImg.src = this.data.url;
+      newImg.setAttribute('class', 'img-lixin-picture');
       newImg.onload = () => {
         let child = this.$refs.img;
         let parent = child.parentNode;
@@ -23,90 +26,61 @@ import zhanweiData from './zhanwei.js';
       };
     },
     methods: {
-      handleOpen () {},
-      handleClose () {}
+      checkEvent () {
+        this.$emit('checkEvent', this.data, !this.checked);
+        this.checked = !this.checked;
+      }
     }
   };
 </script>
 <style lang="less" scoped>
 
-  .card {
-    width: 250px;
-    border: 1px solid #ddd;
-    overflow: hidden;
-    padding: 10px;
-    font-size: 0;
-    border-radius: 5px;
+.img-box-picture {
+  width: 21%;
+  display: inline-block;
+  margin: 10px 2%;
+  font-size: 0;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+  .sign {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    background: #fff;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    transform: translate3d(30px, -30px, 0) rotate(45deg);
+    opacity: 0;
     transition: all .3s;
-    display: inline-block;
-    margin: 10px;
-    position: relative;
-    &:hover {
-      box-shadow: 0 0 10px rgba(0,0,0,0.25);
+  }
+  .text {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 25px;
+    color: #20A0FF;
+    text-align: center;
+    width: 30px;
+    line-height: 30px;
+    transition: all .2s;
+    opacity: 0;
+  }
+  &.checked {
+    .sign {
+      opacity: 1;
+      transform: translate3d(10px, -10px, 0) rotate(45deg);
     }
-
-    .title {
-      font-size: 16px;
-      text-align: center;
-      line-height: 40px;
-      height: 30px;
-    }
-    &:hover {
-      .control-box {
-        opacity: 1;
-        .btn {
-          &.left {
-            transform:translate3d(0, 0, 0);
-          }
-          &.right {
-            transform:translate3d(0, 0, 0);
-          }
-        }
-      }
-    }
-    .control-box {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.4);
-      cursor: pointer;
-      transition: all .5s;
-      opacity: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .btn {
-        width: 60px;
-        height: 60px;
-        background: #fff;
-        display: inline-block;
-        margin: 10px;
-        transition: all .4s;
-        border-radius: 100%;
-        font-size: 18px;
-        text-align: center;
-        line-height: 60px;
-          border: 2px solid #fff;
-        &:hover {
-          border: 2px solid #fff;
-          background: rgba(255,255,255,0.2);
-          color: #fff;
-        }
-        &.left {
-          transform:translate3d(-100px, 0, 0);
-        }
-        &.right {
-          transform:translate3d(100px, 0, 0);
-        }
-      }
+    .text {
+      opacity: 1;
     }
   }
+}
 
   </style>
   <style>
-  .img-lixin {
+  .img-lixin-picture {
     width: 100%;
     border-radius: 3px;
   }

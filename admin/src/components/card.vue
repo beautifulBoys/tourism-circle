@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <load-img :src="data"></load-img>
+    <load-img :src="data.url"></load-img>
     <div class="title">速度防守打法的.jpg</div>
     <div class="control-box">
       <div class="btn left" title="复制">复制</div>
@@ -53,10 +53,10 @@ import loadImg from './load_img.vue';
         opacity: 1;
         .btn {
           &.left {
-            transform:translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
           }
           &.right {
-            transform:translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
           }
         }
       }

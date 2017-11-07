@@ -11,87 +11,96 @@
       <el-input v-model="formValue.spot" placeholder="10 字以内"></el-input>
     </el-form-item>
     <el-form-item label="地点时间">
-      <el-cascader :options="options" :show-all-levels="false" placeholder="请选择旅游城市" v-model="formValue.city"></el-cascader>
+      <el-cascader :options="cityData" :show-all-levels="false" placeholder="请选择旅游城市" v-model="formValue.city"></el-cascader>
       <el-date-picker v-model="formValue.time" type="daterange" placeholder="请选择旅游时间" range-separator=" 至 " start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
     </el-form-item>
     <el-form-item label="正文内容">
       <el-input class="textarea" type="textarea" :autosize="{minRows: 6}" placeholder="请输入旅游趣事或心得~" v-model="formValue.content"></el-input>
     </el-form-item>
     <el-form-item label="添加图片">
-      <div class="add-picture" @click="addImgEvent()">+</div>
+      <div class="add-picture" v-for="item in postImgList" :style="{background: `url(${item.url}) no-repeat center center`}"></div>
+      <div class="add-picture" @click="imgCheckDialogShow = true">+</div>
     </el-form-item>
-    <el-dialog title="选择图片" :visible.sync="imgCheckShow">
+    <el-dialog title="选择图片" :visible.sync="imgCheckDialogShow">
       <div class="img-box">
-        <load-img :src="item" v-for="(item, index) in imgList" :key="index" class="img-item"></load-img>
+        <load-img :data="item" v-for="(item, index) in imgList" @checkEvent="imgCheckTemporaryEvent" :key="index"></load-img>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="imgCheckShow = false">取 消</el-button>
-        <el-button type="primary" @click="imgCheckShow = false">确 定</el-button>
+        <el-button @click="imgCheckDialogShow = false">取 消</el-button>
+        <el-button type="primary" @click="addPostImgEvent()">确 定</el-button>
       </span>
     </el-dialog>
     <el-form-item label="推荐指数">
       <el-rate v-model="formValue.rate" :colors="['#99A9BF', '#F7BA2A', '#FF9900']"></el-rate>
     </el-form-item>
     <el-form-item label="旅游标签">
-      <el-input v-model="formValue.tag" class="el-input-width-200px" @keyup.enter.native="addTagEvent()" placeholder="6 字以内，回车确认"></el-input>
+      <el-input v-model="formValue.tag" class="el-input-width-200px" @keyup.enter.native="addTagEvent()" placeholder="8 字以内，回车确认"></el-input>
       <el-tag class="tag" v-for="tag in tagList" :key="tag.name" :closable="true" @close="closeEvent(tag)" :type="tag.type">{{tag.name}}</el-tag>
     </el-form-item>
   </el-form>
   <div class="footer">
-    <el-button type="primary":loading="true">发　表</el-button>
+    <el-button type="primary":loading="postStatus" @click="postEvent()">发　表</el-button>
   </div>
 
 </div>
 </template>
 <script>
 import upload from '../components/upload.vue';
-import cityData from './city.json';
-import gallery from './gallery.json';
-import loadImg from '../components/load_img.vue';
+import loadImg from '../components/posting/picture.vue';
+import {mapState, mapMutations, mapActions} from 'vuex';
 export default {
   components: {
     'upload': upload,
     'load-img': loadImg
   },
+  computed: mapState({
+    formValue: state => state.posting.formValue,
+    imgList: state => state.posting.imgList,
+    cityData: state => state.posting.cityData,
+    tagList: state => state.posting.tagList,
+    postImgList: state => state.posting.postImgList,
+    postStatus: state => state.posting.postStatus
+  }),
   data () {
     return {
       labelPosition: 'right',
-      formValue: {
-        title: '',
-        city: [],
-        spot: '',
-        comments: [],
-        time: '',
-        content: '',
-        tag: ''
-      },
-      imgList: gallery.list,
-      imgCheckShow: false,
-      options: cityData.china,
-      tagList: [],
-      dialogVisible: false
+      imgCheckDialogShow: false,
+      imgCheckedlistt_emporary: []
     };
   },
   methods: {
+    ...mapMutations(['closeEvent']),
+    ...mapActions(['postEvent']),
+    addPostImgEvent () {
+      if (this.imgCheckedlistt_emporary.length > 10) {
+        this.$message({
+          showClose: true,
+          message: '最多可添加 10 张图片',
+          type: 'error'
+        });
+        return;
+      }
+      this.imgCheckDialogShow = false;
+      this.$store.commit('addPostImgEvent', {list: this.imgCheckedlistt_emporary.concat([])});
+    },
+    imgCheckTemporaryEvent (item, bool) {
+      if (bool) this.imgCheckedlistt_emporary.push(item);
+      else {
+        for (let i = 0; i < this.imgCheckedlistt_emporary.length; i++) {
+          if (this.imgCheckedlistt_emporary[i].id === item.id) this.imgCheckedlistt_emporary.splice(i, 1);
+        }
+      }
+    },
     addTagEvent () {
-      this.tagList.push({
-        name: this.formValue.tag,
-        type: 'primary'
+      this.$store.commit('addTagEvent', {
+        cb: () => {
+          this.$message({
+            showClose: true,
+            message: '标签最多输入 8 字，请修改',
+            type: 'error'
+          });
+        }
       });
-      this.formValue.tag = '';
-    },
-    addImgEvent () {
-      this.imgCheckShow = true;
-    },
-    closeEvent (tag) {
-      this.tagList = this.tagList.filter((item) => {
-        return item !== tag;
-      });
-    },
-    picture () {
-      let val = document.getElementById('file').value;
-      console.log(val);
-      this.fileSrc = val;
     }
   }
 };
@@ -145,6 +154,8 @@ export default {
       transition: all .3s;
       margin: 10px;
       display: inline-block;
+      overflow: hidden;
+      background-size: auto 100%;
       &:hover {
         border: 2px dashed rgb(32, 160, 255);
         color: rgba(32, 160, 255, 0.8);
@@ -154,9 +165,12 @@ export default {
     .img-box {
       width: 100%;
       height: 400px;
-      background: red;
+      border: 1px solid #ddd;
+      background: #f2f2f2;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3) inset;
       margin: -15px 0 -20px 0;
       overflow-y: auto;
+      padding: 8px;
       .img-item {
         margin: 5px;
         border-radius: 3px;

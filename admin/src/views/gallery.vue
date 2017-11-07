@@ -7,23 +7,14 @@
 </template>
 <script>
   import card from '../components/card.vue';
-  import data from './gallery.json';
+  import {mapState} from 'vuex';
   export default {
     components: {
       'card': card
     },
-    data () {
-      return {
-        list: data.list
-      };
-    },
-    methods: {
-      addTagEvent () {
-        console.log('aa');
-        this.tagList.push({ name: this.tag, type: 'primary' });
-        this.tag = '';
-      }
-    }
+    computed: mapState({
+      list: state => state.gallery.list
+    })
   };
 </script>
 

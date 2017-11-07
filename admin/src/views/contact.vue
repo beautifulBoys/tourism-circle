@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-import city from './city.json';
+import city from '../vuex/data/city.json';
   export default {
     data () {
       return {
