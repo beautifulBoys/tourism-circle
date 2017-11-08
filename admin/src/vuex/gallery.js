@@ -1,5 +1,6 @@
   import data from './data/gallery.json';
 export default {
+  namespaced: true,
   state: {
     list: data.list
   },

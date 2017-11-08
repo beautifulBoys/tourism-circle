@@ -5,13 +5,13 @@
 
   <el-form :label-position="'right'" label-width="80px" :model="formValue">
     <el-form-item label="用户名">
-      <el-input v-model="formValue.title" placeholder="20 字以内"></el-input>
+      <el-input v-model="formValue.title" placeholder="10 字以内"></el-input>
     </el-form-item>
     <el-form-item label="邮箱">
-      <el-input v-model="formValue.email" placeholder="20 字以内"></el-input>
+      <el-input v-model="formValue.email"></el-input>
     </el-form-item>
     <el-form-item label="地址">
-      <el-cascader :options="cityData" :show-all-levels="false" placeholder="请选择旅游城市" v-model="formValue.city"></el-cascader>
+      <el-cascader :options="cityData" placeholder="请选择您所在的城市" v-model="formValue.city"></el-cascader>
     </el-form-item>
     <el-form-item label="性别">
       <el-radio-group v-model="formValue.sex">
@@ -20,21 +20,19 @@
       </el-radio-group>
     </el-form-item>
     <el-form-item label="碎碎念">
-      <el-input class="textarea" type="textarea" :autosize="{minRows: 3}" placeholder="请输入旅游趣事或心得~" v-model="formValue.content"></el-input>
+      <el-input class="textarea" type="textarea" :autosize="{minRows: 3}" placeholder="100 字以内" v-model="formValue.desc"></el-input>
     </el-form-item>
     <el-form-item label="选择头像">
-      <div class="add-picture" v-for="item in postImgList" :style="{background: `url(${item.url}) no-repeat center center`}"></div>
-      <div class="add-picture" v-show="!(postImgList.length >= 1)" @click="imgCheckDialogShow = true">+</div>
+      <div class="add-picture" v-show="userImgIconObj.url" :style="{background: `url(${userImgIconObj.url}) no-repeat center center`}" @click="imgCheckDialogShow = true"></div>
+      <div class="add-picture" v-show="!userImgIconObj.url" @click="imgCheckDialogShow = true">+</div>
     </el-form-item>
-    <el-dialog title="选择头像" :visible.sync="imgCheckDialogShow">
-      <div class="img-box">
-        <load-img :data="item" v-for="(item, index) in imgList" @checkEvent="imgCheckTemporaryEvent" :key="index"></load-img>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="imgCheckDialogShow = false">取 消</el-button>
-        <el-button type="primary" @click="addPostImgEvent()">确 定</el-button>
-      </span>
-    </el-dialog>
+    <choice-img-dialog
+      :show="imgCheckDialogShow"
+      :size="img_size"
+      title="选择头像"
+      @choiceEvent="addPostImgEvent"
+      @closeEvent="closeDialogEvent()">
+    </choice-img-dialog>
   </el-form>
   <div class="footer">
     <el-button type="primary":loading="postStatus" @click="postEvent()">确　定</el-button>
@@ -45,63 +43,46 @@
 <script>
 import upload from '../components/upload.vue';
 import loadImg from '../components/posting/picture.vue';
-import {mapState, mapMutations, mapActions, mapGetters} from 'vuex';
+import choiceImgDialog from '../components/choice_img.vue';
+
+import { createNamespacedHelpers } from 'vuex';
+const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('personal');
 export default {
   components: {
     'upload': upload,
-    'load-img': loadImg
+    'load-img': loadImg,
+    'choice-img-dialog': choiceImgDialog
   },
   computed: {
     ...mapState({
-      formValue: state => state.personal.formValue,
-      imgList: state => state.personal.imgList,
-      cityData: state => state.personal.cityData,
-      tagList: state => state.personal.tagList,
-      postImgList: state => state.personal.postImgList,
-      postStatus: state => state.personal.postStatus
+      formValue: state => state.formValue_personal,
+      imgList: state => state.imgList,
+      cityData: state => state.cityData,
+      tagList: state => state.tagList,
+      postImgList: state => state.postImgList,
+      postStatus: state => state.postStatus
     }),
-    ...mapGetters(['postImgListLengthStatus'])
+    ...mapGetters([])
   },
   data () {
     return {
       labelPosition: 'right',
       imgCheckDialogShow: false,
-      imgCheckedlistt_emporary: []
+      userImgIconObj: {
+        url: ''
+      },
+      img_size: 1
     };
   },
   methods: {
     ...mapMutations(['closeEvent']),
     ...mapActions(['postEvent']),
-    addPostImgEvent () {
-      if (this.imgCheckedlistt_emporary.length > 10) {
-        this.$message({
-          showClose: true,
-          message: '最多可添加 10 张图片',
-          type: 'error'
-        });
-        return;
-      }
+    addPostImgEvent (arr) {
       this.imgCheckDialogShow = false;
-      this.$store.commit('addPostImgEvent', {list: this.imgCheckedlistt_emporary.concat([])});
+      this.userImgIconObj = arr[0];
     },
-    imgCheckTemporaryEvent (item, bool) {
-      if (bool) this.imgCheckedlistt_emporary.push(item);
-      else {
-        for (let i = 0; i < this.imgCheckedlistt_emporary.length; i++) {
-          if (this.imgCheckedlistt_emporary[i].id === item.id) this.imgCheckedlistt_emporary.splice(i, 1);
-        }
-      }
-    },
-    addTagEvent () {
-      this.$store.commit('addTagEvent', {
-        cb: () => {
-          this.$message({
-            showClose: true,
-            message: '标签最多输入 8 字，请修改',
-            type: 'error'
-          });
-        }
-      });
+    closeDialogEvent () {
+      this.imgCheckDialogShow = false;
     }
   }
 };
@@ -169,9 +150,10 @@ export default {
       border: 1px solid #ddd;
       background: #f2f2f2;
       box-shadow: 0 0 10px rgba(0,0,0,0.3) inset;
-      margin: -15px 0 -20px 0;
+      margin: -15px 0 -10px 0;
       overflow-y: auto;
       padding: 8px;
+
       .img-item {
         margin: 5px;
         border-radius: 3px;

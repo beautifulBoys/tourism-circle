@@ -7,13 +7,15 @@
 </template>
 <script>
   import card from '../components/gallery/card.vue';
-  import {mapState} from 'vuex';
+
+  import { createNamespacedHelpers } from 'vuex';
+  const { mapState } = createNamespacedHelpers('gallery');
   export default {
     components: {
       'card': card
     },
     computed: mapState({
-      list: state => state.gallery.list
+      list: state => state.list
     })
   };
 </script>

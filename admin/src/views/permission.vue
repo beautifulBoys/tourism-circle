@@ -45,7 +45,9 @@
 <script>
 import upload from '../components/upload.vue';
 import loadImg from '../components/posting/picture.vue';
-import {mapState, mapMutations, mapActions, mapGetters} from 'vuex';
+
+import { createNamespacedHelpers } from 'vuex';
+const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('permission');
 export default {
   components: {
     'upload': upload,
@@ -53,12 +55,12 @@ export default {
   },
   computed: {
     ...mapState({
-      formValue: state => state.permission.formValue,
-      imgList: state => state.permission.imgList,
-      cityData: state => state.permission.cityData,
-      tagList: state => state.permission.tagList,
-      postImgList: state => state.permission.postImgList,
-      postStatus: state => state.permission.postStatus
+      formValue: state => state.formValue,
+      imgList: state => state.imgList,
+      cityData: state => state.cityData,
+      tagList: state => state.tagList,
+      postImgList: state => state.postImgList,
+      postStatus: state => state.postStatus
     }),
     ...mapGetters(['postImgListLengthStatus'])
   },
@@ -83,7 +85,7 @@ export default {
         return;
       }
       this.imgCheckDialogShow = false;
-      this.$store.commit('addPostImgEvent', {list: this.imgCheckedlistt_emporary.concat([])});
+      this.$store.commit('permission/addPostImgEvent', {list: this.imgCheckedlistt_emporary.concat([])});
     },
     imgCheckTemporaryEvent (item, bool) {
       if (bool) this.imgCheckedlistt_emporary.push(item);
@@ -94,7 +96,7 @@ export default {
       }
     },
     addTagEvent () {
-      this.$store.commit('addTagEvent', {
+      this.$store.commit('permission/addTagEvent', {
         cb: () => {
           this.$message({
             showClose: true,

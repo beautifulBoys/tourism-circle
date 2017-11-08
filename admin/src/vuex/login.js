@@ -1,4 +1,5 @@
 export default {
+  namespaced: true,
   state: {
     user: {
       passport: '',
@@ -17,7 +18,7 @@ export default {
   },
   actions: {
     startEvent ({ commit }, info) {
-      
+
     }
   }
 };

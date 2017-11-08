@@ -19,17 +19,9 @@
     </el-form-item>
     <el-form-item label="添加图片">
       <div class="add-picture" v-for="item in postImgList" :style="{background: `url(${item.url}) no-repeat center center`}"></div>
-      <div class="add-picture" v-show="!(postImgList.length >= 10)" @click="imgCheckDialogShow = true">+</div>
+      <div class="add-picture" v-show="!(postImgList.length >= img_size)" @click="imgCheckDialogShow = true">+</div>
     </el-form-item>
-    <el-dialog title="选择图片" :visible.sync="imgCheckDialogShow">
-      <div class="img-box">
-        <load-img :data="item" v-for="(item, index) in imgList" @checkEvent="imgCheckTemporaryEvent" :key="index"></load-img>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="imgCheckDialogShow = false">取 消</el-button>
-        <el-button type="primary" @click="addPostImgEvent()">确 定</el-button>
-      </span>
-    </el-dialog>
+    <choice-img-dialog :show="imgCheckDialogShow" :size="img_size" title="选择图片" @choiceEvent="addPostImgEvent" @closeEvent="closeDialogEvent()"></choice-img-dialog>
     <el-form-item label="推荐指数">
       <el-rate v-model="formValue.rate" :colors="['#99A9BF', '#F7BA2A', '#FF9900']"></el-rate>
     </el-form-item>
@@ -47,55 +39,45 @@
 <script>
 import upload from '../components/upload.vue';
 import loadImg from '../components/posting/picture.vue';
-import {mapState, mapMutations, mapActions, mapGetters} from 'vuex';
+import choiceImgDialog from '../components/choice_img.vue';
+
+import { createNamespacedHelpers } from 'vuex';
+const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('posting');
+
 export default {
   components: {
     'upload': upload,
-    'load-img': loadImg
+    'load-img': loadImg,
+    'choice-img-dialog': choiceImgDialog
   },
   computed: {
     ...mapState({
-      formValue: state => state.posting.formValue,
-      imgList: state => state.posting.imgList,
-      cityData: state => state.posting.cityData,
-      tagList: state => state.posting.tagList,
-      postImgList: state => state.posting.postImgList,
-      postStatus: state => state.posting.postStatus
+      formValue: state => state.formValue,
+      imgList: state => state.imgList,
+      cityData: state => state.cityData,
+      tagList: state => state.tagList,
+      postImgList: state => state.postImgList,
+      postStatus: state => state.postStatus
     }),
-    ...mapGetters(['postImgListLengthStatus'])
+    ...mapGetters([])
   },
   data () {
     return {
       labelPosition: 'right',
       imgCheckDialogShow: false,
-      imgCheckedlistt_emporary: []
+      img_size: 10
     };
   },
   methods: {
     ...mapMutations(['closeEvent']),
     ...mapActions(['postEvent']),
-    addPostImgEvent () {
-      if (this.imgCheckedlistt_emporary.length > 10) {
-        this.$message({
-          showClose: true,
-          message: '最多可添加 10 张图片',
-          type: 'error'
-        });
-        return;
-      }
+    addPostImgEvent (arr) {
+      console.log(arr);
       this.imgCheckDialogShow = false;
-      this.$store.commit('addPostImgEvent', {list: this.imgCheckedlistt_emporary.concat([])});
-    },
-    imgCheckTemporaryEvent (item, bool) {
-      if (bool) this.imgCheckedlistt_emporary.push(item);
-      else {
-        for (let i = 0; i < this.imgCheckedlistt_emporary.length; i++) {
-          if (this.imgCheckedlistt_emporary[i].id === item.id) this.imgCheckedlistt_emporary.splice(i, 1);
-        }
-      }
+      this.$store.commit('posting/addPostImgEvent', {list: arr.concat([])});
     },
     addTagEvent () {
-      this.$store.commit('addTagEvent', {
+      this.$store.commit('posting/addTagEvent', {
         cb: () => {
           this.$message({
             showClose: true,

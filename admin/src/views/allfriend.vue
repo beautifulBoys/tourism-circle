@@ -5,7 +5,7 @@
 
     <el-table :data="tableData5"cstyle="width: 100%">
       <el-table-column type="expand">
-        <template scope="props">
+        <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
             <el-form-item label="商品名称"><span>{{ props.row.name }}</span></el-form-item>
             <el-form-item label="所属店铺"><span>{{ props.row.shop }}</span></el-form-item>
@@ -21,7 +21,7 @@
       <el-table-column label="用户名" prop="name"></el-table-column>
       <el-table-column label="阿萨德" prop="desc"></el-table-column>
       <el-table-column label="操作">
-        <template scope="scope">
+        <template slot-scope="scope">
           <el-button size="small" @click="friendEvent(scope.$index, scope.row)">加好友</el-button>
           <el-button size="small" type="danger" @click="followEvent(scope.$index, scope.row)">关 注</el-button>
         </template>

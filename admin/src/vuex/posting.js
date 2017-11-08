@@ -3,9 +3,10 @@ import data from './data/gallery.json';
 import cityData from './data/city.json';
 console.log(ajax);
 export default {
+  namespaced: true,
   state: {
     formValue: {
-      title: '',
+      title: 'erwerwr',
       city: [],
       spot: '',
       time: '',

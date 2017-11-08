@@ -1,5 +1,5 @@
 <template>
-  <div class="img-box-picture" :class="{checked: checked}" @click="checkEvent()">
+  <div class="img-box-picture" :class="{checked: data.checked}" @click="checkEvent()">
     <img ref="img" :src="img" class="img-lixin-picture"/>
     <div class="sign"></div>
     <div class="text">✔</div>
@@ -8,11 +8,10 @@
 <script>
 import zhanweiData from '../zhanwei.js';
   export default {
-  props: ['data'],
+  props: ['data', 'isCanChecked'],
     data () {
       return {
-        img: zhanweiData,
-        checked: false
+        img: zhanweiData
       };
     },
     mounted () {
@@ -27,8 +26,7 @@ import zhanweiData from '../zhanwei.js';
     },
     methods: {
       checkEvent () {
-        this.$emit('checkEvent', this.data, !this.checked);
-        this.checked = !this.checked;
+        this.$emit('checkEvent', this.data);
       }
     }
   };

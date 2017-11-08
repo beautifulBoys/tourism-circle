@@ -5,24 +5,8 @@
 </template>
 
 <script>
-import sideNenu from './components/side_menu.vue';
-import talkComponent from './components/talk_component.vue';
 export default {
-  name: 'app',
-  components: {
-    'side-menu': sideNenu,
-    'talk-component': talkComponent
-  },
-  data () {
-    return {
-      talkShow: false
-    };
-  },
-  methods: {
-    dialogEvent () {
-      this.talkShow = true;
-    }
-  }
+  name: 'app'
 };
 </script>
 
