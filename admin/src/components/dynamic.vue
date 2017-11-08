@@ -183,9 +183,6 @@ export default {
           height: 50px;
           margin-bottom: 15px;
         }
-
-
     }
-
 }
 </style>
