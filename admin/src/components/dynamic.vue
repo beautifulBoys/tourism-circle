@@ -32,7 +32,7 @@
           <div class="left"><img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(1).jpg"/></div>
           <div class="right">
             <div class="name">速度防守打法的</div>
-            <div>水电费高大上根深蒂固水电费供电高大上根深蒂固水电费供电是否个梵冈地方各个地方个大范甘迪发</div>
+            <div>水电费高大上根深蒂固水电费供电高大上根深蒂固水电费供电是否个梵冈地方各个地方个电费高大上根深蒂固水电费供电高大上根深蒂固水电费供电是否个梵冈地方各个地方个大范甘迪发</div>
           </div>
         </li>
       </ul>
