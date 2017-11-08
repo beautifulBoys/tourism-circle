@@ -4,7 +4,7 @@
       <side-menu></side-menu>
     </div>
     <div class="right-container">
-      <div class="header"></div>
+      <header-component></header-component>
       <div class="main-box">
         <router-view></router-view>
       </div>
@@ -20,11 +20,13 @@
 <script>
 import sideNenu from '../components/side_menu.vue';
 import talkComponent from '../components/talk_component.vue';
+import headerComponent from '../components/header.vue';
 export default {
   name: 'app',
   components: {
     'side-menu': sideNenu,
-    'talk-component': talkComponent
+    'talk-component': talkComponent,
+    'header-component': headerComponent
   },
   data () {
     return {
@@ -53,12 +55,7 @@ export default {
         flex: 1;
         display: flex;
         flex-flow: column;
-        .header {
-            height: 60px;
-            background: #20A0FF;
-            box-shadow: 0 5px 7px rgba(0,0,0,0.2);
-            z-index: 10;
-        }
+        
         .main-box {
             flex: 1;
             width: 100%;

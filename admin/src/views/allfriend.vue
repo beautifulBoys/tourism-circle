@@ -23,6 +23,7 @@
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button size="small" @click="friendEvent(scope.$index, scope.row)">加好友</el-button>
+          <el-button size="small" @click="mailEvent(scope.$index, scope.row)">站内信</el-button>
           <el-button size="small" type="danger" @click="followEvent(scope.$index, scope.row)">关 注</el-button>
         </template>
       </el-table-column>
