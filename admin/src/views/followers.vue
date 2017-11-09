@@ -8,7 +8,7 @@
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
             <el-form-item label="性别："><span>{{ props.row.sex }}</span></el-form-item>
-            <el-form-item label="地址："><span>{{ props.row.email }}</span></el-form-item>
+            <el-form-item label="地址："><span>{{ props.row.address }}</span></el-form-item>
             <el-form-item label="邮箱："><span>{{ props.row.email }}</span></el-form-item>
             <el-form-item label="发帖数："><span>{{ props.row.postNum }}</span></el-form-item>
           </el-form>
@@ -20,10 +20,37 @@
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button size="small" @click="addFriendEvent(scope.$index, scope.row)">加好友</el-button>
+          <el-button size="small" @click="mailEvent(scope.$index, scope.row)">站内信</el-button>
           <el-button size="small" type="danger" @click="followEvent(scope.$index, scope.row)">关　注</el-button>
         </template>
       </el-table-column>
     </el-table>
+
+
+    <el-dialog title="添加好友" :visible.sync="dialogFriendShow" size="tiny">
+      <el-input v-model="reason" placeholder="请输入添加理由"></el-input>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFriendShow = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFriendShow = false">确 定</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog title="站内信" :visible.sync="dialogMailShow" size="tiny">
+      <el-input type="textarea" :autosize="{minRows: 3}" placeholder="请输入内容" v-model="mailContent"></el-input>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogMailShow = false">取 消</el-button>
+        <el-button type="primary" @click="dialogMailShow = false">确 定</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog title="解除关注" :visible.sync="dialogFollowShow" size="tiny">
+      水电费了解多少了房间里都是解放路上看到交流交流时代峰峻来说大家发了时间到了
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFollowShow = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFollowShow = false">确 定</el-button>
+      </div>
+    </el-dialog>
+
 
   </div>
 </div>
@@ -32,37 +59,40 @@
 export default {
   data () {
     return {
+      dialogFriendShow: false,
+      dialogMailShow: false,
+      dialogFollowShow: false,
       tableData5: [{
         id: '12987123',
         name: '好滋好味',
         desc: '荷兰优质淡奶，奶香浓而不腻',
-        sex: '江浙小吃、小吃零食',
+        sex: '男',
         address: '上海市普陀区真北路',
-        email: '王小虎夫妻店',
+        email: '212635475678@qq.com',
         postNum: '13'
       }, {
         id: '12987124',
         name: '好滋好味',
         desc: '荷兰优质淡奶，奶香浓而不腻',
-        sex: '江浙小吃、小吃零食',
+        sex: '男',
         address: '上海市普陀区真北路',
-        email: '王小虎夫妻店',
+        email: '212635475678@qq.com',
         postNum: '13'
       }, {
         id: '12987125',
         name: '好滋好味',
         desc: '荷兰优质淡奶，奶香浓而不腻',
-        sex: '江浙小吃、小吃零食',
+        sex: '男',
         address: '上海市普陀区真北路',
-        email: '王小虎夫妻店',
+        email: '212635475678@qq.com',
         postNum: '13'
       }, {
         id: '12987126',
         name: '好滋好味',
         desc: '荷兰优质淡奶，奶香浓而不腻',
-        sex: '江浙小吃、小吃零食',
+        sex: '男',
         address: '上海市普陀区真北路',
-        email: '王小虎夫妻店',
+        email: '212635475678@qq.com',
         postNum: '13'
       }]
     };
@@ -71,9 +101,15 @@ export default {
   methods: {
     addFriendEvent (index, row) {
       console.log(index, row);
+      this.dialogFriendShow = true;
     },
     followEvent (index, row) {
       console.log(index, row);
+      this.dialogFollowShow = true;
+    },
+    mailEvent (index, row) {
+      console.log(index, row);
+      this.dialogMailShow = true;
     }
   }
 };
