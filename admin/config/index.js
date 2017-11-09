@@ -42,6 +42,17 @@ module.exports = {
           pathRewrite: { //需要rewrite重写的, 如果在服务器端做了处理则可以不要这段
             '^/api': ''
           }
+      },
+      '/baidu': {
+          // target: 'http://10.209.96.135:9090/api',
+          target: 'http://api.map.baidu.com',
+          changeOrigin: true,
+          onProxyReq(e) {
+              //console.log(e);
+          },
+          pathRewrite: { //需要rewrite重写的, 如果在服务器端做了处理则可以不要这段
+            '^/api': ''
+          }
       }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"

@@ -12,6 +12,7 @@
     </el-form-item>
     <el-form-item label="地址">
       <el-cascader :options="cityData" placeholder="请选择您所在的城市" v-model="formValue.city"></el-cascader>
+      <el-button type="primary" :disabled="locationObj[locationObj.index].disable" :loading="locationObj[locationObj.index].loading" @click="locationEvent()">{{locationObj[locationObj.index].text}}</el-button>
     </el-form-item>
     <el-form-item label="性别">
       <el-radio-group v-model="formValue.sex">
@@ -23,17 +24,14 @@
       <el-input class="textarea" type="textarea" :autosize="{minRows: 3}" placeholder="100 字以内" v-model="formValue.desc"></el-input>
     </el-form-item>
     <el-form-item label="选择头像">
-      <div class="add-picture" v-show="userImgIconObj.url" :style="{background: `url(${userImgIconObj.url}) no-repeat center center`}" @click="imgCheckDialogShow = true"></div>
-      <div class="add-picture" v-show="!userImgIconObj.url" @click="imgCheckDialogShow = true">+</div>
+      <div class="add-picture" @click="show = true">
+        <img v-show="userImgSrc" :src="userImgSrc"/>
+        <span v-show="!userImgSrc" >+</span>
+      </div>
     </el-form-item>
-    <choice-img-dialog
-      :show="imgCheckDialogShow"
-      :size="img_size"
-      title="选择头像"
-      @choiceEvent="addPostImgEvent"
-      @closeEvent="closeDialogEvent()">
-    </choice-img-dialog>
+    <cut-image title="选择头像" :show="show" :ratio="1" :loading="loading" @getData="getDataEvent"></cut-image>
   </el-form>
+  <div id="allmap" style="display: none;"></div>
   <div class="footer">
     <el-button type="primary":loading="postStatus" @click="postEvent()">确　定</el-button>
   </div>
@@ -43,7 +41,7 @@
 <script>
 import upload from '../components/upload.vue';
 import loadImg from '../components/posting/picture.vue';
-import choiceImgDialog from '../components/choice_img.vue';
+import cutImage from '../components/gallery/cut_image.vue';
 
 import { createNamespacedHelpers } from 'vuex';
 const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('personal');
@@ -51,7 +49,7 @@ export default {
   components: {
     'upload': upload,
     'load-img': loadImg,
-    'choice-img-dialog': choiceImgDialog
+    'cut-image': cutImage
   },
   computed: {
     ...mapState({
@@ -67,22 +65,55 @@ export default {
   data () {
     return {
       labelPosition: 'right',
-      imgCheckDialogShow: false,
-      userImgIconObj: {
-        url: ''
-      },
-      img_size: 1
+      userImgSrc: '',
+      img_size: 1,
+      show: false,
+      loading: false,
+      locationObj: {
+        data: null,
+        index: 'ing',
+        suc: {text: '已定位，点击填充', loading: false, disable: false},
+        err: {text: '定位失败', loading: false, disable: false},
+        ing: {text: '定位中', loading: true, disable: false},
+        end: {text: '已填充', loading: false, disable: true}
+      }
     };
+  },
+  mounted () {
+  	this.geolocation = new BMap.Geolocation();
+    this.myGeo = new BMap.Geocoder();
+    this.locationInit();
   },
   methods: {
     ...mapMutations(['closeEvent']),
     ...mapActions(['postEvent']),
-    addPostImgEvent (arr) {
-      this.imgCheckDialogShow = false;
-      this.userImgIconObj = arr[0];
+    locationInit () {
+      let _this = this;
+    	_this.geolocation.getCurrentPosition(function (r) {
+    		if(this.getStatus() === BMAP_STATUS_SUCCESS) {
+          _this.myGeo.getLocation(r.point, function (rs) {
+            _this.locationObj.index = 'suc';
+            _this.locationObj.data = rs.addressComponents;
+          });
+        } else {
+          _this.locationObj.index = 'err';
+        }
+    	}, {enableHighAccuracy: true});
     },
-    closeDialogEvent () {
-      this.imgCheckDialogShow = false;
+    getDataEvent (data) {
+      this.userImgSrc = data;
+      this.show = false;
+    },
+    locationEvent () {
+      if (this.locationObj.index === 'suc') {
+        this.formValue.city = [this.locationObj.data.province, this.locationObj.data.city, this.locationObj.data.district];
+        this.locationObj.index = 'end';
+      } else if (this.locationObj.index === 'err') {
+        this.locationObj.index === 'ing';
+        this.locationInit();
+      } else {
+        console.log('发生错误，请检查');
+      }
     }
   }
 };
@@ -138,6 +169,9 @@ export default {
       display: inline-block;
       overflow: hidden;
       background-size: auto 100%;
+      img {
+        width: 100%;
+      }
       &:hover {
         border: 2px dashed rgb(32, 160, 255);
         color: rgba(32, 160, 255, 0.8);

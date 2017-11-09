@@ -9,5 +9,8 @@ export default {
   },
   upload (d) {
     return ajax2.post('/upload', d);
+  },
+  location (data) {
+    return ajax1.post('/location/ip', data);
   }
 };

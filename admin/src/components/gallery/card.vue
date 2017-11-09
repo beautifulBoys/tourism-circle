@@ -4,7 +4,7 @@
     <div class="title">速度防守打法的.jpg</div>
     <div class="control-box">
       <div class="btn left" title="复制">复制</div>
-      <div class="btn" title="查看">查看</div>
+      <div class="btn center" title="查看">查看</div>
       <div class="btn right" title="删除">删除</div>
     </div>
   </div>
@@ -28,7 +28,7 @@ import loadImg from '../load_img.vue';
 <style lang="less" scoped>
 
   .card {
-    width: 250px;
+    width: 20%;
     border: 1px solid #ddd;
     overflow: hidden;
     padding: 10px;
@@ -36,7 +36,7 @@ import loadImg from '../load_img.vue';
     border-radius: 5px;
     transition: all .3s;
     display: inline-block;
-    margin: 10px;
+    margin: 1%;
     position: relative;
     &:hover {
       box-shadow: 0 0 10px rgba(0,0,0,0.25);
@@ -56,6 +56,9 @@ import loadImg from '../load_img.vue';
             transform: translate3d(0, 0, 0);
           }
           &.right {
+            transform: translate3d(0, 0, 0);
+          }
+          &.center {
             transform: translate3d(0, 0, 0);
           }
         }
@@ -96,6 +99,9 @@ import loadImg from '../load_img.vue';
         }
         &.right {
           transform:translate3d(100px, 0, 0);
+        }
+        &.center {
+          transform:translate3d(0, -100px, 0);
         }
       }
     }
