@@ -5,39 +5,26 @@
 
   <el-form :label-position="'right'" label-width="80px" :model="formValue">
     <el-form-item label="添加好友">
-      <el-switch v-model="value" on-text="ON" off-text="OFF"></el-switch>  关闭则拒绝被别人添加为好友！
+      <el-switch v-model="formValue.friend" on-text="ON" off-text="OFF"></el-switch>  关闭则拒绝被别人添加为好友！
     </el-form-item>
-    <el-form-item label="邮箱">
-      <el-input v-model="formValue.email" placeholder="20 字以内"></el-input>
+    <el-form-item label="是否展示">
+      <el-switch v-model="formValue.show" on-text="ON" off-text="OFF"></el-switch>  关闭则在所有圈友中不被展示！
     </el-form-item>
-    <el-form-item label="地址">
-      <el-cascader :options="cityData" :show-all-levels="false" placeholder="请选择旅游城市" v-model="formValue.city"></el-cascader>
+    <el-form-item label="站内信">
+      <el-switch v-model="formValue.mail" on-text="ON" off-text="OFF"></el-switch>  关闭则不能接收站内信！
     </el-form-item>
-    <el-form-item label="性别">
-      <el-radio-group v-model="formValue.sex">
-        <el-radio-button label="男孩"></el-radio-button>
-        <el-radio-button label="女孩"></el-radio-button>
-      </el-radio-group>
+    <el-form-item label="关注提醒">
+      <el-switch v-model="formValue.follow" on-text="ON" off-text="OFF"></el-switch>  关闭则不会收到关注提醒！
     </el-form-item>
-    <el-form-item label="碎碎念">
-      <el-input class="textarea" type="textarea" :autosize="{minRows: 3}" placeholder="请输入旅游趣事或心得~" v-model="formValue.content"></el-input>
+    <el-form-item label="评论提醒">
+      <el-switch v-model="formValue.comment" on-text="ON" off-text="OFF"></el-switch>  关闭则不会收到评论提醒！
     </el-form-item>
-    <el-form-item label="选择头像">
-      <div class="add-picture" v-for="item in postImgList" :style="{background: `url(${item.url}) no-repeat center center`}"></div>
-      <div class="add-picture" v-show="!(postImgList.length >= 1)" @click="imgCheckDialogShow = true">+</div>
+    <el-form-item label="点赞提醒">
+      <el-switch v-model="formValue.star" on-text="ON" off-text="OFF"></el-switch>  关闭则不会收到点赞提醒！
     </el-form-item>
-    <el-dialog title="选择头像" :visible.sync="imgCheckDialogShow">
-      <div class="img-box">
-        <load-img :data="item" v-for="(item, index) in imgList" @checkEvent="imgCheckTemporaryEvent" :key="index"></load-img>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="imgCheckDialogShow = false">取 消</el-button>
-        <el-button type="primary" @click="addPostImgEvent()">确 定</el-button>
-      </span>
-    </el-dialog>
   </el-form>
   <div class="footer">
-    <el-button type="primary":loading="postStatus" @click="postEvent()">确　定</el-button>
+    <el-button type="primary":loading="postStatus" @click="postEvent()">保存设置</el-button>
   </div>
 
 </div>

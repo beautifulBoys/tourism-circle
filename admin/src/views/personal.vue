@@ -82,12 +82,12 @@ export default {
   mounted () {
   	this.geolocation = new BMap.Geolocation();
     this.myGeo = new BMap.Geocoder();
-    this.locationInit();
+    this.getLocationEvent();
   },
   methods: {
     ...mapMutations(['closeEvent']),
     ...mapActions(['postEvent']),
-    locationInit () {
+    getLocationEvent () {
       let _this = this;
     	_this.geolocation.getCurrentPosition(function (r) {
     		if(this.getStatus() === BMAP_STATUS_SUCCESS) {
@@ -110,7 +110,7 @@ export default {
         this.locationObj.index = 'end';
       } else if (this.locationObj.index === 'err') {
         this.locationObj.index === 'ing';
-        this.locationInit();
+        this.getLocationEvent();
       } else {
         console.log('发生错误，请检查');
       }

@@ -1,35 +1,18 @@
 <template>
-  <div class="newest">
-    <h1>最新动态</h1>
+  <div class="admin">
+    <h1>管理员权限设置</h1>
     <div class="content-box">
-      <div class="left">
-        <ul class="ul">
-          <li class="li">
-            <div class="li-left">
-              <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(3).jpg"/>
-            </div>
-            <div class="li-right">
-              <div class="title">圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室</div>
-              <div class="content">
-                圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室
-                圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室
-                圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室
-                圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室
-              </div>
-              <div class="img-box">
-                <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/3/c1.jpg"/>
-                <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/3/c1.jpg"/>
-                <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/3/c1.jpg"/>
-                <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/3/c1.jpg"/>
-                <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/3/c1.jpg"/>
-                <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/3/c1.jpg"/>
-              </div>
-            </div>
-
-          </li>
-        </ul>
+      <div class="search">
+        <el-input placeholder="请输入内容" v-model="inputValue">
+          <el-select v-model="select" slot="prepend" placeholder="请选择" style="width: 100px">
+            <el-option label="餐厅名" value="1"></el-option>
+            <el-option label="订单号" value="2"></el-option>
+            <el-option label="用户电话" value="3"></el-option>
+          </el-select>
+          <el-button slot="append" icon="search" style="width: 70px" @click="searchEvent()"></el-button>
+        </el-input>
       </div>
-      <div class="right"></div>
+
     </div>
   </div>
 </template>
@@ -37,22 +20,20 @@
   export default {
     data () {
       return {
-
+        inputValue: '',
+        select: ''
       };
     },
-
     methods: {
-      addTagEvent () {
-        console.log('aa');
-        this.tagList.push({ name: this.tag, type: 'primary' });
-        this.tag = '';
+      searchEvent () {
+        console.log(this.select);
       }
     }
   };
 </script>
 
 <style lang="less" scoped>
-  .newest {
+  .admin {
     box-sizing: border-box;
     padding: 20px;
     h1 {
@@ -65,48 +46,8 @@
       width: 100%;
       height: 100px;
       display: flex;
-      .ul {
-        padding: 0;
-        margin: 0;
-        .li {
-          list-style-type: none;
-          display: flex;
-          margin: 15px 0;
-          .li-left {
-            width: 60px;
-            height: 60px;
-            margin-right: 15px;
-            img {
-              width: 100%;
-              height: 100%;
-            }
-          }
-          .li-right {
-            flex: 1;
-            .title {
-              line-height: 30px;
-              font-size: 16px;
-              color: #333;
-              margin-bottom: 10px;
-              font-weight: 700;
-            }
-            .content {
-              font-size: 15px;
-              color: #666;
-              line-height: 25px;
-            }
-            .img-box {
-              width: 100%;
-              padding: 0 0 10px 0;
-              border-bottom: 1px solid #eee;
-              img {
-                width: 150px;
-                margin: 5px;
-              }
-            }
-          }
-
-        }
+      .search {
+        width: 50%;
       }
 
     }
