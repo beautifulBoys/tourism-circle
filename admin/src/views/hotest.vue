@@ -4,8 +4,8 @@
     <div class="content-box">
       <div class="left">
         <ul class="ul">
-          <li class="li" v-for="item in [1,1,1,1,1,1,1,1,1,11,1,1]">
-            <dynamic></dynamic>
+          <li class="li" v-for="item in list">
+            <dynamic :data="item"></dynamic>
           </li>
         </ul>
       </div>
@@ -15,21 +15,24 @@
 </template>
 <script>
   import Dynamic from '../components/dynamic.vue';
+
+  import { createNamespacedHelpers } from 'vuex';
+  const { mapState, mapMutations, mapActions } = createNamespacedHelpers('mostest');
   export default {
     components: {
       'dynamic': Dynamic
     },
-    data () {
-      return {
-
-      };
+    computed: {
+      ...mapState({
+        list: state => state.list
+      })
+    },
+    mounted () {
+      this.getDataEvent();
     },
     methods: {
-      addTagEvent () {
-        console.log('aa');
-        this.tagList.push({ name: this.tag, type: 'primary' });
-        this.tag = '';
-      }
+      ...mapMutations([]),
+      ...mapActions(['getDataEvent'])
     }
   };
 </script>
@@ -37,7 +40,7 @@
 <style lang="less" scoped>
   .hotest {
     box-sizing: border-box;
-    padding: 20px;
+    padding: 20px 30px;
     h1 {
       font-size: 20px;
       font-weight: 700;

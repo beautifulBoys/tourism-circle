@@ -1,11 +1,11 @@
 <template>
 <div class="dynamic">
   <div class="li-left" v-if="!type">
-    <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(3).jpg" />
+    <img :src="data.user.url"/>
   </div>
   <div class="li-right">
     <div class="title">
-      <span>圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室</span>
+      <span>{{data.info.title}}</span>
       <div class="sign-box" v-if="!type"><span class="sign"></span></div>
       <el-dropdown trigger="click" style="float: right;" @command="dropdownEvent" v-if="control">
         <el-button class="el-dropdown-link">操作</el-button>
@@ -18,29 +18,23 @@
       <el-dropdown trigger="click" style="float: right;">
         <el-button class="el-dropdown-link">标签</el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>中秋</el-dropdown-item>
-          <el-dropdown-item>端午龙舟</el-dropdown-item>
-          <el-dropdown-item>螺蛳粉螺蛳粉螺蛳粉</el-dropdown-item>
-          <el-dropdown-item>双皮奶</el-dropdown-item>
-          <el-dropdown-item>蚵仔煎</el-dropdown-item>
+          <el-dropdown-item v-for="(item, index) in data.info.tag" :key="index">{{item}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <div class="content">
-      圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室 圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室 圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室 圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室
-    </div>
+    <div class="content">{{data.info.content}}</div>
     <div class="img-box">
-      <div class="item" v-for="item in [1,1,1,1,1,1,1]">
-        <load-img :src="'https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/3/c1.jpg'"></load-img>
+      <div class="item" v-for="item in data.info.images">
+        <load-img :src="item.url"></load-img>
       </div>
     </div>
     <collapse>
       <ul class="ul">
-        <li v-for="item in [1,1,1,1,1]">
-          <div class="left"><img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(1).jpg"/></div>
+        <li v-for="item in data.info.comments">
+          <div class="left"><img :src="item.user.url"/></div>
           <div class="right">
-            <div class="name">速度防守打法的</div>
-            <div>水电费高大上根深蒂固水电费供电高大上根深蒂固水电费供电是否个梵冈地方各个地方个电费高大上根深蒂固水电费供电高大上根深蒂固水电费供电是否个梵冈地方各个地方个大范甘迪发</div>
+            <div class="name">{{item.user.name}}</div>
+            <div>{{item.content}}</div>
           </div>
         </li>
       </ul>
@@ -60,7 +54,7 @@ export default {
     'collapse': Collapse,
     'load-img': loadImg
   },
-  props: ['type', 'control'],
+  props: ['data', 'type', 'control'],
   methods: {
     dropdownEvent (value) {
       console.log(value);
