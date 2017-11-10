@@ -7,8 +7,16 @@
     <div class="title">
       <span>圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室</span>
       <div class="sign-box" v-if="!type"><span class="sign"></span></div>
+      <el-dropdown trigger="click" style="float: right;" @command="dropdownEvent" v-if="control">
+        <el-button class="el-dropdown-link">操作</el-button>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item command="a">隐藏</el-dropdown-item>
+          <el-dropdown-item command="b">删除</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+
       <el-dropdown trigger="click" style="float: right;">
-        <el-button class="el-dropdown-link">查看标签</el-button>
+        <el-button class="el-dropdown-link">标签</el-button>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item>中秋</el-dropdown-item>
           <el-dropdown-item>端午龙舟</el-dropdown-item>
@@ -52,7 +60,12 @@ export default {
     'collapse': Collapse,
     'load-img': loadImg
   },
-  props: ['type']
+  props: ['type', 'control'],
+  methods: {
+    dropdownEvent (value) {
+      console.log(value);
+    }
+  }
 };
 </script>
 

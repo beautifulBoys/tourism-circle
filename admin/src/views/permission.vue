@@ -43,10 +43,6 @@ export default {
   computed: {
     ...mapState({
       formValue: state => state.formValue,
-      imgList: state => state.imgList,
-      cityData: state => state.cityData,
-      tagList: state => state.tagList,
-      postImgList: state => state.postImgList,
       postStatus: state => state.postStatus
     }),
     ...mapGetters(['postImgListLengthStatus'])
@@ -61,38 +57,7 @@ export default {
   },
   methods: {
     ...mapMutations(['closeEvent']),
-    ...mapActions(['postEvent']),
-    addPostImgEvent () {
-      if (this.imgCheckedlistt_emporary.length > 10) {
-        this.$message({
-          showClose: true,
-          message: '最多可添加 10 张图片',
-          type: 'error'
-        });
-        return;
-      }
-      this.imgCheckDialogShow = false;
-      this.$store.commit('permission/addPostImgEvent', {list: this.imgCheckedlistt_emporary.concat([])});
-    },
-    imgCheckTemporaryEvent (item, bool) {
-      if (bool) this.imgCheckedlistt_emporary.push(item);
-      else {
-        for (let i = 0; i < this.imgCheckedlistt_emporary.length; i++) {
-          if (this.imgCheckedlistt_emporary[i].id === item.id) this.imgCheckedlistt_emporary.splice(i, 1);
-        }
-      }
-    },
-    addTagEvent () {
-      this.$store.commit('permission/addTagEvent', {
-        cb: () => {
-          this.$message({
-            showClose: true,
-            message: '标签最多输入 8 字，请修改',
-            type: 'error'
-          });
-        }
-      });
-    }
+    ...mapActions(['postEvent'])
   }
 };
 </script>
