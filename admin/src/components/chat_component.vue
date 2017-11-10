@@ -1,38 +1,38 @@
 <template>
-  <div class="talk-main">
-    <div class="talk-left-box">
+  <div class="chat-main">
+    <div class="chat-left-box">
       <ul>
-        <li :class="{active: index1 === dialogIndex}" v-for="(friend, index1) in friendList" @click="friendEvent(index)">
+        <li :class="{active: index === dialogIndex}" v-for="(user, index) in list" @click="friendEvent(index)">
           <div class="user-left">
-            <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(3).jpg" />
+            <img :src="user.userInfo.url" />
           </div>
           <div class="user-right">
-            <div class="name">{{friend.name}}</div>
-            <div class="dialog">{{friend.messageList[0].msg}}</div>
+            <div class="name">{{user.userInfo.name}}</div>
+            <div class="dialog">{{user.message[user.message.length - 1].msg}}</div>
           </div>
         </li>
       </ul>
     </div>
-    <div class="talk-right-box">
+    <div class="chat-right-box">
       <div class="content" ref="scroll">
-        <div class="height-hook">
-          <div v-for="(item, index) in friendList[dialogIndex].messageList">
+        <div class="height-hook" v-if="dialogIndex !== -1">
+          <div v-for="item in list[dialogIndex].message">
             <div class="item-box left-hook" v-if="item.type === 2">
               <div class="left">
-                <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(3).jpg" />
+                <img :src="list[dialogIndex].userInfo.url"/>
               </div>
               <div class="center">
-                <div class="user">{{ item.msgUser.userName }}</div>
+                <div class="user">{{ list[dialogIndex].userInfo.name }}</div>
                 <div class="text"><span class="horn">◀</span>{{ item.msg }}</div>
               </div>
               <br style="clear: both;" />
             </div>
             <div class="item-box right-hook" v-if="item.type === 3">
               <div class="right">
-                <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(3).jpg" />
+                <img :src="list[dialogIndex].userInfo.url"/>
               </div>
               <div class="center">
-                <div class="user">{{ item.msgUser.userName }}</div>
+                <div class="user">{{ list[dialogIndex].userInfo.name }}</div>
                 <div class="text"><span class="horn">▶</span>{{ item.msg }}</div>
               </div>
               <br style="clear: both;" />
@@ -55,68 +55,28 @@
   </div>
 </template>
 <script>
+
+import { createNamespacedHelpers } from 'vuex';
+const { mapState, mapMutations, mapActions } = createNamespacedHelpers('chat');
 export default {
   data () {
     return {
-      dialogIndex: 0,
-      friendList: [{
-          name: '是的发送链接1',
-          messageList: [{
-              type: 2,
-              msgUser: {
-                userName: '利用1'
-              },
-              msg: '我想说你们到底是干什么的啊'
-            },
-            {
-              type: 3,
-              msgUser: {
-                userName: '看见了辅导费'
-              },
-              msg: '我想说你们到底是干什么的啊我想说你们到底是干什么的啊我想说你们到底是干什么的啊我想说你们到底是干什么的啊我想说你们到底是干什么的啊'
-            }
-          ]
-        },
-        {
-          name: '是的发送链接2',
-          messageList: [{
-              type: 2,
-              msgUser: {
-                userName: '利用2'
-              },
-              msg: '我想说你们到底是干什么的啊'
-            },
-            {
-              type: 3,
-              msgUser: {
-                userName: '看见了辅导费'
-              },
-              msg: '我想说你们到底是干什么的啊我想说你们到底是干什么的啊我想说你们到底是干什么的啊我想说你们到底是干什么的啊我想说你们到底是干什么的啊'
-            }
-          ]
-        },
-        {
-          name: '是的发送链接3',
-          messageList: [{
-              type: 2,
-              msgUser: {
-                userName: '利用3'
-              },
-              msg: '我想说你们到底是干什么的啊'
-            },
-            {
-              type: 3,
-              msgUser: {
-                userName: '看见了辅导费'
-              },
-              msg: '我想说你们到底是干什么的啊我想说你们到底是干什么的啊我想说你们到底是干什么的啊我想说你们到底是干什么的啊我想说你们到底是干什么的啊'
-            }
-          ]
-        }
-      ]
+      dialogIndex: -1
     };
   },
+  computed: {
+    ...mapState({
+      list: state => state.list,
+      inputValue: state => state.inputValue,
+      connectState: state => state.connectState
+    })
+  },
+  mounted () {
+    this.getDataEvent();
+  },
   methods: {
+    ...mapMutations([]),
+    ...mapActions(['getDataEvent', 'sendEvent']),
     friendEvent (index) {
       this.dialogIndex = index;
     }
@@ -124,11 +84,15 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.talk-main {
-    width: 100%;
-    height: 100%;
+.chat-main {
     display: flex;
-    .talk-left-box {
+    width: 100%;
+    height: 500px;
+    margin: -20px 0;
+    box-sizing: border-sizing;
+    border-radius: 5px;
+
+    .chat-left-box {
         width: 130px;
         background: #f5f5f5;
         border: 1px solid #ddd;
@@ -178,7 +142,7 @@ export default {
             }
         }
     }
-    .talk-right-box {
+    .chat-right-box {
         flex: 1;
         height: 100%;
         display: flex;

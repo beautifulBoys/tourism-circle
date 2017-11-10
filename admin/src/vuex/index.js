@@ -15,6 +15,7 @@ import following from './following.js';
 import followers from './followers.js';
 import friend from './friend.js';
 import friends from './friends.js';
+import chat from './chat.js';
 
 Vue.use(Vuex);
 
@@ -34,6 +35,7 @@ export default new Vuex.Store({
     following,
     followers,
     friend,
-    friends
+    friends,
+    chat
   }
 });
