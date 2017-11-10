@@ -3,7 +3,7 @@
   <h1>我的关注</h1>
   <div class="content-box">
 
-    <el-table :data="tableData5"cstyle="width: 100%">
+    <el-table :data="list" cstyle="width: 100%">
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
@@ -54,62 +54,42 @@
 </div>
 </template>
 <script>
+
+import { createNamespacedHelpers } from 'vuex';
+const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('following');
 export default {
   data () {
     return {
-      reason: '',
       dialogFriendShow: false,
       dialogMailShow: false,
-      dialogFollowShow: false,
-      mailContent: '',
-      tableData5: [{
-        id: '12987123',
-        name: '好滋好味',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        sex: '男',
-        address: '上海市普陀区真北路',
-        email: '212635475678@qq.com',
-        postNum: '13'
-      }, {
-        id: '12987124',
-        name: '好滋好味',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        sex: '男',
-        address: '上海市普陀区真北路',
-        email: '212635475678@qq.com',
-        postNum: '13'
-      }, {
-        id: '12987125',
-        name: '好滋好味',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        sex: '男',
-        address: '上海市普陀区真北路',
-        email: '212635475678@qq.com',
-        postNum: '13'
-      }, {
-        id: '12987126',
-        name: '好滋好味',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        sex: '男',
-        address: '上海市普陀区真北路',
-        email: '212635475678@qq.com',
-        postNum: '13'
-      }]
+      dialogFollowShow: false
     };
   },
-
+  computed: {
+    ...mapState({
+      list: state => state.list,
+      reason: state => state.reason,
+      mailContent: state => state.mailContent
+    }),
+    ...mapGetters([])
+  },
+  mounted () {
+    this.getDataEvent();
+  },
   methods: {
+    ...mapMutations([]),
+    ...mapActions(['getDataEvent']),
     addFriendEvent (index, row) {
       console.log(index, row);
       this.dialogFriendShow = true;
     },
-    deleteFollowEvent (index, row) {
-      console.log(index, row);
-      this.dialogFollowShow = true;
-    },
     mailEvent (index, row) {
       console.log(index, row);
       this.dialogMailShow = true;
+    },
+    deleteFollowEvent (index, row) {
+      console.log(index, row);
+      this.dialogFollowShow = true;
     }
   }
 };

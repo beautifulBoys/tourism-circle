@@ -41,7 +41,7 @@
 <style lang="less" scoped>
   .newest {
     box-sizing: border-box;
-    padding: 20px;
+    padding: 20px 30px;
     h1 {
       font-size: 20px;
       font-weight: 700;

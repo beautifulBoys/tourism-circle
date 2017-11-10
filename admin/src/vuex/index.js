@@ -9,6 +9,12 @@ import mostest from './mostest.js';
 import newest from './newest.js';
 import hotest from './hotest.js';
 import posted from './posted.js';
+import comments from './comments.js';
+import likes from './likes.js';
+import following from './following.js';
+import followers from './followers.js';
+import friend from './friend.js';
+import friends from './friends.js';
 
 Vue.use(Vuex);
 
@@ -22,6 +28,12 @@ export default new Vuex.Store({
     mostest,
     newest,
     hotest,
-    posted
+    posted,
+    comments,
+    likes,
+    following,
+    followers,
+    friend,
+    friends
   }
 });

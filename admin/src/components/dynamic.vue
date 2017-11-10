@@ -15,8 +15,8 @@
         </el-dropdown-menu>
       </el-dropdown>
 
-      <el-dropdown trigger="click" style="float: right;">
-        <el-button class="el-dropdown-link">标签</el-button>
+      <el-dropdown trigger="click" style="float: right;" v-if="data.info.tag.length > 0">
+        <el-button class="el-dropdown-link">标签（{{data.info.tag.length}}）</el-button>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item v-for="(item, index) in data.info.tag" :key="index">{{item}}</el-dropdown-item>
         </el-dropdown-menu>
@@ -28,7 +28,7 @@
         <load-img :src="item.url"></load-img>
       </div>
     </div>
-    <collapse>
+    <collapse :num="data.info.comments.length">
       <ul class="ul">
         <li v-for="item in data.info.comments">
           <div class="left"><img :src="item.user.url"/></div>

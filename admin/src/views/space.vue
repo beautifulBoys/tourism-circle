@@ -1,35 +1,8 @@
 <template>
-  <div class="newest">
-    <h1>最新动态</h1>
+  <div class="space">
+    <h1>私人空间</h1>
     <div class="content-box">
-      <div class="left">
-        <ul class="ul">
-          <li class="li">
-            <div class="li-left">
-              <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(3).jpg"/>
-            </div>
-            <div class="li-right">
-              <div class="title">圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室</div>
-              <div class="content">
-                圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室
-                圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室
-                圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室
-                圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室圣诞节法律手段富家大室
-              </div>
-              <div class="img-box">
-                <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/3/c1.jpg"/>
-                <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/3/c1.jpg"/>
-                <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/3/c1.jpg"/>
-                <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/3/c1.jpg"/>
-                <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/3/c1.jpg"/>
-                <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/3/c1.jpg"/>
-              </div>
-            </div>
-
-          </li>
-        </ul>
-      </div>
-      <div class="right"></div>
+      私人空间暂无功能。
     </div>
   </div>
 </template>
@@ -52,7 +25,7 @@
 </script>
 
 <style lang="less" scoped>
-  .newest {
+  .space {
     box-sizing: border-box;
     padding: 20px;
     h1 {

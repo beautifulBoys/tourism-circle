@@ -2,7 +2,7 @@
   <div class="about">
     <h1>关于本站</h1>
     <div class="content-box">
-      
+
     </div>
   </div>
 </template>
@@ -23,7 +23,7 @@
 <style lang="less" scoped>
   .about {
     box-sizing: border-box;
-    padding: 20px;
+    padding: 20px 30px;
     h1 {
       font-size: 20px;
       font-weight: 700;

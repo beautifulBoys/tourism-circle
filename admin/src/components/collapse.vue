@@ -1,8 +1,8 @@
 <template>
 <div class="collapse">
   <div class="line">
-    <div class="btn right" @click="collapse = !collapse"><i class="el-icon-arrow-right" :class="{rotate: !collapse}"></i>查看评论</div>
-    <div class="btn left"><i class="el-icon-star-on"></i><i class="el-icon-star-off"></i></div>
+    <div class="btn right" @click="collapseEvent"><i class="el-icon-arrow-right" :class="{rotate: !collapse}"></i>{{num > 0 ? (num + ' 条') : '添加'}}评论</div>
+    <div class="btn left"><i class="el-icon-star-on"></i></div>
     <div class="btn left" @click="pinglunEvent()"><i class="el-icon-message"></i></div>
   </div>
   <div class="box" :class="{collapse: !collapse}">
@@ -14,6 +14,7 @@
 
 <script>
 export default {
+  props: ['num'],
   data () {
     return {
       collapse: true
@@ -27,6 +28,10 @@ export default {
       }).then(({ value }) => {
         this.$message({type: 'success', message: '评论成功: ' + value});
       }).catch(() => {});
+    },
+    collapseEvent () {
+      if (this.num > 0) this.collapse = !this.collapse;
+      else this.pinglunEvent();
     }
   }
 };
