@@ -44,7 +44,7 @@ import loadImg from '../components/posting/picture.vue';
 import cutImage from '../components/gallery/cut_image.vue';
 
 import { createNamespacedHelpers } from 'vuex';
-const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('personal');
+const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('box/personal');
 export default {
   components: {
     'upload': upload,

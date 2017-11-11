@@ -3,23 +3,20 @@
   <h1>我的圈友</h1>
   <div class="content-box">
 
-    <el-table :data="tableData5"cstyle="width: 100%">
+    <el-table :data="list" style="width: 100%">
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item label="商品名称"><span>{{ props.row.name }}</span></el-form-item>
-            <el-form-item label="所属店铺"><span>{{ props.row.shop }}</span></el-form-item>
-            <el-form-item label="商品 ID"><span>{{ props.row.id }}</span></el-form-item>
-            <el-form-item label="店铺 ID"><span>{{ props.row.shopId }}</span></el-form-item>
-            <el-form-item label="商品分类"><span>{{ props.row.category }}</span></el-form-item>
-            <el-form-item label="店铺地址"><span>{{ props.row.address }}</span></el-form-item>
-            <el-form-item label="商品描述"><span>{{ props.row.desc }}</span></el-form-item>
+            <el-form-item label="性别："><span>{{ props.row.sex }}</span></el-form-item>
+            <el-form-item label="地址："><span>{{ props.row.address }}</span></el-form-item>
+            <el-form-item label="邮箱："><span>{{ props.row.email }}</span></el-form-item>
+            <el-form-item label="发帖数："><span>{{ props.row.postNum }}</span></el-form-item>
           </el-form>
         </template>
       </el-table-column>
       <el-table-column label="用户 ID" prop="id"></el-table-column>
       <el-table-column label="用户名" prop="name"></el-table-column>
-      <el-table-column label="阿萨德" prop="desc"></el-table-column>
+      <el-table-column label="碎碎念" prop="desc"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button size="small" @click="friendEvent(scope.$index, scope.row)">加好友</el-button>
@@ -29,55 +26,71 @@
       </el-table-column>
     </el-table>
 
+
+
+    <el-dialog title="添加好友" :visible.sync="dialogFriendShow" size="tiny">
+      <el-input v-model="reason" placeholder="请输入添加理由"></el-input>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFriendShow = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFriendShow = false">确 定</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog title="站内信" :visible.sync="dialogMailShow" size="tiny">
+      <el-input type="textarea" :autosize="{minRows: 3}" placeholder="请输入内容" v-model="mailContent"></el-input>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogMailShow = false">取 消</el-button>
+        <el-button type="primary" @click="dialogMailShow = false">确 定</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog title="解除关注" :visible.sync="dialogFollowShow" size="tiny">
+      水电费了解多少了房间里都是解放路上看到交流交流时代峰峻来说大家发了时间到了
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFollowShow = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFollowShow = false">确 定</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </div>
 </template>
 <script>
+import { createNamespacedHelpers } from 'vuex';
+const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('box/allfriend');
 export default {
   data () {
     return {
-      tableData5: [{
-        id: '12987122',
-        name: '好滋好味',
-        category: '江浙小吃、小吃零食',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        address: '上海市普陀区真北路',
-        shop: '王小虎夫妻店',
-        shopId: '10333'
-      }, {
-        id: '12987123',
-        name: '好滋好味蛋仔',
-        category: '江浙小吃、小吃零食',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        address: '上海市普陀区真北路',
-        shop: '王小虎夫妻店',
-        shopId: '10333'
-      }, {
-        id: '12987125',
-        name: '好滋鸡蛋仔',
-        category: '江浙小吃、小吃零食',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        address: '上海市普陀区真北路',
-        shop: '王小虎夫妻店',
-        shopId: '10333'
-      }, {
-        id: '12987126',
-        name: '好仔',
-        category: '江浙小吃、小吃零食',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        address: '上海市普陀区真北路',
-        shop: '王小虎夫妻店',
-        shopId: '10333'
-      }]
+      dialogFriendShow: false,
+      dialogMailShow: false,
+      dialogFollowShow: false
     };
   },
-
+  computed: {
+    ...mapState({
+      list: state => state.list,
+      mailContent: state => state.mailContent,
+      reason: state => state.reason
+    }),
+    ...mapGetters([])
+  },
+  mounted () {
+    this.getDataEvent();
+  },
   methods: {
+    ...mapMutations([]),
+    ...mapActions(['getDataEvent']),
     friendEvent (index, row) {
       console.log(index, row);
+      this.dialogFriendShow = true;
     },
     followEvent (index, row) {
       console.log(index, row);
+      this.dialogFollowShow = true;
+    },
+    mailEvent (index, row) {
+      console.log(index, row);
+      this.dialogMailShow = true;
     }
   }
 };

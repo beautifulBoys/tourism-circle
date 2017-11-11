@@ -42,7 +42,7 @@ import loadImg from '../components/posting/picture.vue';
 import choiceImgDialog from '../components/choice_img.vue';
 
 import { createNamespacedHelpers } from 'vuex';
-const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('posting');
+const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('box/posting');
 
 export default {
   components: {

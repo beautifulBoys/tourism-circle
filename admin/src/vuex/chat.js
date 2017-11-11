@@ -6,6 +6,9 @@ export default {
   state: {
     list: [],
     inputValue: '',
+    formData: {
+      value: ''
+    },
     connectState: false,
     connectLoading: false
   },

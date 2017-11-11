@@ -34,7 +34,7 @@ import upload from '../components/upload.vue';
 import loadImg from '../components/posting/picture.vue';
 
 import { createNamespacedHelpers } from 'vuex';
-const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('permission');
+const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('box/permission');
 export default {
   components: {
     'upload': upload,

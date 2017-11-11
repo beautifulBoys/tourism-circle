@@ -4,6 +4,12 @@
       <el-button size="small" @click="messageListEvent()">消息盒子</el-button>
     </el-badge>
 
+    <el-badge :value="noReadRoomNum" class="item">
+      <el-button size="small" :loading="!connect" @click="chatRoomEvent()">全站聊天室</el-button>
+    </el-badge>
+
+    <chat-room ref="chat_room_component"></chat-room>
+
     <el-dropdown trigger="click" style="float: right;" @command="menu_click">
       <span class="el-dropdown-link">
         <img class="user-img" src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(3).jpg"/>
@@ -14,7 +20,7 @@
       </el-dropdown-menu>
     </el-dropdown>
 
-    <el-dialog title="消息盒子" :visible.sync="show" :modal-append-to-body="false">
+    <el-dialog title="消息盒子" :visible.sync="messageBoxShow" :modal-append-to-body="false">
       <el-table :data="tableData" style="width: 100%">
         <el-table-column prop="type" label="消息类型"></el-table-column>
         <el-table-column prop="name" label="姓名"></el-table-column>
@@ -27,43 +33,43 @@
         </el-table-column>
       </el-table>
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="show = false">确 定</el-button>
+        <el-button type="primary" @click="messageBoxShow = false">确 定</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import charRoom from './header/chat_room.vue';
+import { createNamespacedHelpers } from 'vuex';
+const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/header');
   export default {
+    components: {
+      'chat-room': charRoom
+    },
     data () {
       return {
-        noReadMessageNum: 12,
-        show: false,
-        tableData: [{
-          time: '05-02 12:03',
-          name: '王小虎',
-          type: '站内信'
-        }, {
-          time: '05-02 12:03',
-          name: '王小虎',
-          type: '站内信'
-        }, {
-          time: '05-02 12:03',
-          name: '王小虎',
-          type: '站内信'
-        }, {
-          time: '05-02 12:03',
-          name: '王小虎',
-          type: '站内信'
-        }]
+        tableData: []
       };
     },
+    computed: {
+      ...mapState({
+        list: state => state.list,
+        messageBoxShow: state => state.messageBoxShow,
+        noReadMessageNum: state => state.noReadMessageNum,
+        chatShow: state => state.chatShow,
+        noReadRoomNum: state => state.noReadRoomNum,
+        connect: state => state.connect
+      })
+    },
+    mounted () {
+      this.connectServer();
+    },
     methods: {
-      messageListEvent () {
-        this.show = true;
-      },
-      addPostImgEvent () {
-        console.log('');
+      ...mapMutations(['messageListEvent']),
+      ...mapActions(['connectServer']),
+      chatRoomEvent () {
+        this.$refs.chat_room_component.statusEvent(true);
       },
       seeEvent () {},
       ignoreEvent () {},

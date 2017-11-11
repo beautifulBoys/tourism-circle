@@ -58,7 +58,7 @@
 <script>
 
 import { createNamespacedHelpers } from 'vuex';
-const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('followers');
+const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('box/followers');
 export default {
   data () {
     return {

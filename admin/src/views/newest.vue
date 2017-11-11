@@ -17,7 +17,7 @@
   import Dynamic from '../components/dynamic.vue';
 
   import { createNamespacedHelpers } from 'vuex';
-  const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('newest');
+  const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('box/newest');
   export default {
     components: {
       'dynamic': Dynamic

@@ -1,89 +1,78 @@
 <template>
-  <div class="chat-main">
-    <div class="chat-left-box">
-      <ul>
-        <li :class="{active: index === dialogIndex}" v-for="(user, index) in list" @click="friendEvent(index)">
-          <div class="user-left">
-            <img :src="user.userInfo.url" />
-          </div>
-          <div class="user-right">
-            <div class="name">{{user.userInfo.name}}</div>
-            <div class="dialog">{{user.message[user.message.length - 1].msg}}</div>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div class="chat-right-box">
-      <div class="content" ref="scroll">
-        <div class="height-hook" v-if="dialogIndex !== -1">
-          <div v-for="item in list[dialogIndex].message">
-            <div class="item-box left-hook" v-if="item.type === 2">
-              <div class="left">
-                <img :src="list[dialogIndex].userInfo.url"/>
+  <el-dialog title="全站聊天室" :visible.sync="chat_show" :modal-append-to-body="false">
+    <div class="chat-main">
+      <div class="chat-right-box">
+        <div class="content" ref="scroll">
+          <div class="height-hook">
+            <div v-for="item in list">
+              <div class="item-box left-hook" v-if="item.message.type === 2">
+                <div class="left">
+                  <img :src="item.user.url"/>
+                </div>
+                <div class="center">
+                  <div class="user">{{ item.user.name }}</div>
+                  <div class="text"><span class="horn">◀</span>{{ item.message.msg }}</div>
+                </div>
+                <br style="clear: both;" />
               </div>
-              <div class="center">
-                <div class="user">{{ list[dialogIndex].userInfo.name }}</div>
-                <div class="text"><span class="horn">◀</span>{{ item.msg }}</div>
+              <div class="item-box right-hook" v-if="item.message.type === 3">
+                <div class="right">
+                  <img :src="item.user.url"/>
+                </div>
+                <div class="center">
+                  <div class="user">{{ item.user.name }}</div>
+                  <div class="text"><span class="horn">▶</span>{{ item.message.msg }}</div>
+                </div>
+                <br style="clear: both;" />
               </div>
-              <br style="clear: both;" />
-            </div>
-            <div class="item-box right-hook" v-if="item.type === 3">
-              <div class="right">
-                <img :src="list[dialogIndex].userInfo.url"/>
+              <div class="item-box center-hook" v-if="item.message.type === 1">
+                <span class="tip">{{ item.message.msg }}</span>
               </div>
-              <div class="center">
-                <div class="user">{{ list[dialogIndex].userInfo.name }}</div>
-                <div class="text"><span class="horn">▶</span>{{ item.msg }}</div>
-              </div>
-              <br style="clear: both;" />
-            </div>
-            <div class="item-box center-hook" v-if="item.type === 1">
-              <span class="tip">{{ item.msg }}</span>
             </div>
           </div>
         </div>
-      </div>
-      <div class="footer">
-        <div class="main">
-          <el-form :model="formData">
-            <input type="text" class="input" v-model="formData.value" @keyup.enter="sendEvent"/>
-            <div class="send" :class="{logout: !connectState}" @click="sendEvent">发送</div>
-          </el-form>
+        <div class="footer">
+          <div class="main">
+            <el-form :model="formData">
+              <el-input v-model="formData.value" placeholder="回车发送消息" @keyup.enter.native="sendEvent"></el-input>
+            </el-form>
+          </div>
         </div>
       </div>
-    </div>
 
-  </div>
+    </div>
+  </el-dialog>
 </template>
-<script>
 
+<script>
 import { createNamespacedHelpers } from 'vuex';
-const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/chat');
-export default {
-  data () {
-    return {
-      dialogIndex: -1
-    };
-  },
-  computed: {
-    ...mapState({
-      list: state => state.list,
-      formData: state => state.formData,
-      connectState: state => state.connectState
-    })
-  },
-  mounted () {
-    this.getDataEvent();
-  },
-  methods: {
-    ...mapMutations([]),
-    ...mapActions(['getDataEvent', 'sendEvent']),
-    friendEvent (index) {
-      this.dialogIndex = index;
+const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/header');
+  export default {
+    data () {
+      return {
+        chat_show: false
+      };
+    },
+    computed: {
+      ...mapState({
+        list: state => state.list,
+        formData: state => state.formData,
+        messageBoxShow: state => state.messageBoxShow,
+        noReadMessageNum: state => state.noReadMessageNum,
+        inputMessageValue: state => state.inputMessageValue,
+        connect: state => state.connect
+      })
+    },
+    methods: {
+      statusEvent (status) {
+        this.chat_show = status;
+      },
+      ...mapMutations(['chatRoomEvent']),
+      ...mapActions(['getDataEvent', 'sendEvent'])
     }
-  }
-};
+  };
 </script>
+
 <style lang="less" scoped>
 .chat-main {
     display: flex;
@@ -92,57 +81,6 @@ export default {
     margin: -20px 0;
     box-sizing: border-sizing;
     border-radius: 5px;
-
-    .chat-left-box {
-        width: 130px;
-        background: #e4e8ee;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        margin: 0 8px 8px 0;
-        overflow: hidden;
-        ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-            li {
-                height: 40px;
-                padding: 5px;
-                background: #fefefe;
-                border-bottom: 1px solid #ddd;
-                display: flex;
-                cursor: pointer;
-                &.active,
-                &:hover {
-                    background: #eee;
-                }
-                .user-left {
-                    width: 30px;
-                    height: 40px;
-                    img {
-                        width: 100%;
-                        margin: 5px 0;
-                        border-radius: 50%;
-                    }
-                }
-                .user-right {
-                    flex: 1;
-                    height: 40px;
-                    margin-left: 5px;
-                    font-size: 12px;
-                    line-height: 20px;
-                    .name {
-                        overflow: hidden;
-                        height: 20px;
-                    }
-                    .dialog {
-                        overflow: hidden;
-                        height: 20px;
-                        color: #aaa;
-                    }
-                }
-            }
-        }
-    }
     .chat-right-box {
         flex: 1;
         height: 100%;
@@ -295,7 +233,7 @@ export default {
                     height: 34px;
                     outline: none;
                     border: 1px solid #ddd;
-                    background: #e4e8ee;
+                    background: #efefef;
                     padding: 0;
                     box-sizing: border-box;
                     border-radius: 5px 0 0 5px;

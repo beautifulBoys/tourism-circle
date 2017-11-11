@@ -10,7 +10,7 @@
       </div>
     </div>
     <chat-box></chat-box>
-    <div class="scan"></div>
+    <image-scan ref="imageScan"></image-scan>
   </div>
 </template>
 
@@ -18,12 +18,14 @@
 import sideNenu from '../components/side_menu.vue';
 import headerComponent from '../components/header.vue';
 import chatBox from '../components/box/box.vue';
+import imageScan from '../components/box/image_scan.vue';
 export default {
   name: 'app',
   components: {
     'side-menu': sideNenu,
     'chat-box': chatBox,
-    'header-component': headerComponent
+    'header-component': headerComponent,
+    'image-scan': imageScan
   },
   data () {
     return {

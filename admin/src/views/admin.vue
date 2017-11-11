@@ -74,7 +74,7 @@
 </template>
 <script>
 import { createNamespacedHelpers } from 'vuex';
-const { mapState, mapMutations, mapActions } = createNamespacedHelpers('admin');
+const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/admin');
 
   export default {
     data () {

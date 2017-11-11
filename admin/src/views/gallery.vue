@@ -14,7 +14,7 @@ import card from '../components/gallery/card.vue';
 import cutImage from '../components/gallery/cut_image.vue';
 
 import { createNamespacedHelpers } from 'vuex';
-const { mapState } = createNamespacedHelpers('gallery');
+const { mapState } = createNamespacedHelpers('box/gallery');
 export default {
   components: {
     'card': card,

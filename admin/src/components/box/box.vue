@@ -13,7 +13,7 @@
 <script>
   import chatComponent from '../chat_component.vue';
   import { createNamespacedHelpers } from 'vuex';
-  const { mapState, mapActions } = createNamespacedHelpers('chat');
+  const { mapState, mapActions } = createNamespacedHelpers('box/chat');
   export default {
     components: {
       'chat-component': chatComponent
@@ -68,7 +68,7 @@
       justify-content: center;
       align-items: center;
       box-shadow: 3px 3px 10px rgba(0,0,0,0.4);
-      transition: background .1s;
+      transition: all .1s;
       &:hover {
         background: #999;
       }
