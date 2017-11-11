@@ -24,10 +24,18 @@ console.log(ajax);
 export default {
   namespaced: true,
   state: {
+    imageScan: null,
     list: []
   },
   mutations: {
-
+    openImageScan (state, item) {
+      console.log(item);
+      state.imageScan.open(item);
+    },
+    boxInitEvent (state, obj) {
+      console.log(obj);
+      state.imageScan = obj;
+    }
   },
   actions: {
 

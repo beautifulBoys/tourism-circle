@@ -4,17 +4,15 @@ export default {
   state: {
     list: data.list
   },
-  getters: {
-    cardsCount (state) {
-      return 1;
-    }
-  },
   mutations: {
-    create (state) {
-
-    }
   },
   actions: {
+    watchEvent ({ commit }, item) {
+      commit('box/openImageScan', item, { root: true });
+    },
+    deleteEvent ({ commit }, item) {
+      console.log(item);
+    },
     startEvent ({ commit }) {
 
     }

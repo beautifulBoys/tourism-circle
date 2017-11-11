@@ -2,11 +2,9 @@
   <el-row class="tac">
     <el-col :span="12">
     <el-menu default-active="2" class="el-menu-vertical-demo"
-      @open="handleOpen"
-      @close="handleClose"
-      :unique-opened="true"
-      router
-      theme="dark">
+      @open="handleOpen" @close="handleClose"
+      :unique-opened="true" router theme="dark"
+    >
       <div class="logo"></div>
       <el-menu-item index="/"><i class="el-icon-setting"></i>首页</el-menu-item>
       <template v-for="(item, index) in menuList">
@@ -97,7 +95,7 @@
   font-size: 30px;
   font-family: "微软雅黑";
   border-bottom: 1px solid #000;
-  //background: url(../images/logo.png) no-repeat center center;
+  // background: url(../images/logo.png) no-repeat center center;
   background-size: 100px;
   cursor: pointer;
 }

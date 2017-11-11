@@ -1,30 +1,28 @@
 <template>
-    <el-dialog title="提示" :visible.sync="show" size="full">
-      <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/1/c2.jpg"/>
+    <el-dialog title="图片查看器" :visible.sync="show" size="full" class="image-scan">
+      <div class="box">
+        <img :src="item.url"/>
+      </div>
     </el-dialog>
 </template>
 
 <script>
-  // import { createNamespacedHelpers } from 'vuex';
-  // const { mapState, mapActions } = createNamespacedHelpers('box/chat');
   export default {
     data () {
       return {
-        show: false
+        show: false,
+        item: {
+          url: ''
+        }
       };
     },
-    // computed: {
-    //   ...mapState({
-    //     connectState: state => state.connectState,
-    //     connectLoading: state => state.connectLoading
-    //   })
-    // },
     methods: {
       // ...mapActions([])
       close () {
         this.show = false;
       },
-      open () {
+      open (item) {
+        this.item = item;
         this.show = true;
       }
     }
@@ -32,7 +30,18 @@
 </script>
 
 <style lang="less" scoped>
-  .image-scan {
-
+  .box {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
+</style>
+<style>
+
+  .image-scan .el-dialog__body {
+    height: calc(100% - 120px);
+  }
+
 </style>

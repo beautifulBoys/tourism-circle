@@ -3,14 +3,15 @@
     <load-img :src="data.url"></load-img>
     <div class="title">速度防守打法的.jpg</div>
     <div class="control-box">
-      <div class="btn left" title="复制">复制</div>
-      <div class="btn center" title="查看">查看</div>
-      <div class="btn right" title="删除">删除</div>
+      <div class="btn left" ref="imgUrl" :data-clipboard-text="data.url" @click="copyPathEvent">复制</div>
+      <div class="btn center" @click="watchEvent">查看</div>
+      <div class="btn right" @click="deleteEvent">删除</div>
     </div>
   </div>
 </template>
 <script>
 import loadImg from '../load_img.vue';
+import Clipboard from 'clipboard';
   export default {
     props: ['data'],
     components: {
@@ -19,9 +20,24 @@ import loadImg from '../load_img.vue';
     data () {
       return {};
     },
+    mounted () {
+      this.clipboard = new Clipboard(this.$refs.imgUrl);
+    },
     methods: {
-      handleOpen () {},
-      handleClose () {}
+      copyPathEvent () {
+        this.clipboard.on('success', (e) => {
+          this.$message({
+            message: '复制图片地址成功',
+            type: 'success'
+          });
+        });
+      },
+      watchEvent () {
+        this.$emit('event', {type: 'watch', item: this.data});
+      },
+      deleteEvent () {
+        this.$emit('event', {type: 'delete', item: this.data});
+      }
     }
   };
 </script>
