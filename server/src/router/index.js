@@ -15,6 +15,14 @@ var router = (app) => {
         res.send({code: 200, message: 'ok', data: {}});
     });
   });
+  app.post('/string', function (req, res) {
+    new User({
+      username: req.body.username,
+      password: req.body.password
+    }).save(function () {
+        res.send({code: 200, message: 'ok', data: {}});
+    });
+  });
 
   app.post('/upload', function (req, res) {
 
