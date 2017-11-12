@@ -1,6 +1,6 @@
 <template>
 <div class="bottom">
-  <div class="item" v-for="(item, index) in list" :class="{active: index === activeIndex}" @click="event(index)">
+  <div class="item" v-for="(item, index) in list" :class="{active: index === activeIndex}" @click="event(item, index)">
     <div class="icon" :class="'bg' + index"></div>
     <div class="text">{{item.text}}</div>
   </div>
@@ -11,9 +11,9 @@ export default {
   data () {
     return {
       list: [
-        {path: '', text: '动态'},
-        {path: '', text: '圈子'},
-        {path: '', text: '我'}
+        {path: '/dynamic', text: '动态'},
+        {path: '/circle', text: '圈子'},
+        {path: '/mine', text: '我'}
       ],
       activeIndex: 0
     };
@@ -21,8 +21,9 @@ export default {
   mounted () {
   },
   methods: {
-    event (index) {
+    event (item, index) {
       this.activeIndex = index;
+      this.$router.push({path: item.path});
     }
   }
 };
