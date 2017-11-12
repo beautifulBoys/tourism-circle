@@ -76,6 +76,9 @@ export default {
   },
   mounted () {
     this.getDataEvent();
+    // this.ajax.bind().then(res => {
+    //   console.log(res);
+    // });
   },
   methods: {
     ...mapMutations([]),

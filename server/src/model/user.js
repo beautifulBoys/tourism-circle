@@ -1,7 +1,7 @@
 /**
  * Created by user on 2017/3/9.
  */
-var mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 var Schemas = new mongoose.Schema({
     username: String,
@@ -34,4 +34,4 @@ var Schemas = new mongoose.Schema({
     versionKey: false
 });
 
-module.exports = mongoose.model('user', Schemas);
+export default mongoose.model('user', Schemas);

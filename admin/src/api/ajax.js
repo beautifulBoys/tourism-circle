@@ -5,9 +5,9 @@ import axios from 'axios';
 import Vue from 'vue';
 // import Cookie from 'js-cookie';
 let ajaxConfig = {
-  // baseURL: '/api/',
+  baseURL: '/api/',
   // baseURL: 'http://10.209.96.67:3000/',
-  baseURL: '/baidu/',
+  // baseURL: '/baidu/',
   transformResponse: [function (data) {
     return JSON.parse(data);
   }],
