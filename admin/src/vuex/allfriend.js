@@ -1,6 +1,6 @@
-import ajax from '../api/ajax_router.js';
+
 import data from './data/table.json';
-console.log(ajax);
+
 export default {
   namespaced: true,
   state: {

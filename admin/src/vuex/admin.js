@@ -1,5 +1,4 @@
-import ajax from '../api/ajax_router.js';
-console.log(ajax);
+
 export default {
   namespaced: true,
   state: {

@@ -3,24 +3,27 @@
  */
 import axios from 'axios';
 import Vue from 'vue';
-// import Cookie from 'js-cookie';
+import Cookie from 'js-cookie';
+
 let ajaxConfig = {
   baseURL: '/api/',
-  // baseURL: 'http://10.209.96.67:3000/',
-  // baseURL: '/baidu/',
   transformResponse: [function (data) {
     return JSON.parse(data);
   }],
   headers: {
     'accept': 'application/json',
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'passport': '',
+    'userId': ''
   }
 };
 
 let ajaxConfigForm = {
   baseURL: '/api/',
   headers: {
-    'Content-Type': 'multipart/form-data'
+    'Content-Type': 'multipart/form-data',
+    'passport': '',
+    'userId': ''
   }
 };
 
@@ -51,10 +54,7 @@ _ajaxForm.interceptors.response.use((response) => {
     throw new Error('Internal Server Error');
   }
 }, (error) => {
-  if (error.message) {
-    console.log(error.message);
-
-  }
+  if (error.message) console.log(error.message);
   throw error;
 });
 
@@ -63,42 +63,19 @@ function _ajaxCatch (err) {
   throw err;
 };
 
-
-// 加载等待 - 添加等待
-_ajax.interceptors.request.use(function (config) {
-
-  return config;
-}, function (error) {
-  throw error;
-});
-// 加载等待 - 移除等待
-_ajax.interceptors.response.use(function (response) {
-
-  return response;
-}, function (error) {
-
-  throw error;
-});
-
 var ajax = {
   setHeader (name, value) {
     _ajax.defaults.headers[name] = value;
-  },
-  setCookie (user) {
-    document.cookie = 'userId=' + user.userId + ';expires=' + new Date('2120/12/12 00:00:00').toGMTString();
-    document.cookie = 'passport=' + user.passport + ';expires=' + new Date('2120/12/12 00:00:00').toGMTString();
-    // Cookie.set('passport', user.passport, {expires: new Date('2120/12/12 00:00:00').toGMTString()});
-    // Cookie.set('userId', user.userId, {expires: new Date('2120/12/12 00:00:00').toGMTString()});
+    _ajaxForm.defaults.headers[name] = value;
   },
   parseParam (data) {
-    if (!data) {
-      return '';
-    }
+    if (!data) return '';
     return '?' + Object.keys(data).map((k) => {
       return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]);
     }).join('&');
   }
 };
+Vue.prototype.ajaxFunc = ajax;
 var ajax1 = {
   get (url, data) {
     return _ajax.get(url + ajax.parseParam(data)).catch(_ajaxCatch);
@@ -120,9 +97,10 @@ var ajax2 = {
 };
 
 
-// if (Cookie.get('passport')) {
-//   ajax.setHeader('passport', Cookie.get('passport'));
-//   ajax.setHeader('userId', Cookie.get('userId'));
-// }
-// window.ajax = ajax;
+if (Cookie.get('passport')) {
+  ajax.setHeader('passport', Cookie.get('passport'));
+  ajax.setHeader('userId', Cookie.get('userId'));
+}
+
+
 export {ajax1, ajax2};

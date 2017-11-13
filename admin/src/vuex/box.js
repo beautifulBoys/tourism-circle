@@ -1,4 +1,3 @@
-import ajax from '../api/ajax_router.js';
 
 import posting from './posting.js';
 import personal from './personal.js';
@@ -18,8 +17,6 @@ import friends from './friends.js';
 import chat from './chat.js';
 import allfriend from './allfriend.js';
 import header from './header.js';
-
-console.log(ajax);
 
 export default {
   namespaced: true,

@@ -11,6 +11,8 @@ var app = express();
 import dbconnect from './src/config/db.js';
 var db = dbconnect();
 
+import chatRoom from './src/servers/chat_room.js';
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -19,6 +21,7 @@ app.use(cookieParser());
 app.use(express.static('./public'));
 
 router(app);
+chatRoom();
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

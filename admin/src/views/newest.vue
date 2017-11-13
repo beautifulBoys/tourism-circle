@@ -15,7 +15,6 @@
 </template>
 <script>
   import Dynamic from '../components/dynamic.vue';
-  import {test1} from '../api/fetch_router.js';
 
   import { createNamespacedHelpers } from 'vuex';
   const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('box/newest');
@@ -31,15 +30,8 @@
     },
     mounted () {
       this.getDataEvent();
-      this.testApi();
-      console.log('执行到mounted函数了');
     },
     methods: {
-      async testApi () {
-        console.log('执行到testAPI函数了');
-        let result = await test1();
-        console.log(result);
-      },
       ...mapMutations([]),
       ...mapActions(['getDataEvent'])
     }

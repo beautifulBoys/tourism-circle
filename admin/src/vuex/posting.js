@@ -1,7 +1,6 @@
-import ajax from '../api/ajax_router.js';
+
 import data from './data/gallery.json';
 import cityData from './data/city.json';
-console.log(ajax);
 export default {
   namespaced: true,
   state: {

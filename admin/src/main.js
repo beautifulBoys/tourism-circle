@@ -5,17 +5,15 @@ import App from './App';
 import router from './router';
 import store from './vuex/index.js';
 
+import projectConfig from './config.js';
+
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-default/index.css';
-
-import ajax from './api/ajax_router.js';
-// import cookie from './lib/cookie.js';
 
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
 
-Vue.prototype.ajax = ajax;
-// Vue.prototype.cookie = cookie;
+projectConfig();
 
 /* eslint-disable no-new */
 new Vue({

@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
+    "blueimp-md5": "^2.10.0",
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
@@ -16,7 +17,8 @@
     "mongoose": "^4.13.1",
     "morgan": "~1.9.0",
     "nodemon": "^1.12.1",
-    "serve-favicon": "~2.4.5"
+    "serve-favicon": "~2.4.5",
+    "socket.io": "^2.0.4"
   },
   "devDependencies": {
     "babel-plugin-transform-runtime": "^6.23.0",

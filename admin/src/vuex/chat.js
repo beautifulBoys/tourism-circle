@@ -1,6 +1,5 @@
-import ajax from '../api/ajax_router.js';
+
 import data from './data/chat.json';
-console.log(ajax);
 export default {
   namespaced: true,
   state: {

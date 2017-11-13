@@ -63,7 +63,7 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/head
       })
     },
     mounted () {
-      this.connectServer();
+      if (!this.connect) this.connectServer();
     },
     methods: {
       ...mapMutations(['messageListEvent']),
