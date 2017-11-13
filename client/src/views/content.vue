@@ -74,6 +74,13 @@ export default {
   },
   mounted () {
     this.ajaxEvent();
+    this.pictures = dataJson.pictures;
+    this.contentInfo = dataJson.contentInfo;
+    this.browseList = dataJson.browseList;
+    this.commentList = dataJson.commentList;
+    setTimeout(() => {
+      this.swiperInit();
+    });
   },
   methods: {
     swiperInit () {
