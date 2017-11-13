@@ -5,10 +5,7 @@ import App from './App';
 import router from './router';
 import store from './vuex/index.js';
 
-import ajax from './api/ajax_router.js';
-
 Vue.config.productionTip = false;
-Vue.prototype.ajax = ajax;
 
 /* eslint-disable no-new */
 new Vue({

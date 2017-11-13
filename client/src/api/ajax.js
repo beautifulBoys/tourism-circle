@@ -35,54 +35,21 @@ _ajax.interceptors.response.use((response) => {
 });
 
 // 统一的错误处理函数
-function _ajaxCatch (err, only) {
-  console.log(err, only);
+function _ajaxCatch (err) {
   throw err;
 };
 
-function _ajaxCatchOnly (err) { // only 有些请求不需要统一弹出提示。
-  console.log(err);
-  throw err;
-}
-
-// 加载等待 - 添加等待
-_ajax.interceptors.request.use(function (config) {
-
-  return config;
-}, function (error) {
-  throw error;
-});
-// 加载等待 - 移除等待
-_ajax.interceptors.response.use(function (response) {
-
-  return response;
-}, function (error) {
-
-  throw error;
-});
-
-var ajax = {
-  setHeader (name, value) {
-    _ajax.defaults.headers[name] = value;
-  },
-  setCookie (user) {
-    document.cookie = 'userId=' + user.userId + ';expires=' + new Date('2120/12/12 00:00:00').toGMTString();
-    document.cookie = 'passport=' + user.passport + ';expires=' + new Date('2120/12/12 00:00:00').toGMTString();
-    // Cookie.set('passport', user.passport, {expires: new Date('2120/12/12 00:00:00').toGMTString()});
-    // Cookie.set('userId', user.userId, {expires: new Date('2120/12/12 00:00:00').toGMTString()});
-  },
+var func = {
   parseParam (data) {
-    if (!data) {
-      return '';
-    }
+    if (!data) return '';
     return '?' + Object.keys(data).map((k) => {
       return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]);
     }).join('&');
   }
 };
-var ajax1 = {
+var ajax = {
   get (url, data) {
-    return _ajax.get(url + ajax.parseParam(data)).catch(_ajaxCatch);
+    return _ajax.get(url + func.parseParam(data)).catch(_ajaxCatch);
   },
   post (url, data) {
     return _ajax.post(url, data).catch(_ajaxCatch);
@@ -95,10 +62,4 @@ var ajax1 = {
   }
 };
 
-
-// if (Cookie.get('passport')) {
-//   ajax.setHeader('passport', Cookie.get('passport'));
-//   ajax.setHeader('userId', Cookie.get('userId'));
-// }
-// window.ajax = ajax;
-export default ajax1;
+export default ajax;

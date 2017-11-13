@@ -1,7 +1,3 @@
-import ajax from './ajax';
+import ajax from './ajax.js';
 
-export default {
-  bind (d) {
-    return ajax.post('/string', d);
-  }
-};
+export const bind = data => ajax.post('/string', data);
