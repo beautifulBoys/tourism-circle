@@ -16,8 +16,8 @@ export default (app) => {
         res.send({code: 200, message: 'ok', data: {}});
     });
   });
-  app.post('/test', (req, res) => {
-    res.send({code: 200, message: 'okokokokok', data: {}});
+  app.post('/string', (req, res) => {
+    res.send({code: 200, message: '我是post string 接口的返回', data: {}});
   });
 
   app.post('/upload', (req, res) => {

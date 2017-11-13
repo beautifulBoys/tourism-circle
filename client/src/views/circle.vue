@@ -12,6 +12,7 @@
   import data from './dynamic.json';
   import Header from '../components/header.vue';
   import Item from '../components/item.vue';
+  import {bind} from '../api/ajax_router.js';
   export default {
     components: {
       'li-header': Header,
@@ -24,8 +25,13 @@
     },
     created () {
       this.travel = data.travel;
+      this.bind();
     },
     methods: {
+      async bind () {
+        var result = await bind();
+        console.log('返回的结果：', result);
+      },
       toContentEvent () {
         this.$router.push({path: '/content'});
       }
