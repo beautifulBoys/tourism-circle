@@ -52,7 +52,6 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/head
     data () {
       return {
         chat_show: false,
-        chatMessageList: [],
         userIconUrl: 'https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(3).jpg'
       };
     },
@@ -63,23 +62,30 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/head
         messageBoxShow: state => state.messageBoxShow,
         noReadMessageNum: state => state.noReadMessageNum,
         inputMessageValue: state => state.inputMessageValue,
-        connect: state => state.connect
+        connect: state => state.connect,
+        chatWindowOpenStatus: state => state.chatWindowOpenStatus
       })
     },
     watch: {
+      chat_show (n) {
+        this.changeChatWindowOpenStatus(n);
+        if (n) this.toBottom();
+      },
       messageList (n) {
-        this.chatMessageList = n;
-        console.log(n);
-        this.$nextTick(() => {
-          if (this.$refs.scroll) this.$refs.scroll.scrollTop = this.$refs.scroll.scrollHeight;
-        });
+        this.toBottom();
       }
     },
     methods: {
+      toBottom () {
+        this.$nextTick(() => {
+          if (this.$refs.scroll) this.$refs.scroll.scrollTop = this.$refs.scroll.scrollHeight;
+        });
+      },
       statusEvent (status) {
         this.chat_show = status;
+        if (status) this.changeNoReadRoomNum0();
       },
-      ...mapMutations(['chatRoomEvent']),
+      ...mapMutations(['chatRoomEvent', 'changeNoReadRoomNum0', 'changeChatWindowOpenStatus']),
       ...mapActions(['getDataEvent', 'sendMessageEvent'])
     }
   };

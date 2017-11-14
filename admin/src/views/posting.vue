@@ -27,7 +27,7 @@
     </el-form-item>
     <el-form-item label="旅游标签">
       <el-input v-model="formValue.tag" class="el-input-width-200px" @keyup.enter.native="addTagEvent()" placeholder="8 字以内，回车确认"></el-input>
-      <el-tag class="tag" v-for="tag in tagList" :key="tag.name" :closable="true" @close="closeEvent(tag)" :type="tag.type">{{tag.name}}</el-tag>
+      <el-tag class="tag" v-for="(tag, index) in tagList" :key="index" :closable="true" @close="closeEvent(tag)" :type="tag.type">{{tag.name}}</el-tag>
     </el-form-item>
   </el-form>
   <div class="footer">
@@ -56,8 +56,7 @@ export default {
       imgList: state => state.imgList,
       cityData: state => state.cityData,
       tagList: state => state.tagList,
-      postImgList: state => state.postImgList,
-      postStatus: state => state.postStatus
+      postImgList: state => state.postImgList
     }),
     ...mapGetters([])
   },
@@ -65,19 +64,40 @@ export default {
     return {
       labelPosition: 'right',
       imgCheckDialogShow: false,
-      img_size: 10
+      img_size: 10,
+      postStatus: false
     };
   },
   methods: {
     ...mapMutations(['closeEvent']),
-    ...mapActions(['postEvent']),
+    ...mapActions([]),
     addPostImgEvent (arr) {
       console.log(arr);
       this.imgCheckDialogShow = false;
-      this.$store.commit('posting/addPostImgEvent', {list: arr.concat([])});
+      this.$store.commit('box/posting/addPostImgEvent', {list: arr.concat([])});
+    },
+    postEvent () {
+      let _this = this;
+      _this.postStatus = true;
+      this.$store.dispatch('box/posting/postEvent', {
+        success () {
+          _this.postStatus = false;
+          _this.$message({
+            message: '分享成功 ^_^',
+            type: 'success'
+          });
+        },
+        error () {
+          _this.postStatus = false;
+          _this.$message({
+            message: '提交分享失败，请联系管理员',
+            type: 'error'
+          });
+        }
+      });
     },
     addTagEvent () {
-      this.$store.commit('posting/addTagEvent', {
+      this.$store.commit('box/posting/addTagEvent', {
         cb: () => {
           this.$message({
             showClose: true,

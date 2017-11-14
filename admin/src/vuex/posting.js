@@ -1,11 +1,12 @@
 
 import data from './data/gallery.json';
 import cityData from './data/city.json';
+import {postingAjax} from '../api/ajax_router';
 export default {
   namespaced: true,
   state: {
     formValue: {
-      title: 'erwerwr',
+      title: '',
       city: [],
       spot: '',
       time: '',
@@ -15,8 +16,7 @@ export default {
     imgList: data.list,
     cityData: cityData.china,
     tagList: [],
-    postImgList: [],
-    postStatus: false
+    postImgList: []
   },
   getters: {
   },
@@ -39,19 +39,31 @@ export default {
     },
     addPostImgEvent (state, {list}) {
       state.postImgList = list;
-    },
-    postBtnChange (state, {status}) {
-      state.postStatus = status;
     }
   },
   actions: {
-    postEvent ({ commit, state }) {
+    async postEvent ({ commit, state }, obj) {
+      if (
+        !state.formValue.title ||
+        state.formValue.city.length === 0 ||
+        !state.formValue.spot ||
+        !state.formValue.time ||
+        !state.formValue.content ||
+        state.postImgList.length === 0 ||
+        state.tagList.length === 0
+      ) return;
       // ajax
-      console.log(state.formValue, state.tagList, state.postImgList);
-      commit('postBtnChange', {status: true});
-      setTimeout(() => {
-        commit('postBtnChange', {status: false});
-      }, 2000);
+      try {
+        let result = await postingAjax({
+          ...state.formValue,
+          tagList: state.tagList,
+          urls: state.postImgList
+        });
+        obj.success();
+        console.log(result);
+      } catch (err) {
+        obj.error();
+      }
     }
   }
 };

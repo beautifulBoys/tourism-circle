@@ -6,9 +6,11 @@ import fs from 'fs';
 
 
 import loginFunc from '../controller/login.js';
+import postingFunc from '../controller/posting.js';
 
 export default (app) => {
   app.post('/login', loginFunc);
+  app.post('/posting', postingFunc);
 
   app.post('/string', (req, res) => {
     res.send({code: 200, message: '我是post string 接口的返回', data: {}});

@@ -21,7 +21,7 @@ app.use(cookieParser());
 app.use(express.static('./public'));
 
 router(app);
-chatRoom();
+// chatRoom(); // 全站聊天室启动
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

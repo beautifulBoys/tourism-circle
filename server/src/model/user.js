@@ -3,7 +3,7 @@
  */
 import mongoose from 'mongoose';
 
-const userInfo = {
+const userInfo = { // 用户相关的信息
     desc: { // 碎碎念
         type: String,
         default: ''
@@ -25,7 +25,7 @@ const userInfo = {
         default: new Date()
     }
 };
-const accountInfo = {
+const accountInfo = { // 用户账户相关的信息
     id: Number,
     username: String,
     password: String,
@@ -34,7 +34,7 @@ const accountInfo = {
         default: ''
     }
 };
-const powerInfo = {
+const powerInfo = { // 用户权限相关的信息
     admin: { // 用户级别
         type: {
             type: Number,
@@ -54,7 +54,16 @@ const powerInfo = {
             type: Boolean,
             default: true
         },
-        
+        webMail: {
+            type: Boolean,
+            default: true
+        }
+    },
+    status: { // 一些用户当前的状态
+        online: { // 当前是否在线
+            type: Boolean,
+            default: false
+        }
     }
 };
 var Schemas = new mongoose.Schema({

@@ -10,8 +10,9 @@ export default {
     formData: {
       value: ''
     },
+    chatWindowOpenStatus: false,
     noReadMessageNum: 12,
-    noReadRoomNum: 1,
+    noReadRoomNum: 0,
     connect: false,
     messageBoxShow: false,
     inputMessageValue: ''
@@ -22,17 +23,25 @@ export default {
     },
     saveMessage (state, obj) {
       state.messageList.push(obj);
-      console.log(state.messageList);
+      console.log(state.noReadRoomNum);
+    },
+    changeNoReadRoomNum1 (state) {
+      if (!state.chatWindowOpenStatus) state.noReadRoomNum++;
+    },
+    changeNoReadRoomNum0 (state) {
+      state.noReadRoomNum = 0;
+    },
+    changeChatWindowOpenStatus (state, status) {
+      state.chatWindowOpenStatus = status;
     }
   },
   actions: {
     connectServer ({commit, state, rootState}) {
-      console.log(rootState);
       state.httpServer = io.connect('http://10.209.96.67:3003');
       state.httpServer.emit('login', rootState.box.userInfo);
       state.httpServer.on('comming', obj => {
-        console.log('comming', obj.message.text);
         commit('saveMessage', obj);
+        commit('changeNoReadRoomNum1');
       });
       state.httpServer.on('loginSuccess', obj => { // 1 成功
         if (obj === 1) {
@@ -42,14 +51,16 @@ export default {
       });
       state.httpServer.on('logout', obj => {
         commit('saveMessage', obj);
-        console.log('退出的人', obj);
+        commit('changeNoReadRoomNum1');
       });
       state.httpServer.on('message', obj => {
         console.log(obj);
+        commit('changeNoReadRoomNum1');
         state.messageList.push(obj);
       });
     },
     sendMessageEvent ({commit, state, rootState}) {
+      if (!state.formData.value) return;
       state.httpServer.emit('message', { // 推送聊天记录到服务器
         user: {
           id: rootState.box.userInfo.userId,
