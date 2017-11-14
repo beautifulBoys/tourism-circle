@@ -4,29 +4,29 @@
       <div class="chat-right-box">
         <div class="content" ref="scroll">
           <div class="height-hook">
-            <div v-for="item in list">
+            <div v-for="item in messageList">
               <div class="item-box left-hook" v-if="item.message.type === 2">
                 <div class="left">
-                  <img :src="item.user.url"/>
+                  <img :src="userIconUrl"/>
                 </div>
                 <div class="center">
                   <div class="user">{{ item.user.name }}</div>
-                  <div class="text"><span class="horn">◀</span>{{ item.message.msg }}</div>
+                  <div class="text"><span class="horn">◀</span>{{ item.message.text }}</div>
                 </div>
                 <br style="clear: both;" />
               </div>
               <div class="item-box right-hook" v-if="item.message.type === 3">
                 <div class="right">
-                  <img :src="item.user.url"/>
+                  <img :src="userIconUrl"/>
                 </div>
                 <div class="center">
                   <div class="user">{{ item.user.name }}</div>
-                  <div class="text"><span class="horn">▶</span>{{ item.message.msg }}</div>
+                  <div class="text"><span class="horn">▶</span>{{ item.message.text }}</div>
                 </div>
                 <br style="clear: both;" />
               </div>
               <div class="item-box center-hook" v-if="item.message.type === 1">
-                <span class="tip">{{ item.message.msg }}</span>
+                <span class="tip">{{ item.message.text }}</span>
               </div>
             </div>
           </div>
@@ -34,7 +34,8 @@
         <div class="footer">
           <div class="main">
             <el-form :model="formData">
-              <el-input v-model="formData.value" placeholder="回车发送消息" @keyup.enter.native="sendEvent"></el-input>
+              <el-input type="text" placeholder="回车发送消息" v-model="formData.value" @keyup.enter.native="sendMessageEvent"/>
+              <el-input type="text" v-model="formData.value" style="display: none"/><!--没有这个隐藏的区块不好用，暂时不知道原因，如果你知道了，请告诉我。-->
             </el-form>
           </div>
         </div>
@@ -50,12 +51,14 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/head
   export default {
     data () {
       return {
-        chat_show: false
+        chat_show: false,
+        chatMessageList: [],
+        userIconUrl: 'https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(3).jpg'
       };
     },
     computed: {
       ...mapState({
-        list: state => state.list,
+        messageList: state => state.messageList,
         formData: state => state.formData,
         messageBoxShow: state => state.messageBoxShow,
         noReadMessageNum: state => state.noReadMessageNum,
@@ -63,12 +66,21 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/head
         connect: state => state.connect
       })
     },
+    watch: {
+      messageList (n) {
+        this.chatMessageList = n;
+        console.log(n);
+        this.$nextTick(() => {
+          if (this.$refs.scroll) this.$refs.scroll.scrollTop = this.$refs.scroll.scrollHeight;
+        });
+      }
+    },
     methods: {
       statusEvent (status) {
         this.chat_show = status;
       },
       ...mapMutations(['chatRoomEvent']),
-      ...mapActions(['getDataEvent', 'sendEvent'])
+      ...mapActions(['getDataEvent', 'sendMessageEvent'])
     }
   };
 </script>

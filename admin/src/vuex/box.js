@@ -17,14 +17,27 @@ import friends from './friends.js';
 import chat from './chat.js';
 import allfriend from './allfriend.js';
 import header from './header.js';
+import Cookie from 'js-cookie';
 
 export default {
   namespaced: true,
   state: {
     imageScan: null,
-    list: []
+    list: [],
+    userInfo: {
+      userId: '',
+      passport: '',
+      username: ''
+    },
+    loginStatus: false
   },
   mutations: {
+    getUserInfo (state) {
+      state.loginStatus = window.loginStatus;
+      state.userInfo.username = Cookie.get('username');
+      state.userInfo.userId = Cookie.get('userId');
+      state.userInfo.passport = Cookie.get('passport');
+    },
     openImageScan (state, item) {
       console.log(item);
       state.imageScan.open(item);

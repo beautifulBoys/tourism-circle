@@ -20,6 +20,7 @@
     "jquery": "^3.2.1",
     "js-cookie": "^2.2.0",
     "json-loader": "^0.5.7",
+    "socket.io-client": "^2.0.4",
     "swiper": "^4.0.3",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",

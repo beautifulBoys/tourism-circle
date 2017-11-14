@@ -6,7 +6,15 @@
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+  watch: {
+    $route (n, o) {
+      if (!window.loginStatus) this.$router.push({path: '/login'});
+    }
+  },
+  created () {
+    if (!window.loginStatus) this.$router.push({path: '/login'});
+  }
 };
 </script>
 

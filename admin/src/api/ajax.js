@@ -100,6 +100,9 @@ var ajax2 = {
 if (Cookie.get('passport')) {
   ajax.setHeader('passport', Cookie.get('passport'));
   ajax.setHeader('userId', Cookie.get('userId'));
+  window.loginStatus = true;
+} else {
+  window.loginStatus = false;
 }
 
 

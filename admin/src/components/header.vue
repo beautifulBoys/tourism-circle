@@ -54,7 +54,6 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/head
     },
     computed: {
       ...mapState({
-        list: state => state.list,
         messageBoxShow: state => state.messageBoxShow,
         noReadMessageNum: state => state.noReadMessageNum,
         chatShow: state => state.chatShow,
@@ -63,7 +62,9 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/head
       })
     },
     mounted () {
-      if (!this.connect) this.connectServer();
+      if (!this.connect && window.loginStatus) {
+        this.connectServer();
+      }
     },
     methods: {
       ...mapMutations(['messageListEvent']),

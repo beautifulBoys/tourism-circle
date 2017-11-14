@@ -39,6 +39,7 @@ export default new Router({
     {
       path: '/',
       component: Box,
+      redirect: '/newest',
       children: [
         { path: '/newest', component: Newest },
         { path: '/hotest', component: Hotest },

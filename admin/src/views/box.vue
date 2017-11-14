@@ -34,14 +34,19 @@ export default {
       chatShow: false
     };
   },
+  created () {
+    if (window.loginStatus) this.getUserInfo();
+  },
   computed: {
-    ...mapState({})
+    ...mapState({
+      userInfo: state => state.userInfo
+    })
   },
   mounted () {
     this.boxInitEvent(this.$refs.imageScan);
   },
   methods: {
-    ...mapMutations(['boxInitEvent']),
+    ...mapMutations(['boxInitEvent', 'getUserInfo']),
     ...mapActions([]),
     dialogEvent () {
       this.chatShow = true;

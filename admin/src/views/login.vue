@@ -24,6 +24,12 @@
         toshow: false
       };
     },
+    created () {
+      if (window.loginStatus) {
+        console.log('asdfsdfsd');
+        this.$router.push({path: '/newest'});
+      }
+    },
     mounted () {
       setTimeout(() => {
         this.toshow = true;
@@ -40,8 +46,15 @@
         if (result.code === 200) {
           Cookies.set('passport', result.data.passport, { expires: 1 });
           Cookies.set('userId', result.data.userId, { expires: 1 });
+          Cookies.set('username', result.data.username, { expires: 1 });
           this.ajaxFunc.setHeader('passport', result.data.passport);
           this.ajaxFunc.setHeader('userId', result.data.userId);
+          window.loginStatus = true;
+          this.$notify({
+            title: '登录成功',
+            message: result.message,
+            type: 'success'
+          });
           this.$router.push({path: '/'});
         } else {
           this.password = this.username = '';

@@ -12,10 +12,11 @@ export default async (req, res) => {
   if (req.body.username && req.body.password) {
     let result = await User.findOne({username: req.body.username});
     let passport = passportFunc(req.body.password);
+    let username = req.body.username;
     if (result) {
       if (result.password === req.body.password) {
         User.update({_id: result._id}, {passport: passport}, {multi: false}, () => {});
-        res.send({code: 200, message: '登陆成功', data: {passport, userId: result.id}});
+        res.send({code: 200, message: '你好：' + username + '，欢迎回来', data: {passport, userId: result.id, username}});
       } else {
         res.send({code: 300, message: '用户名或密码输入错误', data: {}});
       }
@@ -29,7 +30,7 @@ export default async (req, res) => {
         password: req.body.password,
         passport: passport
       });
-      res.send({code: 200, message: '账号注册成功', data: {passport, userId: obj.value + 1}});
+      res.send({code: 200, message: '你好：' + username + '，已自动为您注册账号', data: {passport, userId: obj.value + 1, username}});
     }
   } else {
     res.send({code: 300, message: '用户名和密码请输入完整', data: {}});
