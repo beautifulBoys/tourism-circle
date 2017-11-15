@@ -1,5 +1,5 @@
 
-import data from './data/mostest.json';
+import {getPostAjax} from '../api/ajax_router.js';
 export default {
   namespaced: true,
   state: {
@@ -11,10 +11,10 @@ export default {
     }
   },
   actions: {
-    getDataEvent ({ commit, state }) {
-      setTimeout(() => {
-        commit('changeList', data.list);
-      }, 1000);
+    async getDataEvent ({ commit, state }) {
+      let result = await getPostAjax({type: 'mostest'});
+      console.log(result);
+      commit('changeList', result.data.list);
     }
   }
 };

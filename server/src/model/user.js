@@ -60,7 +60,7 @@ const powerInfo = { // 用户权限相关的信息
         }
     },
     status: { // 一些用户当前的状态
-        online: { // 当前是否在线
+        online: { // 在线聊 当前是否在线
             type: Boolean,
             default: false
         }

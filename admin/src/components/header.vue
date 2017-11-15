@@ -67,7 +67,7 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/head
       }
     },
     methods: {
-      ...mapMutations(['messageListEvent']),
+      ...mapMutations(['messageListEvent', 'logout']),
       ...mapActions(['connectServer']),
       chatRoomEvent () {
         this.$refs.chat_room_component.statusEvent(true);
@@ -77,6 +77,14 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/head
       menu_click (item) {
         console.log(item);
         if (item === 'a') this.$router.push({path: '/personal'});
+        else if (item === 'b') {
+          this.logout();
+          this.$router.push({path: '/login'});
+          this.$message({
+            type: 'success',
+            message: '退出成功'
+          });
+        } else console.log('出错了，查看下');
       }
     }
   };

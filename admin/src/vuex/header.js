@@ -1,5 +1,7 @@
 // import data from './data/chat_room.json';
 import io from 'socket.io-client';
+import Cookies from 'js-cookie';
+
 export default {
   namespaced: true,
   state: {
@@ -18,6 +20,12 @@ export default {
     inputMessageValue: ''
   },
   mutations: {
+    logout (state, cb) {
+      Cookies.remove('userId');
+      Cookies.remove('username');
+      Cookies.remove('passport');
+      window.loginStatus = false;
+    },
     messageListEvent (state) {
       state.messageBoxShow = true;
     },

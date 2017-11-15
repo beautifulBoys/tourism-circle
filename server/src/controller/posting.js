@@ -29,10 +29,25 @@ export const postingFunc = async (req, res) => {
   res.send({code: 200, message: '分享成功', data: {}});
 };
 
-
+function sort (type, list) {
+  let result;
+  if (type === 'newest') {
+    result = list;
+  } else if (type === 'hotest') {
+    result = list.sort((b, a) => {
+      return a.starList.length - b.starList.length;
+    });
+  } else if (type === 'mostest') {
+    result = list.sort((b, a) => {
+      return a.commentList.length - b.commentList.length;
+    });
+  } else console.log('出错了，请检查');
+  return result;
+}
 export const postFunc = async (req, res) => {
   let type = req.query.type ? req.query.type : 'newest';
-  let result = await Post.find({}).sort({postTime: -1});
+  let list = await Post.find({}).sort({postTime: -1});
+  list = sort(type, list);
 
-  res.send({code: 200, message: '分享成功', data: {list: result}});
+  res.send({code: 200, message: '获取数据成功', data: {list: list}});
 };
