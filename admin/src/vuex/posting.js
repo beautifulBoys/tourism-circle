@@ -1,7 +1,6 @@
 
-import data from './data/gallery.json';
 import cityData from './data/city.json';
-import {postingAjax} from '../api/ajax_router';
+import {postingAjax, getGalleryAjax} from '../api/ajax_router.js';
 export default {
   namespaced: true,
   state: {
@@ -13,7 +12,7 @@ export default {
       content: '',
       tag: ''
     },
-    imgList: data.list,
+    imgList: [],
     cityData: cityData.china,
     tagList: [],
     postImgList: []
@@ -21,6 +20,9 @@ export default {
   getters: {
   },
   mutations: {
+    changeList (state, list) {
+      state.imgList = list;
+    },
     addTagEvent (state, {cb}) {
       if (state.formValue.tag.length > 8) {
         cb();
@@ -39,9 +41,29 @@ export default {
     },
     addPostImgEvent (state, {list}) {
       state.postImgList = list;
+    },
+    clearHtmlData (state) {
+      state.formValue = {
+        title: '',
+        city: [],
+        spot: '',
+        time: '',
+        content: '',
+        tag: ''
+      };
+      state.tagList = [];
+      state.postImgList = [];
     }
   },
   actions: {
+    async getHtmlDataEvent ({ commit }) {
+      try {
+        let result = await getGalleryAjax();
+        commit('changeList', result.data.list);
+      } catch (err) {
+        console.log('这里有可能出错了，检查下： ', err);
+      }
+    },
     async postEvent ({ commit, state }, obj) {
       if (
         !state.formValue.title ||
@@ -51,18 +73,22 @@ export default {
         !state.formValue.content ||
         state.postImgList.length === 0 ||
         state.tagList.length === 0
-      ) return;
-      // ajax
+      ) {
+        obj.error('请将所有信息填写完整');
+        return;
+      };
       try {
         let result = await postingAjax({
           ...state.formValue,
           tagList: state.tagList,
           urls: state.postImgList
         });
-        obj.success();
-        console.log(result);
+        if (result.code === 200) {
+          obj.success('分享成功 ^_^');
+          commit('clearHtmlData');
+        } else obj.error('提交分享失败，请联系管理员');
       } catch (err) {
-        obj.error();
+        obj.error('提交分享失败，请联系管理员');
       }
     }
   }

@@ -21,7 +21,7 @@
       <div class="add-picture" v-for="item in postImgList" :style="{background: `url(${item.url}) no-repeat center center`}"></div>
       <div class="add-picture" v-show="!(postImgList.length >= img_size)" @click="imgCheckDialogShow = true">+</div>
     </el-form-item>
-    <choice-img-dialog :show="imgCheckDialogShow" :size="img_size" title="选择图片" @choiceEvent="addPostImgEvent" @closeEvent="closeDialogEvent()"></choice-img-dialog>
+    <choice-img-dialog :show="imgCheckDialogShow" :data="imgList" :size="img_size" title="选择图片" @choiceEvent="addPostImgEvent" @closeEvent="closeDialogEvent()"></choice-img-dialog>
     <el-form-item label="推荐指数">
       <el-rate v-model="formValue.rate" :colors="['#99A9BF', '#F7BA2A', '#FF9900']"></el-rate>
     </el-form-item>
@@ -68,9 +68,12 @@ export default {
       postStatus: false
     };
   },
+  created () {
+    this.getHtmlDataEvent();
+  },
   methods: {
     ...mapMutations(['closeEvent']),
-    ...mapActions([]),
+    ...mapActions(['getHtmlDataEvent']),
     addPostImgEvent (arr) {
       console.log(arr);
       this.imgCheckDialogShow = false;
@@ -80,17 +83,17 @@ export default {
       let _this = this;
       _this.postStatus = true;
       this.$store.dispatch('box/posting/postEvent', {
-        success () {
+        success (text) {
           _this.postStatus = false;
           _this.$message({
-            message: '分享成功 ^_^',
+            message: text,
             type: 'success'
           });
         },
-        error () {
+        error (text) {
           _this.postStatus = false;
           _this.$message({
-            message: '提交分享失败，请联系管理员',
+            message: text,
             type: 'error'
           });
         }

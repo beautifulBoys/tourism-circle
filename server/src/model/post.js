@@ -2,7 +2,6 @@
  * Created by user on 2017/3/9.
  */
 import mongoose from 'mongoose';
-import { Stream } from 'stream';
 
 var Schemas = new mongoose.Schema({
     title: {
@@ -14,41 +13,47 @@ var Schemas = new mongoose.Schema({
         default: ''
     },
     city: {
-        type: String,
-        default: ''
+        type: Array
     },
     time: {
-        type: Date,
-        default: ''
+        type: Array
     },
     content: {
         type: String,
         default: ''
     },
-    urls: [{
-        type: String,
-        default: ''
-    }],
+    urls: {
+        type: Array
+    },
     rate: {
         type: Number,
         default: 0
     },
     tagList: Array,
-    starList: Array,
-    commentList: [{
-        comment: {
-            content: String,
-            time: {
-                type: Date,
-                default: new Date()
-            },
-            starNum: {
-                type: Number,
-                default: 0
-            }
-        },
-        userId: Number
-    }],
+    starList: {
+        type: Array,
+        default: []
+    },
+    commentList: {
+        type: Array,
+        default: []
+    },
+    // commentList: [
+    //     {
+    //         comment: {
+    //             content: String,
+    //             time: {
+    //                 type: Date,
+    //                 default: new Date()
+    //             },
+    //             starNum: {
+    //                 type: Number,
+    //                 default: 0
+    //             }
+    //         },
+    //         userId: Number
+    //     }
+    // ],
     userId: Number,
     postTime: {
         type: Date,

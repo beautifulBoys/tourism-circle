@@ -1,11 +1,11 @@
 <template>
 <div class="dynamic">
   <div class="li-left" v-if="!type">
-    <img :src="data.user.url"/>
+    <img :src="url"/>
   </div>
   <div class="li-right">
     <div class="title">
-      <span>{{data.info.title}}</span>
+      <span>{{listItem.title}}</span>
       <div class="sign-box" v-if="!type"><span class="sign"></span></div>
       <el-dropdown trigger="click" style="float: right;" @command="dropdownEvent" v-if="control">
         <el-button class="el-dropdown-link">操作</el-button>
@@ -15,22 +15,22 @@
         </el-dropdown-menu>
       </el-dropdown>
 
-      <el-dropdown trigger="click" style="float: right;" v-if="data.info.tag.length > 0">
-        <el-button class="el-dropdown-link">标签（{{data.info.tag.length}}）</el-button>
+      <el-dropdown trigger="click" style="float: right;" v-if="listItem.tagList.length">
+        <el-button class="el-dropdown-link">标签（{{listItem.tagList.length}}）</el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item v-for="(item, index) in data.info.tag" :key="index">{{item}}</el-dropdown-item>
+          <el-dropdown-item v-for="(item, index) in listItem.tagList" :key="index">{{item.name}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <div class="content">{{data.info.content}}</div>
+    <div class="content">{{listItem.content}}</div>
     <div class="img-box">
-      <div class="item" v-for="item in data.info.images">
+      <div class="item" v-for="item in listItem.urls">
         <load-img :src="item.url"></load-img>
       </div>
     </div>
-    <collapse :num="data.info.comments.length">
+    <collapse :num="listItem.commentList.length">
       <ul class="ul">
-        <li v-for="item in data.info.comments">
+        <li v-for="item in listItem.commentList">
           <div class="left"><img :src="item.user.url"/></div>
           <div class="right">
             <div class="name">{{item.user.name}}</div>
@@ -54,7 +54,12 @@ export default {
     'collapse': Collapse,
     'load-img': loadImg
   },
-  props: ['data', 'type', 'control'],
+  data () {
+    return {
+      url: 'https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(3).jpg'
+    };
+  },
+  props: ['listItem', 'type', 'control'],
   methods: {
     dropdownEvent (value) {
       console.log(value);

@@ -14,7 +14,8 @@
   import zhanweiData from './zhanwei.js';
   import Vue from 'vue';
   import loadImg from './posting/picture.vue';
-  import data from '../vuex/data/gallery.json';
+  import { createNamespacedHelpers } from 'vuex';
+  const { mapState } = createNamespacedHelpers('box/posting');
   export default {
     components: {
       'load-img': loadImg
@@ -26,9 +27,21 @@
         listData: []
       };
     },
+    computed: {
+      ...mapState({
+        imgList: state => state.imgList
+      })
+    },
+    watch: {
+      imgList (n) {
+        this.listData = n.concat([]);
+        for (let i = 0; i < this.listData.length; i++) {
+          Vue.set(this.listData[i], 'checked', false);
+        }
+      }
+    },
     mounted () {
-      console.log('size', this.size);
-      this.listData = data.list;
+      this.listData = this.imgList.concat([]);
       for (let i = 0; i < this.listData.length; i++) {
         Vue.set(this.listData[i], 'checked', false);
       }

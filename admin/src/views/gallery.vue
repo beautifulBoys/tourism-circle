@@ -6,7 +6,7 @@
       <card :data="item" @event="event"></card>
     </template>
   </div>
-  <cut-image title="选择头像" :show="show" :ratio="1.6" :loading="loading" @getData="getDataEvent"></cut-image>
+  <cut-image title="上传图片" :show="show" :ratio="1.6" :loading="loading" @getData="getDataEvent"></cut-image>
 </div>
 </template>
 <script>
@@ -26,15 +26,29 @@ export default {
       loading: false
     };
   },
+  created () {
+    this.getHtmlDataEvent();
+  },
   computed: mapState({
     list: state => state.list
   }),
   methods: {
-    ...mapActions(['watchEvent', 'deleteEvent']),
+    ...mapActions(['watchEvent', 'deleteEvent', 'getHtmlDataEvent']),
     event (obj) {
+      let me = this;
       if (obj.type === 'watch') this.watchEvent(obj.item);
-      else if (obj.type === 'delete') this.deleteEvent(obj.item);
-      else console.log('出错请检查--type=' + obj.type);
+      else if (obj.type === 'delete') {
+        this.deleteEvent({
+          item: obj.item,
+          callb (type, text) {
+            if (type === 'success') {
+              me.$message({ type: 'success', message: text });
+              me.getHtmlDataEvent();
+            } else if (type === 'error') me.$message({ type: 'error', message: text });
+            else console.log('这里好像出错了，请查看');
+          }}
+        );
+      } else console.log('出错请检查--type=' + obj.type);
     },
     getDataEvent (data) {
       console.log(data);
