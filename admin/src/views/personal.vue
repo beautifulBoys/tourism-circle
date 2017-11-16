@@ -5,13 +5,13 @@
 
   <el-form :label-position="'right'" label-width="80px" :model="formValue">
     <el-form-item label="用户名">
-      <el-input v-model="formValue.title" placeholder="10 字以内"></el-input>
+      <el-input v-model="formValue.username" placeholder="10 字以内"></el-input>
     </el-form-item>
     <el-form-item label="邮箱">
       <el-input v-model="formValue.email"></el-input>
     </el-form-item>
     <el-form-item label="地址">
-      <el-cascader :options="cityData" placeholder="请选择您所在的城市" v-model="formValue.city"></el-cascader>
+      <el-cascader :options="addressData" placeholder="请选择您所在的城市" v-model="formValue.address"></el-cascader>
       <el-button type="primary" :disabled="locationObj[locationObj.index].disable" :loading="locationObj[locationObj.index].loading" @click="locationEvent()">{{locationObj[locationObj.index].text}}</el-button>
     </el-form-item>
     <el-form-item label="性别">
@@ -25,11 +25,11 @@
     </el-form-item>
     <el-form-item label="选择头像">
       <div class="add-picture" @click="show = true">
-        <img v-show="userImgSrc" :src="userImgSrc"/>
-        <span v-show="!userImgSrc" >+</span>
+        <img v-show="avatar" :src="avatar"/>
+        <span v-show="!avatar" >+</span>
       </div>
     </el-form-item>
-    <cut-image title="选择头像" :show="show" :ratio="1" :loading="loading" @getData="getDataEvent"></cut-image>
+    <cut-image title="选择头像" :show="show" :ratio="1" :loading="loading" @getData="getDataThisPageEvent"></cut-image>
   </el-form>
   <div id="allmap" style="display: none;"></div>
   <div class="footer">
@@ -44,7 +44,7 @@ import loadImg from '../components/posting/picture.vue';
 import cutImage from '../components/gallery/cut_image.vue';
 
 import { createNamespacedHelpers } from 'vuex';
-const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('box/personal');
+const { mapState, mapActions, mapMutations } = createNamespacedHelpers('box/personal');
 export default {
   components: {
     'upload': upload,
@@ -53,19 +53,15 @@ export default {
   },
   computed: {
     ...mapState({
-      formValue: state => state.formValue_personal,
-      imgList: state => state.imgList,
-      cityData: state => state.cityData,
-      tagList: state => state.tagList,
-      postImgList: state => state.postImgList,
-      postStatus: state => state.postStatus
-    }),
-    ...mapGetters([])
+      formValue: state => state.formValue,
+      addressData: state => state.addressData,
+      postStatus: state => state.postStatus,
+      avatar: state => state.formValue.avatar
+    })
   },
   data () {
     return {
       labelPosition: 'right',
-      userImgSrc: '',
       img_size: 1,
       show: false,
       loading: false,
@@ -83,10 +79,11 @@ export default {
   	this.geolocation = new BMap.Geolocation();
     this.myGeo = new BMap.Geocoder();
     this.getLocationEvent();
+    this.getUserInfoEvent();
   },
   methods: {
-    ...mapMutations(['closeEvent']),
-    ...mapActions(['postEvent']),
+    ...mapActions(['postEvent', 'getUserInfoEvent']),
+    ...mapMutations(['getDataEvent']),
     getLocationEvent () {
       let _this = this;
     	_this.geolocation.getCurrentPosition(function (r) {
@@ -100,13 +97,13 @@ export default {
         }
     	}, {enableHighAccuracy: true});
     },
-    getDataEvent (data) {
-      this.userImgSrc = data;
+    getDataThisPageEvent (data) {
       this.show = false;
+      this.getDataEvent(data);
     },
     locationEvent () {
       if (this.locationObj.index === 'suc') {
-        this.formValue.city = [this.locationObj.data.province, this.locationObj.data.city, this.locationObj.data.district];
+        this.formValue.address = [this.locationObj.data.province, this.locationObj.data.city, this.locationObj.data.district];
         this.locationObj.index = 'end';
       } else if (this.locationObj.index === 'err') {
         this.locationObj.index === 'ing';

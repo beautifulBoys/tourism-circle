@@ -8,3 +8,6 @@ export const deleteGalleryAjax = data => ajax1.post('/gallery-delete', data);
 
 export const getPostAjax = type => ajax1.get('/post', type);
 // export const getPostAjax = type => ajax1.get('/post/' + type);
+
+export const updateUserInfoAjax = data => ajax1.post('/updateUserInfo', data);
+export const getUserInfoAjax = data => ajax1.post('/getUserInfo', data);

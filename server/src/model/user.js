@@ -12,9 +12,21 @@ const userInfo = { // 用户相关的信息
         type: String,
         default: ''
     },
-    icon: { // 头像地址
+    avatar: { // 头像地址
         type: String,
         default: ''
+    },
+    email: {
+        type: String,
+        default: ''
+    },
+    address: {
+        type: Array,
+        default: []
+    },
+    sex: {// 男 2   女 1    未设置 0
+        type: Number,
+        default: 0
     },
     registerTime: {
         type: Date,
@@ -32,6 +44,10 @@ const accountInfo = { // 用户账户相关的信息
     passport: {
         type: String,
         default: ''
+    },
+    status: { // 当前状态是否被冻结的意思
+        type: Boolean,
+        default: true
     }
 };
 const powerInfo = { // 用户权限相关的信息
@@ -50,11 +66,11 @@ const powerInfo = { // 用户权限相关的信息
             type: Boolean,
             default: true
         },
-        addFriend: {
+        addFriend: { // 是否可以被添加为好友
             type: Boolean,
             default: true
         },
-        webMail: {
+        webMail: { // 是否接受站内信
             type: Boolean,
             default: true
         }

@@ -1,57 +1,54 @@
 
-import data from './data/gallery.json';
-import cityData from './data/city.json';
+import addressData from './data/city.json';
+import {updateUserInfoAjax, getUserInfoAjax} from '../api/ajax_router.js';
 export default {
   namespaced: true,
   state: {
-    formValue_personal: {
-      title: '',
-      city: [],
-      sex: '男孩',
-      time: '',
-      content: '',
-      tag: ''
+    formValue: {
+      username: '',
+      email: '',
+      address: [],
+      desc: '',
+      avatar: '',
+      sex: '男孩'
     },
-    imgList: data.list,
-    cityData: cityData.china,
-    tagList: [],
-    postImgList: [],
+    addressData: addressData.china,
     postStatus: false
   },
-  getters: {
-  },
   mutations: {
-    addTagEvent (state, {cb}) {
-      if (state.formValue_personal.tag.length > 8) {
-        cb();
-        return;
-      }
-      state.tagList.push({
-        name: state.formValue_personal.tag,
-        type: 'primary'
-      });
-      state.formValue_personal.tag = '';
-    },
-    closeEvent (state, tag) {
-      state.tagList = state.tagList.filter((item) => {
-        return item !== tag;
-      });
-    },
-    addPostImgEvent (state, {list}) {
-      state.postImgList = list;
-    },
-    postBtnChange (state, {status}) {
+    postBtnChange (state, status) {
       state.postStatus = status;
+    },
+    getDataEvent (state, data) {
+      state.formValue.avatar = data;
+    },
+    userInfo (state, data) {
+      if (data) state.formValue = data;
     }
   },
   actions: {
-    postEvent ({ commit, state }) {
+    async getUserInfoEvent ({ commit, rootState }) {
+      try {
+        let result = await getUserInfoAjax({userId: rootState.box.userInfo.userId});
+        commit('userInfo', result.data);
+        console.log(result.data);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async postEvent ({ commit, state }) {
       // ajax
-      console.log(state.formValue_personal, state.tagList, state.postImgList);
-      commit('postBtnChange', {status: true});
-      setTimeout(() => {
-        commit('postBtnChange', {status: false});
-      }, 2000);
+      let data = {...state.formValue};
+      data.sex = (state.formValue.sex === '男孩' ? 2 : 1);
+      console.log(data);
+      commit('postBtnChange', true);
+      try {
+        let result = await updateUserInfoAjax(data);
+        commit('postBtnChange', false);
+        console.log(result);
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
 };
