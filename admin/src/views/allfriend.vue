@@ -29,15 +29,19 @@
 
 
     <el-dialog title="添加好友" :visible.sync="dialogFriendShow" size="tiny">
-      <el-input v-model="reason" placeholder="请输入添加理由"></el-input>
+      <el-form :model="formData">
+        <el-input v-model="formData.addFriendRemark" placeholder="请输入添加理由"></el-input>
+      </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFriendShow = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFriendShow = false">确 定</el-button>
+        <el-button type="primary" :loading="addFriendLoading" @click="sendMessage">确 定</el-button>
       </div>
     </el-dialog>
 
     <el-dialog title="站内信" :visible.sync="dialogMailShow" size="tiny">
-      <el-input type="textarea" :autosize="{minRows: 3}" placeholder="请输入内容" v-model="mailContent"></el-input>
+      <el-form :model="formData">
+        <el-input type="textarea" :autosize="{minRows: 3}" placeholder="请输入内容" v-model="formData.mailContent"></el-input>
+      </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogMailShow = false">取 消</el-button>
         <el-button type="primary" @click="dialogMailShow = false">确 定</el-button>
@@ -63,14 +67,15 @@ export default {
     return {
       dialogFriendShow: false,
       dialogMailShow: false,
-      dialogFollowShow: false
+      dialogFollowShow: false,
+      addFriendUserId: 0,
+      addFriendLoading: false
     };
   },
   computed: {
     ...mapState({
       list: state => state.list,
-      mailContent: state => state.mailContent,
-      reason: state => state.reason
+      formData: state => state.formData
     }),
     ...mapGetters([])
   },
@@ -82,9 +87,30 @@ export default {
   },
   methods: {
     ...mapMutations([]),
-    ...mapActions(['getDataEvent']),
+    ...mapActions(['getDataEvent', 'sendMessageEvent']),
+    sendMessage () {
+      let me = this;
+      this.sendMessageEvent({
+        id: me.addFriendUserId,
+        success () {
+          me.addFriendLoading = false;
+          me.dialogFriendShow = false;
+          me.$message({
+            type: 'success',
+            message: '添加好友请求已发出'
+          });
+        },
+        error () {
+          me.addFriendLoading = false;
+          me.$message({
+            type: 'error',
+            message: '添加好友请求发送失败'
+          });
+        }
+      });
+    },
     friendEvent (index, row) {
-      console.log(index, row);
+      this.addFriendUserId = row.id;
       this.dialogFriendShow = true;
     },
     followEvent (index, row) {

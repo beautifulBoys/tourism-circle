@@ -1,6 +1,7 @@
 // import data from './data/chat_room.json';
 import io from 'socket.io-client';
 import Cookies from 'js-cookie';
+import {messageBoxListAjax} from '../api/ajax_router.js';
 
 export default {
   namespaced: true,
@@ -17,7 +18,9 @@ export default {
     noReadRoomNum: 0,
     connect: false,
     messageBoxShow: false,
-    inputMessageValue: ''
+    inputMessageValue: '',
+
+    messageBoxList: []
   },
   mutations: {
     logout (state, cb) {
@@ -26,8 +29,8 @@ export default {
       Cookies.remove('passport');
       window.loginStatus = false;
     },
-    messageListEvent (state) {
-      state.messageBoxShow = true;
+    messageBoxShowEvent (state, status) {
+      state.messageBoxShow = status;
     },
     saveMessage (state, obj) {
       state.messageList.push(obj);
@@ -41,9 +44,16 @@ export default {
     },
     changeChatWindowOpenStatus (state, status) {
       state.chatWindowOpenStatus = status;
+    },
+    changeMessageBoxList (state, list) {
+      state.messageBoxList = list;
     }
   },
   actions: {
+    async getMessageListEvent ({commit, state, rootState}) {
+      let result = await messageBoxListAjax();
+      commit('changeMessageBoxList', result.data.list);
+    },
     connectServer ({commit, state, rootState}) {
       state.httpServer = io.connect('http://10.209.96.67:3003');
       state.httpServer.emit('login', rootState.box.userInfo);

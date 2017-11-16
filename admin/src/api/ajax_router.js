@@ -12,3 +12,6 @@ export const updateUserInfoAjax = data => ajax1.post('/updateUserInfo', data);
 export const getUserInfoAjax = data => ajax1.post('/getUserInfo', data);
 
 export const allUserListAjax = data => ajax1.post('/allUser', data);
+
+export const addFriendAjax = data => ajax1.post('/addFriend', data);
+export const messageBoxListAjax = data => ajax1.post('/messageBoxList', data);

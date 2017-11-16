@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <el-badge :value="noReadMessageNum" class="item">
-      <el-button size="small" @click="messageListEvent()">消息盒子</el-button>
+      <el-button size="small" @click="messageBoxShowEvent(true)">消息盒子</el-button>
     </el-badge>
 
     <el-badge :value="noReadRoomNum" class="item">
@@ -21,9 +21,10 @@
     </el-dropdown>
 
     <el-dialog title="消息盒子" :visible.sync="messageBoxShow" :modal-append-to-body="false">
-      <el-table :data="tableData" style="width: 100%">
-        <el-table-column prop="type" label="消息类型"></el-table-column>
+      <el-table :data="messageBoxList" style="width: 100%">
+        <el-table-column prop="typeText" label="消息类型"></el-table-column>
         <el-table-column prop="name" label="姓名"></el-table-column>
+        <el-table-column prop="remark" label="内容"></el-table-column>
         <el-table-column prop="time" label="时间"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
@@ -33,7 +34,7 @@
         </el-table-column>
       </el-table>
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="messageBoxShow = false">确 定</el-button>
+        <el-button type="primary" @click="messageBoxShowEvent(false)">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -58,22 +59,28 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/head
         noReadMessageNum: state => state.noReadMessageNum,
         chatShow: state => state.chatShow,
         noReadRoomNum: state => state.noReadRoomNum,
-        connect: state => state.connect
+        connect: state => state.connect,
+        messageBoxList: state => state.messageBoxList
       })
     },
     mounted () {
       if (!this.connect && window.loginStatus) {
         // this.connectServer();
       }
+      this.getMessageListEvent();
     },
     methods: {
-      ...mapMutations(['messageListEvent', 'logout']),
-      ...mapActions(['connectServer']),
+      ...mapMutations(['messageBoxShowEvent', 'logout']),
+      ...mapActions(['connectServer', 'getMessageListEvent']),
       chatRoomEvent () {
         this.$refs.chat_room_component.statusEvent(true);
       },
-      seeEvent () {},
-      ignoreEvent () {},
+      seeEvent (index, row) {
+        console.log(row);
+      },
+      ignoreEvent (index, row) {
+        console.log(row);
+      },
       menu_click (item) {
         console.log(item);
         if (item === 'a') this.$router.push({path: '/personal'});

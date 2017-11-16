@@ -5,7 +5,7 @@
       <div class="left">
         <ul class="ul">
           <li class="li" v-for="item in list">
-            <dynamic type="mine" :data="item" :control="true"></dynamic>
+            <dynamic type="mine" :listItem="item" :control="true"></dynamic>
           </li>
         </ul>
       </div>
