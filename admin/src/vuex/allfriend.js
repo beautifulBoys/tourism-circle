@@ -1,5 +1,5 @@
 
-import data from './data/table.json';
+import {allUserListAjax} from '../api/ajax_router.js';
 
 export default {
   namespaced: true,
@@ -14,10 +14,13 @@ export default {
     }
   },
   actions: {
-    getDataEvent ({ commit, state }) {
-      setTimeout(() => {
-        commit('changeList', data.list);
-      }, 1000);
+    async getDataEvent ({ commit, state }) {
+      try {
+        let result = await allUserListAjax();
+        commit('changeList', result.data.list);
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
 };

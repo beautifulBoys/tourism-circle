@@ -35,6 +35,10 @@ const userInfo = { // 用户相关的信息
     loginTime: { // 最后一次登陆时间
         type: Date,
         default: new Date()
+    },
+    postNum: {
+        type: Number,
+        default: 0
     }
 };
 const accountInfo = { // 用户账户相关的信息
@@ -45,7 +49,7 @@ const accountInfo = { // 用户账户相关的信息
         type: String,
         default: ''
     },
-    status: { // 当前状态是否被冻结的意思
+    status: { // 账号当前状态 （冻结则为false）
         type: Boolean,
         default: true
     }

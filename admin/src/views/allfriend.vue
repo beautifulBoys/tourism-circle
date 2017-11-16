@@ -15,7 +15,7 @@
         </template>
       </el-table-column>
       <el-table-column label="用户 ID" prop="id"></el-table-column>
-      <el-table-column label="用户名" prop="name"></el-table-column>
+      <el-table-column label="用户名" prop="username"></el-table-column>
       <el-table-column label="碎碎念" prop="desc"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">

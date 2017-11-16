@@ -49,15 +49,43 @@ export const getUserInfoFunc = async (req, res) => {
       obj.avatar = data.avatar;
       obj.sex = (data.sex === 1 ? '女孩' : '男孩');
     }
-    res.send({code: 200, message: '获取user信息成功', data: obj});
+    res.send({code: 200, message: '获取用户信息成功', data: obj});
   } catch (err) {
     console.log(err);
-    res.send({code: 200, message: '获取user信息失败', data: err});
+    res.send({code: 200, message: '获取用户信息失败', data: err});
   }
   
 };
 export const userInfoUpdateFunc = async (req, res) => {
-  console.log(req.headers.userid);
-  await User.update({id: req.headers.userid}, {...req.body}, {multi: false}, () => {});
-  res.send({code: 200, message: '修改user信息成功', data: req.body});
+  try {
+    await User.update({id: req.headers.userid}, {...req.body}, {multi: false}, () => {});
+    res.send({code: 200, message: '修改用户信息成功', data: {}});
+  } catch (err) {
+    res.send({code: 300, message: '修改用户信息失败', data: err});
+  }
+};
+
+export const getAllUserFunc = async (req, res) => {
+  try {
+    let result = await User.find({});
+    let arr = [];
+    for (let i = 0; i < result.length; i++) {
+      if (!result[i].status) continue;
+      let item = {
+        address: result[i].address.length > 0 ? result[i].address.join('-') : '未设置',
+        email: result[i].email || '未设置',
+        id: result[i].id,
+        username: result[i].username,
+        desc: result[i].desc || '未设置',
+        postNum: result[i].postNum
+      };
+      if (result[i].sex === 1) item.sex = '女孩';
+      else if (result[i].sex === 2) item.sex = '男孩';
+      else item.sex = '未设置';
+      arr.push(item);
+    }
+    res.send({code: 200, message: '获取用户列表成功', data: {list: arr}});
+  } catch (err) {
+    res.send({code: 300, message: '获取用户列表失败', data: err});
+  }
 };

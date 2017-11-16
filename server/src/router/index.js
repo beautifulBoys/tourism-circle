@@ -4,7 +4,7 @@ import util from 'util';
 import Image from '../model/image.js';
 
 
-import {loginFunc, userInfoUpdateFunc, getUserInfoFunc} from '../controller/user.js';
+import {loginFunc, userInfoUpdateFunc, getUserInfoFunc, getAllUserFunc} from '../controller/user.js';
 import {postingFunc, postFunc} from '../controller/posting.js';
 import {galleryFunc, galleryDeleteFunc} from '../controller/gallery.js';
 
@@ -19,6 +19,7 @@ export default (app) => {
   app.post('/gallery-delete', galleryDeleteFunc);
   app.post('/updateUserInfo', userInfoUpdateFunc);
   app.post('/getUserInfo', getUserInfoFunc);
+  app.post('/allUser', getAllUserFunc);
   
   
 
