@@ -20,7 +20,7 @@
       </el-dropdown-menu>
     </el-dropdown>
 
-    <el-dialog title="消息盒子" :visible.sync="messageBoxShow" :modal-append-to-body="false">
+    <el-dialog title="消息盒子" :visible.sync="messageBox_show" :modal-append-to-body="false">
       <el-table :data="messageBoxList" style="width: 100%">
         <el-table-column prop="typeText" label="消息类型"></el-table-column>
         <el-table-column prop="name" label="姓名"></el-table-column>
@@ -29,7 +29,7 @@
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button size="small" @click="seeEvent(scope.$index, scope.row)">查看</el-button>
-            <el-button size="small" type="danger" @click="ignoreEvent(scope.$index, scope.row)">忽略</el-button>
+            <el-button size="small" type="danger" @click="ignoreMessageEvent(scope.row)">忽略</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -50,8 +50,17 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/head
     },
     data () {
       return {
-        tableData: []
+        tableData: [],
+        messageBox_show: false
       };
+    },
+    watch: {
+      messageBoxShow (n) {
+        this.messageBox_show = n;
+      },
+      messageBox_show (n) {
+        this.messageBoxShowEvent(n);
+      }
     },
     computed: {
       ...mapState({
@@ -71,14 +80,11 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/head
     },
     methods: {
       ...mapMutations(['messageBoxShowEvent', 'logout']),
-      ...mapActions(['connectServer', 'getMessageListEvent']),
+      ...mapActions(['connectServer', 'getMessageListEvent', 'ignoreMessageEvent']),
       chatRoomEvent () {
         this.$refs.chat_room_component.statusEvent(true);
       },
       seeEvent (index, row) {
-        console.log(row);
-      },
-      ignoreEvent (index, row) {
         console.log(row);
       },
       menu_click (item) {

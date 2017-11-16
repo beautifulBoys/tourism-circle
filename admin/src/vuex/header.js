@@ -1,7 +1,7 @@
 // import data from './data/chat_room.json';
 import io from 'socket.io-client';
 import Cookies from 'js-cookie';
-import {messageBoxListAjax} from '../api/ajax_router.js';
+import {messageBoxListAjax, ignoreMessageAjax} from '../api/ajax_router.js';
 
 export default {
   namespaced: true,
@@ -50,6 +50,12 @@ export default {
     }
   },
   actions: {
+    async ignoreMessageEvent ({commit}, row) {
+      console.log('忽略的', row);
+      console.log('忽略的id是：', row.messageId);
+      let result = await ignoreMessageAjax({id: row.messageId});
+      commit('changeMessageBoxList', result.data.list);
+    },
     async getMessageListEvent ({commit, state, rootState}) {
       let result = await messageBoxListAjax();
       commit('changeMessageBoxList', result.data.list);

@@ -8,7 +8,7 @@ import {loginFunc, userInfoUpdateFunc, getUserInfoFunc, getAllUserFunc} from '..
 import {postingFunc, postFunc} from '../controller/posting.js';
 import {galleryFunc, galleryDeleteFunc} from '../controller/gallery.js';
 import {addFriendFunc} from '../controller/friend.js';
-import {messageBoxListFunc} from '../controller/messageBox.js';
+import {messageBoxListFunc, ignoreMessageFunc} from '../controller/messageBox.js';
 
 import Id from '../model/id.js';
 
@@ -24,6 +24,7 @@ export default (app) => {
   app.post('/allUser', getAllUserFunc);
   app.post('/addFriend', addFriendFunc);
   app.post('/messageBoxList', messageBoxListFunc);
+  app.post('/ignoreMessage', ignoreMessageFunc);
   
   
 
