@@ -24,6 +24,16 @@ export default {
     },
     userInfo (state, data) {
       if (data) state.formValue = data;
+    },
+    clearHtmlData (state) {
+      state.formValue = {
+        username: '',
+        email: '',
+        address: [],
+        desc: '',
+        avatar: '',
+        sex: '男孩'
+      };
     }
   },
   actions: {
@@ -45,6 +55,7 @@ export default {
       try {
         let result = await updateUserInfoAjax(data);
         commit('postBtnChange', false);
+        commit('clearHtmlData');
         console.log(result);
       } catch (err) {
         console.log(err);

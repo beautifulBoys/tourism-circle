@@ -1,7 +1,7 @@
 <template>
 <div class="dynamic">
   <div class="li-left" v-if="!type">
-    <img :src="url"/>
+    <img :src="listItem.avatar"/>
   </div>
   <div class="li-right">
     <div class="title">
@@ -53,11 +53,6 @@ export default {
   components: {
     'collapse': Collapse,
     'load-img': loadImg
-  },
-  data () {
-    return {
-      url: 'https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(3).jpg'
-    };
   },
   props: ['listItem', 'type', 'control'],
   methods: {
