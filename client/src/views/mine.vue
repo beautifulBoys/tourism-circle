@@ -2,20 +2,16 @@
   <div class="travel">
     <li-header></li-header>
     <div class="main" style="height: calc(100% - 50px)">
-      <ul>
-        <li-item v-for="(item, index) in travel" :key="index" :data="item"></li-item>
-      </ul>
+
     </div>
   </div>
 </template>
 <script>
   import data from './dynamic.json';
   import Header from '../components/header.vue';
-  import Item from '../components/item.vue';
   export default {
     components: {
-      'li-header': Header,
-      'li-item': Item
+      'li-header': Header
     },
     data () {
       return {

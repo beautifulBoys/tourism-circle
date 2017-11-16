@@ -93,18 +93,6 @@ export default {
       });
     },
     ajaxEvent () {
-      this.ajax.bind().then(res => {
-        console.log(res);
-        this.pictures = dataJson.pictures;
-        setTimeout(() => {
-          this.swiperInit();
-        });
-        this.contentInfo = dataJson.contentInfo;
-        this.browseList = dataJson.browseList;
-        this.commentList = dataJson.commentList;
-      }).catch(err => {
-        console.log(err.message);
-      });
     },
     leftEvent () {
       this.$emit('sidebarMenu');
