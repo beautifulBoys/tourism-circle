@@ -1,5 +1,5 @@
 
-import {allUserListAjax, addFriendAjax} from '../api/ajax_router.js';
+import {allUserListAjax, addFriendAjax, sendWebMailAjax} from '../api/ajax_router.js';
 
 export default {
   namespaced: true,
@@ -24,16 +24,26 @@ export default {
         console.log(err);
       }
     },
+    async sendWebMailEvent ({ commit, state }, {id, success, error}) {
+      try {
+        let result = await sendWebMailAjax({to: id, remark: state.formData.mailContent});
+        console.log(result);
+        if (result.code === 200) success(result.message);
+        else error(result.message);
+      } catch (err) {
+        console.log(err);
+        error('发送站内信失败');
+      }
+    },
     async sendMessageEvent ({ commit, state }, {id, success, error}) {
-      state.addFriendLoading = true;
       try {
         let result = await addFriendAjax({to: id, remark: state.formData.addFriendRemark});
         console.log(result);
-        if (result.code === 200) success();
-        else error();
+        if (result.code === 200) success(result.message);
+        else error(result.message);
       } catch (err) {
         console.log(err);
-        error();
+        error('添加好友失败');
       }
     }
   }

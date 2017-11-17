@@ -1,12 +1,13 @@
 // import data from './data/chat_room.json';
 import io from 'socket.io-client';
 import Cookies from 'js-cookie';
-import {messageBoxListAjax, ignoreMessageAjax} from '../api/ajax_router.js';
+import {webMailSendAjax, messageBoxListAjax, ignoreMessageAjax, getUserInfoAjax, friendHandleAjax} from '../api/ajax_router.js';
 
 export default {
   namespaced: true,
   state: {
     httpServer: null,
+    avatar: 'https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/tourism-circle/avatar.png',
     messageList: [],
     list: [],
     reason: '',
@@ -14,7 +15,7 @@ export default {
       value: ''
     },
     chatWindowOpenStatus: false,
-    noReadMessageNum: 12,
+    noReadMessageNum: 0,
     noReadRoomNum: 0,
     connect: false,
     messageBoxShow: false,
@@ -47,9 +48,43 @@ export default {
     },
     changeMessageBoxList (state, list) {
       state.messageBoxList = list;
+      state.noReadMessageNum = list.length;
+    },
+    avatar (state, avatar) {
+      state.avatar = avatar;
     }
   },
   actions: {
+    async webMailSendEvent ({commit}, {messageId, remark, fromId, toId, success, error}) {
+      try {
+        let result = await webMailSendAjax({messageId, remark, fromId, toId});
+        console.log(result);
+        if (result.code === 200) success(result.message);
+        else if (result.code === 300) error(result.message);
+        else console.log('出错了，检查下');
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async AgreeOrRefuseEvent ({commit}, {type, messageId, fromId, toId, success, error}) {
+      try {
+        let result = await friendHandleAjax({messageId, fromId, toId, type});
+        console.log(result);
+        if (result.code === 200) success(result.message);
+        else if (result.code === 300) error(result.message);
+        else console.log('出错了，检查下');
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async getUserInfo ({commit, rootState}) {
+      try {
+        let result = await getUserInfoAjax({userId: rootState.box.userInfo.userId});
+        commit('avatar', result.data.avatar);
+      } catch (err) {
+        console.log(err);
+      }
+    },
     async ignoreMessageEvent ({commit}, row) {
       console.log('忽略的', row);
       console.log('忽略的id是：', row.messageId);

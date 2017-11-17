@@ -18,13 +18,13 @@ var Schemas = new mongoose.Schema({
       type: String,
       default: ''
     },
-    reply: {
-      type: String,
-      default: ''
-    },
     time: {
       type: Date,
       default: new Date()
+    },
+    reply: {
+      type: String,
+      default: ''
     },
     replyTime: {
       type: Date,

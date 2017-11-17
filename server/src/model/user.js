@@ -39,6 +39,18 @@ const userInfo = { // 用户相关的信息
     postNum: {
         type: Number,
         default: 0
+    },
+    friendList: {
+        type: Array,
+        default: []
+    },
+    followingList: {
+        type: Array,
+        default: []
+    },
+    followsList: {
+        type: Array,
+        default: []
     }
 };
 const accountInfo = { // 用户账户相关的信息

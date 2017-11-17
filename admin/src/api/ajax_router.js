@@ -14,5 +14,9 @@ export const getUserInfoAjax = data => ajax1.post('/getUserInfo', data);
 export const allUserListAjax = data => ajax1.post('/allUser', data);
 
 export const addFriendAjax = data => ajax1.post('/addFriend', data);
+export const sendWebMailAjax = data => ajax1.post('/sendWebMail', data);
+export const friendHandleAjax = data => ajax1.post('/friendHandle', data);
+export const webMailSendAjax = data => ajax1.post('/webMailSend', data);
+
 export const messageBoxListAjax = data => ajax1.post('/messageBoxList', data);
 export const ignoreMessageAjax = data => ajax1.post('/ignoreMessage', data);

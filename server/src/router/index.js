@@ -7,8 +7,7 @@ import Image from '../model/image.js';
 import {loginFunc, userInfoUpdateFunc, getUserInfoFunc, getAllUserFunc} from '../controller/user.js';
 import {postingFunc, postFunc} from '../controller/posting.js';
 import {galleryFunc, galleryDeleteFunc} from '../controller/gallery.js';
-import {addFriendFunc} from '../controller/friend.js';
-import {messageBoxListFunc, ignoreMessageFunc} from '../controller/messageBox.js';
+import {webMailSendFunc, messageBoxListFunc, ignoreMessageFunc, addFriendFunc, sendWebMailFunc, friendHandleFunc} from '../controller/messageBox.js';
 
 import Id from '../model/id.js';
 
@@ -23,8 +22,11 @@ export default (app) => {
   app.post('/getUserInfo', getUserInfoFunc);
   app.post('/allUser', getAllUserFunc);
   app.post('/addFriend', addFriendFunc);
+  app.post('/sendWebMail', sendWebMailFunc);
   app.post('/messageBoxList', messageBoxListFunc);
   app.post('/ignoreMessage', ignoreMessageFunc);
+  app.post('/friendHandle', friendHandleFunc);
+  app.post('/webMailSend', webMailSendFunc);
   
   
 

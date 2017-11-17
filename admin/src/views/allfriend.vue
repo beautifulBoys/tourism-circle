@@ -44,7 +44,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogMailShow = false">取 消</el-button>
-        <el-button type="primary" @click="dialogMailShow = false">确 定</el-button>
+        <el-button type="primary" :loading="webMailLoading" @click="sendWebMail">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -69,7 +69,9 @@ export default {
       dialogMailShow: false,
       dialogFollowShow: false,
       addFriendUserId: 0,
-      addFriendLoading: false
+      addFriendLoading: false,
+      webMailUserId: 0,
+      webMailLoading: false
     };
   },
   computed: {
@@ -87,24 +89,45 @@ export default {
   },
   methods: {
     ...mapMutations([]),
-    ...mapActions(['getDataEvent', 'sendMessageEvent']),
+    ...mapActions(['getDataEvent', 'sendMessageEvent', 'sendWebMailEvent']),
     sendMessage () {
       let me = this;
       this.sendMessageEvent({
         id: me.addFriendUserId,
-        success () {
+        success (text) {
           me.addFriendLoading = false;
           me.dialogFriendShow = false;
           me.$message({
             type: 'success',
-            message: '添加好友请求已发出'
+            message: text
           });
         },
-        error () {
+        error (text) {
           me.addFriendLoading = false;
           me.$message({
             type: 'error',
-            message: '添加好友请求发送失败'
+            message: text
+          });
+        }
+      });
+    },
+    sendWebMail () {
+      let me = this;
+      this.sendWebMailEvent({
+        id: me.webMailUserId,
+        success (text) {
+          me.webMailLoading = false;
+          me.dialogMailShow = false;
+          me.$message({
+            type: 'success',
+            message: text
+          });
+        },
+        error (text) {
+          me.webMailLoading = false;
+          me.$message({
+            type: 'error',
+            message: text
           });
         }
       });
@@ -118,7 +141,7 @@ export default {
       this.dialogFollowShow = true;
     },
     mailEvent (index, row) {
-      console.log(index, row);
+      this.webMailUserId = row.id;
       this.dialogMailShow = true;
     }
   }

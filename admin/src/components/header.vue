@@ -12,7 +12,7 @@
 
     <el-dropdown trigger="click" style="float: right;" @command="menu_click">
       <span class="el-dropdown-link">
-        <img class="user-img" src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(3).jpg"/>
+        <img class="user-img" :src="avatar"/>
       </span>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item command="a">个人设置</el-dropdown-item>
@@ -69,7 +69,8 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/head
         chatShow: state => state.chatShow,
         noReadRoomNum: state => state.noReadRoomNum,
         connect: state => state.connect,
-        messageBoxList: state => state.messageBoxList
+        messageBoxList: state => state.messageBoxList,
+        avatar: state => state.avatar
       })
     },
     mounted () {
@@ -77,15 +78,73 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/head
         // this.connectServer();
       }
       this.getMessageListEvent();
+      this.getUserInfo();
     },
     methods: {
       ...mapMutations(['messageBoxShowEvent', 'logout']),
-      ...mapActions(['connectServer', 'getMessageListEvent', 'ignoreMessageEvent']),
+      ...mapActions(['webMailSendEvent', 'connectServer', 'AgreeOrRefuseEvent', 'getMessageListEvent', 'ignoreMessageEvent', 'getUserInfo']),
       chatRoomEvent () {
         this.$refs.chat_room_component.statusEvent(true);
       },
       seeEvent (index, row) {
-        console.log(row);
+        if (row.type === 'add-friend') this.addFriendDialogFunc(row);
+        else if (row.type === 'web-mail') this.webMailDialogFunc(row);
+        else console.log('这里出错了，请检查');
+      },
+      addFriendDialogFunc (row) {
+        let me = this;
+        this.$confirm(`请选择是否添加 ${row.name} 为好友？`, '好友请求', {
+          confirmButtonText: '添加',
+          cancelButtonText: '拒绝',
+          type: 'warning'
+        }).then(() => {
+          me.AgreeOrRefuseEvent({
+            type: 'agree',
+            fromId: row.fromId,
+            toId: row.toId,
+            messageId: row.messageId,
+            success (text) {
+              me.$message({ type: 'success', message: text });
+            },
+            error (text) {
+              me.$message({ type: 'error', message: text });
+            }
+          });
+        }).catch(() => {
+          me.AgreeOrRefuseEvent({
+            type: 'refuse',
+            fromId: row.fromId,
+            toId: row.toId,
+            messageId: row.messageId,
+            success (text) {
+              me.$message({ type: 'success', message: text });
+            },
+            error (text) {
+              me.$message({ type: 'error', message: text });
+            }
+          });
+        });
+      },
+      webMailDialogFunc (row) {
+        let me = this;
+        me.$prompt('请输入回信内容', '站内信', {
+          confirmButtonText: '发送',
+          cancelButtonText: '取消'
+        }).then(({ value }) => {
+          me.webMailSendEvent({
+            remark: value,
+            messageId: row.messageId,
+            fromId: row.fromId,
+            toId: row.toId,
+            success (text) {
+              me.getMessageListEvent();
+              me.$message({ type: 'success', message: text });
+            },
+            error (text) {
+              me.$message({ type: 'error', message: text });
+            }
+          });
+        });
       },
       menu_click (item) {
         console.log(item);

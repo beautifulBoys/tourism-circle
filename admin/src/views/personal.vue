@@ -29,11 +29,11 @@
         <span v-show="!avatar" >+</span>
       </div>
     </el-form-item>
-    <cut-image title="选择头像" :show="show" :ratio="1" :loading="loading" @getData="getDataThisPageEvent"></cut-image>
+    <cut-image title="选择头像" @close="closeAvatarEvent" :show="show" :ratio="1" :loading="loading" @getData="getDataThisPageEvent"></cut-image>
   </el-form>
   <div id="allmap" style="display: none;"></div>
   <div class="footer">
-    <el-button type="primary":loading="postStatus" @click="postEvent()">确　定</el-button>
+    <el-button type="primary":loading="postStatus" @click="thisPagePostEvent()">确　定</el-button>
   </div>
 
 </div>
@@ -84,6 +84,17 @@ export default {
   methods: {
     ...mapActions(['postEvent', 'getUserInfoEvent']),
     ...mapMutations(['getDataEvent']),
+    closeAvatarEvent () {
+      this.show = false;
+    },
+    thisPagePostEvent () {
+      this.postEvent({cbb: (text) => {
+        this.$message({
+          type: 'success',
+          message: text
+        });
+      }})
+    },
     getLocationEvent () {
       let _this = this;
     	_this.geolocation.getCurrentPosition(function (r) {

@@ -24,16 +24,6 @@ export default {
     },
     userInfo (state, data) {
       if (data) state.formValue = data;
-    },
-    clearHtmlData (state) {
-      state.formValue = {
-        username: '',
-        email: '',
-        address: [],
-        desc: '',
-        avatar: '',
-        sex: '男孩'
-      };
     }
   },
   actions: {
@@ -46,7 +36,7 @@ export default {
         console.log(err);
       }
     },
-    async postEvent ({ commit, state }) {
+    async postEvent ({ commit, state, rootState }, {cbb}) {
       // ajax
       let data = {...state.formValue};
       data.sex = (state.formValue.sex === '男孩' ? 2 : 1);
@@ -55,7 +45,10 @@ export default {
       try {
         let result = await updateUserInfoAjax(data);
         commit('postBtnChange', false);
-        commit('clearHtmlData');
+        if (result.code === 200) {
+          cbb('修改个人信息成功');
+          rootState.box.header.avatar = state.formValue.avatar;
+        }
         console.log(result);
       } catch (err) {
         console.log(err);

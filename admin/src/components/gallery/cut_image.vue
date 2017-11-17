@@ -13,8 +13,8 @@
 
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="">取 消</el-button>
-        <el-button type="primary" :loading="loading" @click="addPostImgEvent()">{{loading ? '上传中...' : '确定上传'}}</el-button>
+        <el-button @click="$emit('close')">取 消</el-button>
+        <el-button type="primary" :disabled="!imgUrl" :loading="loading" @click="addPostImgEvent()">{{loading ? '上传中...' : '确定上传'}}</el-button>
       </span>
     </el-dialog>
   </div>
