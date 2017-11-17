@@ -23,12 +23,12 @@
     <el-dialog title="消息盒子" :visible.sync="messageBox_show" :modal-append-to-body="false">
       <el-table :data="messageBoxList" style="width: 100%">
         <el-table-column prop="typeText" label="消息类型"></el-table-column>
-        <el-table-column prop="name" label="姓名"></el-table-column>
+        <el-table-column prop="name" label="来自"></el-table-column>
         <el-table-column prop="remark" label="内容"></el-table-column>
         <el-table-column prop="time" label="时间"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="small" @click="seeEvent(scope.$index, scope.row)">查看</el-button>
+            <el-button size="small" @click="seeEvent(scope.$index, scope.row)">操作</el-button>
             <el-button size="small" type="danger" @click="ignoreMessageEvent(scope.row)">忽略</el-button>
           </template>
         </el-table-column>
