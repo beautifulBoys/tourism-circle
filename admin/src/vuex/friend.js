@@ -1,5 +1,5 @@
 
-import data from './data/table.json';
+import {myFriendAjax, deleteFriendAjax} from '../api/ajax_router.js';
 export default {
   namespaced: true,
   state: {
@@ -13,10 +13,18 @@ export default {
     }
   },
   actions: {
-    getDataEvent ({ commit, state }) {
-      setTimeout(() => {
-        commit('changeList', data.list);
-      }, 1000);
+    async getDataEvent ({ commit, state }) {
+      let result = await myFriendAjax();
+      commit('changeList', result.data.list);
+    },
+    async deleteFriendEvent ({ commit, state }, {success, error, id}) {
+      let result = await deleteFriendAjax({id});
+      if (result.code === 200) {
+        success(result.message);
+        commit('changeList', result.data.list);
+      } else {
+        error(result.message);
+      }
     }
   }
 };

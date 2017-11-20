@@ -69,9 +69,10 @@ export default {
     async AgreeOrRefuseEvent ({commit}, {type, messageId, fromId, toId, success, error}) {
       try {
         let result = await friendHandleAjax({messageId, fromId, toId, type});
-        console.log(result);
-        if (result.code === 200) success(result.message);
-        else if (result.code === 300) error(result.message);
+        if (result.code === 200) {
+          success(result.message);
+          commit('changeMessageBoxList', result.data);
+        } else if (result.code === 300) error(result.message);
         else console.log('出错了，检查下');
       } catch (err) {
         console.log(err);

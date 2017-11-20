@@ -2,14 +2,37 @@
 import formidable from 'formidable';
 import util from 'util';
 import Image from '../model/image.js';
-
-
-import {loginFunc, userInfoUpdateFunc, getUserInfoFunc, getAllUserFunc} from '../controller/user.js';
-import {postingFunc, postFunc, starFunc, pinglunFunc} from '../controller/posting.js';
-import {galleryFunc, galleryDeleteFunc} from '../controller/gallery.js';
-import {webMailSendFunc, messageBoxListFunc, ignoreMessageFunc, addFriendFunc, sendWebMailFunc, friendHandleFunc} from '../controller/messageBox.js';
-
 import Id from '../model/id.js';
+
+import {
+  loginFunc, 
+  userInfoUpdateFunc, 
+  getUserInfoFunc, 
+  myFriendFunc, 
+  getAllUserFunc
+} from '../controller/user.js';
+import {
+  postingFunc, 
+  postFunc, 
+  starFunc, 
+  pinglunFunc
+} from '../controller/posting.js';
+import {
+  galleryFunc, 
+  galleryDeleteFunc
+} from '../controller/gallery.js';
+import {
+  webMailSendFunc, 
+  messageBoxListFunc, 
+  ignoreMessageFunc, 
+  addFriendFunc, 
+  sendWebMailFunc, 
+  friendHandleFunc
+} from '../controller/messageBox.js';
+import {
+  deleteFriendFunc
+} from '../controller/friend.js';
+
 
 export default (app) => {
   app.post('/login', loginFunc);
@@ -29,6 +52,8 @@ export default (app) => {
   app.post('/webMailSend', webMailSendFunc);
   app.post('/star', starFunc);
   app.post('/pinglun', pinglunFunc);
+  app.post('/myFriend', myFriendFunc);
+  app.post('/deleteFriend', deleteFriendFunc);
   
   
 

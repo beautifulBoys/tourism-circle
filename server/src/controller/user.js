@@ -89,3 +89,31 @@ export const getAllUserFunc = async (req, res) => {
     res.send({code: 300, message: '获取用户列表失败', data: err});
   }
 };
+
+export const myFriendFunc = async (req, res) => {
+  let userId = req.headers.userid;
+  let list = [];
+  try {
+    let user = await User.findOne({id: userId});
+    for (let i = 0; i < user.friendList.length; i++) {
+      let friend = await User.findOne({id: user.friendList[i] - 0});
+      
+      let item = {
+        address: friend.address.length > 0 ? friend.address.join('-') : '未设置',
+        email: friend.email || '未设置',
+        id: friend.id,
+        username: friend.username,
+        desc: friend.desc || '未设置',
+        postNum: friend.postNum
+      };
+      if (friend.sex === 1) item.sex = '女孩';
+      else if (friend.sex === 2) item.sex = '男孩';
+      else item.sex = '未设置';
+      list.push(item);
+    }
+   
+    res.send({code: 200, message: '获取用户列表成功', data: {list: list}});
+  } catch (err) {
+    res.send({code: 300, message: '获取用户列表失败', data: err});
+  }
+};

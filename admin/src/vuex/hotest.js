@@ -12,7 +12,7 @@ export default {
   },
   actions: {
     async getDataEvent ({ commit, state }) {
-      let result = await getPostAjax({type: 'newest'});
+      let result = await getPostAjax({type: 'hotest'});
       console.log(result);
       commit('changeList', result.data.list);
     }

@@ -15,18 +15,18 @@
         </template>
       </el-table-column>
       <el-table-column label="用户 ID" prop="id"></el-table-column>
-      <el-table-column label="用户名" prop="name"></el-table-column>
+      <el-table-column label="用户名" prop="username"></el-table-column>
       <el-table-column label="碎碎念" prop="desc"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button size="small" @click="sendMessageEvent(scope.$index, scope.row)">发消息</el-button>
-          <el-button size="small" type="danger" @click="deleteFriendEvent(scope.$index, scope.row)">解除好友</el-button>
+          <el-button size="small" type="danger" @click="deleteFriendPageEvent(scope.$index, scope.row)">解除好友</el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <el-dialog title="解除好友" :visible.sync="dialogFriendShow" size="tiny">
-      水电费了解多少了房间里都是解放路上看到交流交流时代峰峻来说大家发了时间到了
+      你确认要解除与 {{}}
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFriendShow = false">取 消</el-button>
         <el-button type="primary" @click="dialogFriendShow = false">确 定</el-button>
@@ -60,14 +60,34 @@ export default {
   },
   methods: {
     ...mapMutations([]),
-    ...mapActions(['getDataEvent']),
+    ...mapActions(['getDataEvent', 'deleteFriendEvent']),
     sendMessageEvent (index, row) {
       console.log(index, row);
       this.dialogMessageShow = true;
     },
-    deleteFriendEvent (index, row) {
-      console.log(index, row);
-      this.dialogFriendShow = true;
+    deleteFriendPageEvent (index, row) {
+      let me = this;
+      this.$confirm(`你确认要接触与 ${row.username} 的好友？`, '解除好友关系', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        me.deleteFriendEvent({
+          id: row.id,
+          success (text) {
+            me.$message({
+              type: 'success',
+              message: text
+            });
+          },
+          error (text) {
+            me.$message({
+              type: 'error',
+              message: text
+            });
+          }
+        });
+      });
     }
   }
 };

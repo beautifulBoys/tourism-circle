@@ -23,3 +23,6 @@ export const ignoreMessageAjax = data => ajax1.post('/ignoreMessage', data);
 
 export const starAjax = data => ajax1.post('/star', data);
 export const pinglunAjax = data => ajax1.post('/pinglun', data);
+
+export const myFriendAjax = data => ajax1.post('/myFriend', data);
+export const deleteFriendAjax = data => ajax1.post('/deleteFriend', data);

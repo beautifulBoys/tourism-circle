@@ -132,6 +132,7 @@ export const addFriendFunc = async (req, res) => {
 
 
 export const friendHandleFunc = async (req, res) => {
+  let meId = req.headers.userid;
   let messageId = req.body.messageId - 0;
   let fromId = req.body.fromId - 0;
   let toId = req.body.toId - 0;
@@ -156,8 +157,12 @@ export const friendHandleFunc = async (req, res) => {
       await User.update({id: toId}, {friendList: newFrindList_to}, {multi: false}, (err) => {
         if (err) console.log(2, err);
       });
-
-      res.send({code: 200, message: '已添加好友', data: {}});
+      let result = await Message.find({toId: meId});
+      let list = [];
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].status) list.push(result[i]);
+      }
+      res.send({code: 200, message: '已添加好友', data: list});
     } catch (err) {
       console.log(err);
       res.send({code: 300, message: '添加好友失败', data: err});
