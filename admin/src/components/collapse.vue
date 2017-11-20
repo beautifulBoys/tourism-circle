@@ -2,7 +2,10 @@
 <div class="collapse">
   <div class="line">
     <div class="btn right" @click="collapseEvent"><i class="el-icon-arrow-right" :class="{rotate: !collapse}"></i>{{num > 0 ? (num + ' 条') : '添加'}}评论</div>
-    <div class="btn left"><i class="el-icon-star-on"></i></div>
+    <div class="btn left" @click="starEvent">
+      <i class="el-icon-star-on" v-show="isStar"></i>
+      <i class="el-icon-star-off" v-show="!isStar"></i>
+    </div>
     <div class="btn left" @click="pinglunEvent()"><i class="el-icon-message"></i></div>
   </div>
   <div class="box" :class="{collapse: !collapse}">
@@ -14,19 +17,42 @@
 
 <script>
 export default {
-  props: ['num'],
+  props: ['num', 'isStared'],
   data () {
     return {
-      collapse: true
+      collapse: true,
+      isStar: false
     };
   },
+  // watch: {
+  //   isStared (n) {
+  //     this.isStar = (n || false);
+  //   }
+  // },
+  mounted () {
+    this.isStar = this.isStared;
+  },
   methods: {
+    starEvent () {
+      let _this = this;
+      this.$emit('starEvent', {
+        cbb (status) {
+          _this.isStar = status;
+        }
+      });
+    },
     pinglunEvent () {
+      let _this = this;
       this.$prompt('请输入评论内容', '输入提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消'
       }).then(({ value }) => {
-        this.$message({type: 'success', message: '评论成功: ' + value});
+        _this.$emit('pinglunEvent', {
+          value,
+          cbb () {
+            _this.$message({type: 'success', message: '评论成功'});
+          }
+        });
       }).catch(() => {});
     },
     collapseEvent () {

@@ -25,21 +25,25 @@
     <div class="content">{{listItem.content}}</div>
     <div class="img-box">
       <div class="item" v-for="item in listItem.urls">
-        <load-img :src="item.url"></load-img>
+        <load-img :data="item"></load-img>
       </div>
     </div>
-    <collapse :num="listItem.commentList.length">
+    <collapse :num="listItem.commentList.length" :isStared="listItem.isStared" @starEvent="starEvent" @pinglunEvent="pinglunEvent">
       <ul class="ul">
-        <li v-for="item in listItem.commentList">
+        <li v-for="item in commentList">
           <div class="left"><img :src="item.user.url"/></div>
           <div class="right">
             <div class="name">{{item.user.name}}</div>
-            <div>{{item.content}}</div>
+            <div>{{item.comment.content}}</div>
           </div>
         </li>
       </ul>
       <div class="pagination">
-        <el-pagination layout="prev, pager, next" :total="1000"></el-pagination>
+        <el-pagination layout="prev, pager, next"
+          :page-size="pageSize"
+          @current-change="handleCurrentChange"
+
+        :total="totalNum"></el-pagination>
       </div>
     </collapse>
   </div>
@@ -49,15 +53,74 @@
 <script>
 import Collapse from './collapse.vue';
 import loadImg from './load_img.vue';
+import { starAjax, pinglunAjax } from '../api/ajax_router.js';
+import { createNamespacedHelpers } from 'vuex';
+const { mapState } = createNamespacedHelpers('box');
 export default {
   components: {
     'collapse': Collapse,
     'load-img': loadImg
   },
+  data () {
+    return {
+      currentNum: 1,
+      pageSize: 5
+    };
+  },
+  computed: {
+    ...mapState({
+      userId: state => state.userInfo.userId
+    }),
+    totalNum () {
+      return this.listItem.commentList.length;
+    },
+    commentList () {
+      let page = parseInt(this.totalNum / this.pageSize);
+      let last = this.totalNum % this.pageSize;
+      let n;
+      if (this.currentNum <= page) n = this.pageSize;
+      else n = last;
+      return this.listItem.commentList.slice((this.currentNum - 1) * this.pageSize, ((this.currentNum - 1) * this.pageSize) + n);
+    }
+  },
   props: ['listItem', 'type', 'control'],
   methods: {
+    handleCurrentChange (num) {
+      console.log(num);
+      this.currentNum = num;
+    },
     dropdownEvent (value) {
       console.log(value);
+    },
+    async pinglunEvent ({value, cbb}) {
+      let result = await pinglunAjax({id: this.listItem.id, value});
+      console.log(result);
+      // this.listItem.commentList.unshift(result.data);
+      this.listItem.commentList.push(result.data);
+    },
+    starEvent ({cbb}) {
+      if (this.userId - 0 === this.listItem.userId) {
+        this.$message({
+          type: 'warning',
+          message: '不能喜欢自己发表的分享'
+        });
+      } else {
+        this.ajax(cbb);
+      }
+    },
+    async ajax (cbb) {
+      let result = await starAjax({id: this.listItem.id});
+      console.log(result);
+      if (result.code === 200) {
+        let status;
+        if (result.data === 'star') status = true;
+        else status = false;
+        cbb(status);
+        this.$message({ type: 'success', message: result.message });
+      } else {
+        this.$message({ type: 'error', message: '喜欢失败，请稍后重试，或联系管理员' });
+        console.log(result.data);
+      }
     }
   }
 };

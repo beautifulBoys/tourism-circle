@@ -39,11 +39,9 @@ export default {
       state.userInfo.passport = Cookie.get('passport');
     },
     openImageScan (state, item) {
-      console.log(item);
       state.imageScan.open(item);
     },
     boxInitEvent (state, obj) {
-      console.log(obj);
       state.imageScan = obj;
     }
   },

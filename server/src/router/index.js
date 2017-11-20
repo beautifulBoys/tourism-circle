@@ -5,7 +5,7 @@ import Image from '../model/image.js';
 
 
 import {loginFunc, userInfoUpdateFunc, getUserInfoFunc, getAllUserFunc} from '../controller/user.js';
-import {postingFunc, postFunc} from '../controller/posting.js';
+import {postingFunc, postFunc, starFunc, pinglunFunc} from '../controller/posting.js';
 import {galleryFunc, galleryDeleteFunc} from '../controller/gallery.js';
 import {webMailSendFunc, messageBoxListFunc, ignoreMessageFunc, addFriendFunc, sendWebMailFunc, friendHandleFunc} from '../controller/messageBox.js';
 
@@ -27,6 +27,8 @@ export default (app) => {
   app.post('/ignoreMessage', ignoreMessageFunc);
   app.post('/friendHandle', friendHandleFunc);
   app.post('/webMailSend', webMailSendFunc);
+  app.post('/star', starFunc);
+  app.post('/pinglun', pinglunFunc);
   
   
 

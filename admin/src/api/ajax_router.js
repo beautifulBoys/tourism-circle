@@ -20,3 +20,6 @@ export const webMailSendAjax = data => ajax1.post('/webMailSend', data);
 
 export const messageBoxListAjax = data => ajax1.post('/messageBoxList', data);
 export const ignoreMessageAjax = data => ajax1.post('/ignoreMessage', data);
+
+export const starAjax = data => ajax1.post('/star', data);
+export const pinglunAjax = data => ajax1.post('/pinglun', data);
