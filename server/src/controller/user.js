@@ -1,5 +1,8 @@
 
 import User from '../model/user.js';
+import Following from '../model/following.js';
+import Follow from '../model/follow.js';
+import Friend from '../model/friend.js';
 import Id from '../model/id.js';
 import md5 from 'blueimp-md5';
 import formatDate from '../lib/formDate.js';
@@ -24,12 +27,39 @@ export const loginFunc = async (req, res) => {
       let obj = await Id.findOne({type: 'userId'});
       if (obj) Id.update({_id: obj._id}, {value: obj.value + 1}, {multi: false}, () => {});
       else Id.create({type: 'userId'});
+      let userId = obj.value + 1;
       User.create({
-        id: obj.value + 1,
+        id: userId,
         username: req.body.username,
         password: req.body.password,
         passport: passport
       });
+
+      obj = await Id.findOne({type: 'followingId'});
+      if (obj) Id.update({_id: obj._id}, {value: obj.value + 1}, {multi: false}, () => {});
+      else Id.create({type: 'followingId'});
+      await Following.create({
+        id: obj.value + 1,
+        userId: userId
+      });
+      
+      obj = await Id.findOne({type: 'followId'});
+      if (obj) Id.update({_id: obj._id}, {value: obj.value + 1}, {multi: false}, () => {});
+      else Id.create({type: 'followId'});
+      await Follow.create({
+        id: obj.value + 1,
+        userId: userId
+      });
+      
+      obj = await Id.findOne({type: 'friendId'});
+      if (obj) Id.update({_id: obj._id}, {value: obj.value + 1}, {multi: false}, () => {});
+      else Id.create({type: 'friendId'});
+      await Friend.create({
+        id: obj.value + 1,
+        userId: userId
+      });
+
+
       res.send({code: 200, message: '你好：' + username + '，已自动为您注册账号', data: {passport, userId: obj.value + 1, username}});
     }
   } else {
@@ -90,30 +120,3 @@ export const getAllUserFunc = async (req, res) => {
   }
 };
 
-export const myFriendFunc = async (req, res) => {
-  let userId = req.headers.userid;
-  let list = [];
-  try {
-    let user = await User.findOne({id: userId});
-    for (let i = 0; i < user.friendList.length; i++) {
-      let friend = await User.findOne({id: user.friendList[i] - 0});
-      
-      let item = {
-        address: friend.address.length > 0 ? friend.address.join('-') : '未设置',
-        email: friend.email || '未设置',
-        id: friend.id,
-        username: friend.username,
-        desc: friend.desc || '未设置',
-        postNum: friend.postNum
-      };
-      if (friend.sex === 1) item.sex = '女孩';
-      else if (friend.sex === 2) item.sex = '男孩';
-      else item.sex = '未设置';
-      list.push(item);
-    }
-   
-    res.send({code: 200, message: '获取用户列表成功', data: {list: list}});
-  } catch (err) {
-    res.send({code: 300, message: '获取用户列表失败', data: err});
-  }
-};

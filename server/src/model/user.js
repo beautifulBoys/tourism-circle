@@ -14,7 +14,7 @@ const userInfo = { // 用户相关的信息
     },
     avatar: { // 头像地址
         type: String,
-        default: ''
+        default: 'https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/tourism-circle/avatar.png'
     },
     email: {
         type: String,
@@ -24,7 +24,7 @@ const userInfo = { // 用户相关的信息
         type: Array,
         default: []
     },
-    sex: {// 男 2   女 1    未设置 0
+    sex: {// 男 2   女 1   未设置 0
         type: Number,
         default: 0
     },
@@ -39,18 +39,6 @@ const userInfo = { // 用户相关的信息
     postNum: {
         type: Number,
         default: 0
-    },
-    friendList: {
-        type: Array,
-        default: []
-    },
-    followingList: {
-        type: Array,
-        default: []
-    },
-    followsList: {
-        type: Array,
-        default: []
     }
 };
 const accountInfo = { // 用户账户相关的信息

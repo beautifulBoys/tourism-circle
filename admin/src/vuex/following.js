@@ -1,5 +1,5 @@
 
-import data from './data/table.json';
+import {followingAjax} from '../api/ajax_router.js';
 export default {
   namespaced: true,
   state: {
@@ -13,10 +13,9 @@ export default {
     }
   },
   actions: {
-    getDataEvent ({ commit, state }) {
-      setTimeout(() => {
-        commit('changeList', data.list);
-      }, 1000);
+    async getDataEvent ({ commit, state }) {
+      let result = await followingAjax();
+      commit('changeList', result.data.list);
     }
   }
 };

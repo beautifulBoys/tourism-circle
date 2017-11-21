@@ -3,12 +3,12 @@ import formidable from 'formidable';
 import util from 'util';
 import Image from '../model/image.js';
 import Id from '../model/id.js';
+import User from '../model/user.js';
 
 import {
   loginFunc, 
   userInfoUpdateFunc, 
-  getUserInfoFunc, 
-  myFriendFunc, 
+  getUserInfoFunc,
   getAllUserFunc
 } from '../controller/user.js';
 import {
@@ -24,13 +24,14 @@ import {
 import {
   webMailSendFunc, 
   messageBoxListFunc, 
-  ignoreMessageFunc, 
-  addFriendFunc, 
-  sendWebMailFunc, 
-  friendHandleFunc
-} from '../controller/messageBox.js';
+  ignoreMessageFunc,
+  sendWebMailFunc
+} from '../controller/message.js';
 import {
-  deleteFriendFunc
+  deleteFriendFunc, 
+  addFriendFunc,  
+  myFriendFunc, 
+  friendHandleFunc
 } from '../controller/friend.js';
 
 
@@ -57,22 +58,10 @@ export default (app) => {
   
   
 
-  app.post('/string', async (req, res) => {
-    let list = req.body.list;
-    console.log(list);
-
-    for (let i = 0; i < list.length; i++) {
-
-      let obj = await Id.findOne({type: 'imageId'});
-      if (obj) await Id.update({_id: obj._id}, {value: obj.value + 1}, {multi: false}, () => {});
-      else await Id.create({type: 'imageId'});
-
-      await Image.create({
-        url: list[i].url,
-        id: obj.value + 1
-      });
-    }
-    res.send({code: 200, message: '我是post string 接口的返回', data: {}});
+  app.post('/test', async (req, res) => {
+    let result = await User.find({id: 10302});
+    console.log(result);
+    res.send({code: 200, message: '我是post test 接口的返回', data: {}});
   });
 
   app.post('/upload', (req, res) => {

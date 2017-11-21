@@ -25,14 +25,6 @@
       </el-table-column>
     </el-table>
 
-    <el-dialog title="解除好友" :visible.sync="dialogFriendShow" size="tiny">
-      你确认要解除与 {{}}
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFriendShow = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFriendShow = false">确 定</el-button>
-      </div>
-    </el-dialog>
-
   </div>
 </div>
 </template>

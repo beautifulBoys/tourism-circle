@@ -1,5 +1,5 @@
 
-import {allUserListAjax, addFriendAjax, sendWebMailAjax} from '../api/ajax_router.js';
+import {allUserListAjax, addFriendAjax, sendWebMailAjax, testAjax} from '../api/ajax_router.js';
 
 export default {
   namespaced: true,
@@ -19,6 +19,8 @@ export default {
     async getDataEvent ({ commit, state }) {
       try {
         let result = await allUserListAjax();
+        let test = await testAjax();
+        console.log(test);
         commit('changeList', result.data.list);
       } catch (err) {
         console.log(err);
