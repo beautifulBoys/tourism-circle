@@ -6,8 +6,9 @@ import User from '../model/user.js';
 
 export const postingFunc = async (req, res) => {
   let obj = await Id.findOne({type: 'postId'});
-  if (obj) Id.update({_id: obj._id}, {value: obj.value + 1}, {multi: false}, () => {});
-  else Id.create({type: 'postId'});
+  if (obj) await Id.update({_id: obj._id}, {value: obj.value + 1}, {multi: false}, () => {});
+  else await Id.create({type: 'postId'});
+  obj = await Id.findOne({type: 'postId'});
   try {
     await Post.create({
       title: req.body.title,

@@ -27,8 +27,9 @@ export const addFriendFunc = async (req, res) => {
 
   try {
     let obj = await Id.findOne({type: 'messageId'});
-    if (obj) Id.update({_id: obj._id}, {value: obj.value + 1}, {multi: false}, () => {});
-    else Id.create({type: 'messageId'});
+    if (obj) await Id.update({_id: obj._id}, {value: obj.value + 1}, {multi: false}, () => {});
+    else await Id.create({type: 'messageId'});
+    obj = await Id.findOne({type: 'messageId'});
     await Message.create({
       id: obj.value + 1,
       type: 'add-friend',

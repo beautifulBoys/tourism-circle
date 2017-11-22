@@ -8,7 +8,7 @@ import zhanweiData from './zhanwei.js';
 import { createNamespacedHelpers } from 'vuex';
 const { mapActions } = createNamespacedHelpers('box/gallery');
   export default {
-  props: ['data'],
+  props: ['src'],
     data () {
       return {
         img: zhanweiData,
@@ -17,7 +17,7 @@ const { mapActions } = createNamespacedHelpers('box/gallery');
     },
     mounted () {
       let newImg = new Image();
-      newImg.src = this.data.url;
+      newImg.src = this.src;
       newImg.setAttribute('class', 'img-lixin');
       newImg.onload = () => {
         let child = this.$refs.img;

@@ -14,7 +14,7 @@ function typeToText (type) {
 
 export const messageBoxListFunc = async (req, res) => {
   try {
-    let result = await Message.find({toId: req.headers.userid});
+    let result = await Message.find({toId: req.headers.userid, status: true});
     result = result.filter(item => item.status);
     let arr = [];
     for (let i = 0; i < result.length; i++) {
@@ -40,10 +40,12 @@ export const messageBoxListFunc = async (req, res) => {
 
 
 export const ignoreMessageFunc = async (req, res) => {
+  let messageId = req.body.id - 0;
+  let meId = req.headers.userid - 0;
   try {
-    await Message.update({id: req.body.id}, {status: false}, {multi: false}, (err, docs) => {});
-    
-    let result = await Message.find({toId: req.headers.userid});
+    await Message.update({id: messageId}, {status: false}, {multi: false}, (err) => {});
+
+    let result = await Message.find({toId: meId, status: true});
     result = result.filter(item => item.status);
     let arr = [];
     for (let i = 0; i < result.length; i++) {
@@ -61,7 +63,7 @@ export const ignoreMessageFunc = async (req, res) => {
 
     res.send({code: 200, message: '忽略消息成功', data: {list: arr}});
   } catch (err) {
-    res.send({code: 300, message: '忽略消息失败', data: err});
+    res.send({code: 300, message: '忽略消息失败，请联系管理员', data: err});
   }
 };
 

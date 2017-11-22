@@ -25,38 +25,40 @@ export const loginFunc = async (req, res) => {
       }
     } else {
       let obj = await Id.findOne({type: 'userId'});
-      if (obj) Id.update({_id: obj._id}, {value: obj.value + 1}, {multi: false}, () => {});
-      else Id.create({type: 'userId'});
+      if (obj) await Id.update({_id: obj._id}, {value: obj.value + 1}, {multi: false}, () => {});
+      else await Id.create({type: 'userId'});
+      obj = await Id.findOne({type: 'userId'});
       let userId = obj.value + 1;
-      User.create({
+      // 创建 user 表
+      await User.create({
         id: userId,
         username: req.body.username,
         password: req.body.password,
         passport: passport
+      }, (err, docs) => {
+        if (err) console.log('create user 出错了', err);
       });
 
-      obj = await Id.findOne({type: 'followingId'});
-      if (obj) Id.update({_id: obj._id}, {value: obj.value + 1}, {multi: false}, () => {});
-      else Id.create({type: 'followingId'});
+      // 同步创建 following 表
       await Following.create({
-        id: obj.value + 1,
+        id: userId,
         userId: userId
+      }, (err, docs) => {
+        if (err) console.log('create following 出错了', err);
       });
-      
-      obj = await Id.findOne({type: 'followId'});
-      if (obj) Id.update({_id: obj._id}, {value: obj.value + 1}, {multi: false}, () => {});
-      else Id.create({type: 'followId'});
+      // 同步创建 follow 表
       await Follow.create({
-        id: obj.value + 1,
+        id: userId,
         userId: userId
+      }, (err, docs) => {
+        if (err) console.log('create follow 出错了', err);
       });
-      
-      obj = await Id.findOne({type: 'friendId'});
-      if (obj) Id.update({_id: obj._id}, {value: obj.value + 1}, {multi: false}, () => {});
-      else Id.create({type: 'friendId'});
+      // 同步创建 friend 表
       await Friend.create({
-        id: obj.value + 1,
+        id: userId,
         userId: userId
+      }, (err, docs) => {
+        if (err) console.log('create friend 出错了', err);
       });
 
 
