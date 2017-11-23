@@ -15,7 +15,8 @@ import {
   postingFunc, 
   postFunc, 
   starFunc, 
-  pinglunFunc
+  pinglunFunc,
+  myPostedFunc
 } from '../controller/posting.js';
 import {
   galleryFunc, 
@@ -39,6 +40,10 @@ import {
   deleteFollowingFunc,
   followsFunc
 } from '../controller/follow.js';
+import {
+  myStarFunc,
+  myCommentsFunc
+} from '../controller/myStar_myComment.js';
 
 
 export default (app) => {
@@ -65,6 +70,9 @@ export default (app) => {
   app.post('/myFollowing', myFollowingFunc);
   app.post('/deleteFollowing', deleteFollowingFunc);
   app.post('/follows', followsFunc);
+  app.post('/myPosted', myPostedFunc);
+  app.post('/myStar', myStarFunc);
+  app.post('/myComments', myCommentsFunc);
   
   
 

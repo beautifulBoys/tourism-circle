@@ -3,6 +3,8 @@ import User from '../model/user.js';
 import Following from '../model/following.js';
 import Follow from '../model/follow.js';
 import Friend from '../model/friend.js';
+import Star from '../model/star.js';
+import Comment from '../model/comment.js';
 import Id from '../model/id.js';
 import md5 from 'blueimp-md5';
 import formatDate from '../lib/formDate.js';
@@ -59,6 +61,20 @@ export const loginFunc = async (req, res) => {
         userId: userId
       }, (err, docs) => {
         if (err) console.log('create friend 出错了', err);
+      });
+      // 同步创建 star 表
+      await Star.create({
+        id: userId,
+        userId: userId
+      }, (err, docs) => {
+        if (err) console.log('create star 出错了', err);
+      });
+      // 同步创建 comment 表
+      await Comment.create({
+        id: userId,
+        userId: userId
+      }, (err, docs) => {
+        if (err) console.log('create comment 出错了', err);
       });
 
 

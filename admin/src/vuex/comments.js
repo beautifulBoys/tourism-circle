@@ -1,5 +1,5 @@
 
-import data from './data/mostest.json';
+import {myCommentAjax} from '../api/ajax_router.js';
 export default {
   namespaced: true,
   state: {
@@ -11,10 +11,10 @@ export default {
     }
   },
   actions: {
-    getDataEvent ({ commit, state }) {
-      setTimeout(() => {
-        commit('changeList', data.list);
-      }, 1000);
+    async getDataEvent ({ commit }, {error}) {
+      let result = await myCommentAjax();
+      if (result.code === 200) commit('changeList', result.data.list);
+      else error(result.message);
     }
   }
 };

@@ -72,7 +72,7 @@ export default {
           border-radius: 5px;
           overflow: hidden;
           &:hover {
-            box-shadow: 0 0 15px rgba(0,0,0,0.15);
+            box-shadow: 0 0 20px rgba(0,0,0,0.15);
           }
           .title {
             line-height: 50px;
@@ -93,26 +93,26 @@ export default {
                 width: 100%;
                 text-align: center;
                 &.first {
-                  color: red;
+                  color: #fb6d74;
                   .row-1 .index {
                     color: #fff;
-                    background: red;
+                    background: #fb6d74;
                   }
                 }
 
                 &.second {
-                  color: blue;
+                  color: #fb9c6c;
                   .row-1 .index {
                     color: #fff;
-                    background: blue;
+                    background: #fb9c6c;
                   }
                 }
 
                 &.third {
-                  color: green;
+                  color: #7dc1f1;
                   .row-1 .index {
                     color: #fff;
-                    background: green;
+                    background: #7dc1f1;
                   }
                 }
 
@@ -137,7 +137,7 @@ export default {
                 }
 
                 &:hover td {
-                  background: #f9f9f9;
+                  background: #d2ebfe;
                 }
                 th {
                   line-height: 30px;

@@ -31,3 +31,8 @@ export const myFollowingAjax = data => ajax1.post('/myFollowing', data);
 export const followAjax = data => ajax1.post('/toFollow', data);
 export const deleteFollowingAjax = data => ajax1.post('/deleteFollowing', data);
 export const followsAjax = data => ajax1.post('/follows', data);
+
+export const myPostedAjax = data => ajax1.post('/myPosted', data);
+export const myStarAjax = data => ajax1.post('/myStar', data);
+
+export const myCommentAjax = data => ajax1.post('/myComments', data);

@@ -2,14 +2,11 @@
   <div class="posted">
     <h1>我发表的</h1>
     <div class="content-box">
-      <div class="left">
-        <ul class="ul">
-          <li class="li" v-for="item in list">
-            <dynamic type="mine" :listItem="item" :control="true"></dynamic>
-          </li>
-        </ul>
-      </div>
-      <div class="right"></div>
+      <ul class="ul">
+        <li class="li" v-for="item in list">
+          <dynamic type="mine" :listItem="item" :control="true"></dynamic>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -56,6 +53,7 @@
       .ul {
         padding: 0;
         margin: 0;
+        width: 100%;
         .li {
           list-style-type: none;
           margin: 15px 0;

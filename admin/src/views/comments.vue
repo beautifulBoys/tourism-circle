@@ -17,7 +17,7 @@
   import Dynamic from '../components/dynamic.vue';
 
   import { createNamespacedHelpers } from 'vuex';
-  const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('box/mostest');
+  const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('box/comments');
   export default {
     components: {
       'dynamic': Dynamic
@@ -29,7 +29,15 @@
       ...mapGetters([])
     },
     mounted () {
-      this.getDataEvent();
+      let me = this;
+      this.getDataEvent({
+        error (text) {
+          me.$message({
+            type: 'error',
+            message: text
+          });
+        }
+      });
     },
     methods: {
       ...mapMutations([]),
@@ -55,6 +63,7 @@
       .ul {
         padding: 0;
         margin: 0;
+        width: 100%;
         .li {
           list-style-type: none;
           margin: 15px 0;
