@@ -16,7 +16,8 @@ import {
   postFunc, 
   starFunc, 
   pinglunFunc,
-  myPostedFunc
+  myPostedFunc,
+  changeMinePostStatusFunc
 } from '../controller/posting.js';
 import {
   galleryFunc, 
@@ -44,6 +45,10 @@ import {
   myStarFunc,
   myCommentsFunc
 } from '../controller/myStar_myComment.js';
+
+import {
+  rankingFunc
+} from '../controller/ranking.js';
 
 
 export default (app) => {
@@ -73,13 +78,24 @@ export default (app) => {
   app.post('/myPosted', myPostedFunc);
   app.post('/myStar', myStarFunc);
   app.post('/myComments', myCommentsFunc);
+  app.post('/changeMinePostStatus', changeMinePostStatusFunc);
+  app.post('/ranking', rankingFunc);
   
   
-
-  app.post('/test', async (req, res) => {
-    let result = await User.find({id: 10302});
-    console.log(result);
-    res.send({code: 200, message: '我是post test 接口的返回', data: {}});
+  
+  app.post('/imageSave', async (req, res) => {
+    let list = req.body.list;
+    let obj = await Id.findOne({type: 'imagesId'});
+    if (!obj) Id.create({type: 'imagesId'});
+    for (let i = 0; i < list.length; i++) {
+      let {value} = await Id.findOne({type: 'imagesId'});
+      await Image.create({
+        id: value - 0 + 1,
+        url: list[i].url
+      });
+      await Id.update({type: 'imagesId'}, {value: value - 0 + 1}, {multi: false}, (err) => {});
+    }
+    res.send({code: 200, message: '我是images 接口的返回', data: {}});
   });
 
   app.post('/upload', (req, res) => {

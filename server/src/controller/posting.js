@@ -7,6 +7,7 @@ import Comment from '../model/comment.js';
 
 
 export const postingFunc = async (req, res) => {
+  let userId = req.headers.userid;
   let obj = await Id.findOne({type: 'postId'});
   if (obj) await Id.update({_id: obj._id}, {value: obj.value + 1}, {multi: false}, () => {});
   else await Id.create({type: 'postId'});
@@ -26,11 +27,12 @@ export const postingFunc = async (req, res) => {
       userId: req.headers.userid,
       id: obj.value + 1
     });
+    await User.update({id: userId}, {$inc: {postNum: 1}}, {multi: false}, () => {});
+    res.send({code: 200, message: '分享成功', data: {}});
   } catch (err) {
     res.send({code: 300, message: '分享失败', data: err});
   }
   
-  res.send({code: 200, message: '分享成功', data: {}});
 };
 
 function sort (type, list) {
@@ -63,7 +65,7 @@ export const postFunc = async (req, res) => {
   let userId = req.headers.userid - 0;
 
   let type = req.query.type ? req.query.type : 'newest';
-  let arr = await Post.find({}).sort({postTime: -1});
+  let arr = await Post.find({status: 0}).sort({postTime: -1});
   let list = [];
   for (let i = 0; i < arr.length; i++) {
     let user = await User.findOne({id: arr[i].userId});
@@ -201,6 +203,7 @@ export const myPostedFunc = async (req, res) => {
 
     let arr = await Post.find({userId});
     for (let i = 0; i < arr.length; i++) {
+      if (arr[i].status === 2) continue; // 逻辑删除的不做显示
       let user = await User.findOne({id: arr[i].userId});
       let isStared = (arr[i].starList.indexOf(userId) === -1 ? false : true);
       let starList = [];
@@ -235,13 +238,78 @@ export const myPostedFunc = async (req, res) => {
         spot: arr[i].spot,
         title: arr[i].title,
         avatar: user.avatar,
-        isStared
+        isStared,
+        status: arr[i].status
       };
       list.push(obj);
     }
     res.send({code: 200, message: '获取我的分享成功', data: {list}});
   } catch (err) {
     res.send({code: 300, message: '获取我的分享失败，请联系管理员', data: err});
+  }
+  
+};
+
+
+
+export const changeMinePostStatusFunc = async (req, res) => {
+  let userId = req.headers.userid - 0;
+  let postId = req.body.id - 0;
+  let status = req.body.status;
+  let list = [];
+  let statusObj = {
+    hide: {num: 1, text: '隐藏'},
+    delete: {num: 2, text: '删除'}
+  };
+  status = statusObj[status];
+  try {
+    await Post.update({id: postId}, {status: status.num}, {multi: false}, () => {});
+    let arr = await Post.find({userId});
+
+    for (let i = 0; i < arr.length; i++) {
+      let user = await User.findOne({id: arr[i].userId});
+      let isStared = (arr[i].starList.indexOf(userId) === -1 ? false : true);
+      let starList = [];
+      for (let j = 0; j < arr[i].starList.length; j++) {
+        let user = await User.findOne({id: arr[i].starList[j] - 0});
+        starList.push(user);
+      }
+      let commentList = [];
+      for (let h = 0; h < arr[i].commentList.length; h++) {
+        let user = await User.findOne({id: arr[i].commentList[h].userId});
+        
+        commentList.push({
+          comment: arr[i].commentList[h].comment,
+          user: {
+            url: user.avatar,
+            name: user.username
+          }
+        });
+      }
+      let obj = {
+        id: arr[i].id,
+        userId: arr[i].userId - 0,
+        postTime: arr[i].postTime,
+        commentList,
+        starList,
+        tagList: arr[i].tagList,
+        rate: arr[i].rate,
+        urls: arr[i].urls,
+        content: arr[i].content,
+        time: arr[i].time,
+        city: arr[i].city,
+        spot: arr[i].spot,
+        title: arr[i].title,
+        avatar: user.avatar,
+        isStared,
+        status: arr[i].status
+      };
+      list.push(obj);
+    }
+
+    res.send({code: 200, message: status.text + '我的分享成功', data: {list}});
+  } catch (err) {
+    res.send({code: 300, message: status.text + '我的分享失败，请联系管理员', data: err});
   }
   
 };

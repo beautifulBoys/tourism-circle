@@ -62,6 +62,10 @@ var Schemas = new mongoose.Schema({
     id: {
         type: Number,
         default: 1000
+    },
+    status: { // 0 为正常， 1为隐藏， 2为 删除
+        type: Number,
+        default: 0
     }
 }, {
     versionKey: false

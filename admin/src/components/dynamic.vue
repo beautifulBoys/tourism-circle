@@ -6,12 +6,13 @@
   <div class="li-right">
     <div class="title">
       <span>{{listItem.title}}</span>
+      <span v-if="listItem.status === 1">（仅本人可见）</span>
       <div class="sign-box" v-if="!type"><span class="sign"></span></div>
-      <el-dropdown trigger="click" style="float: right;" @command="dropdownEvent" v-if="control">
+      <el-dropdown trigger="click" style="float: right;" @command="changeMinePostStatusEvent" v-if="control">
         <el-button class="el-dropdown-link">操作</el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="a">隐藏</el-dropdown-item>
-          <el-dropdown-item command="b">删除</el-dropdown-item>
+          <el-dropdown-item command="hide">隐藏</el-dropdown-item>
+          <el-dropdown-item command="delete">删除</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
 
@@ -53,7 +54,7 @@
 <script>
 import Collapse from './collapse.vue';
 import loadImg from './load_img.vue';
-import { starAjax, pinglunAjax } from '../api/ajax_router.js';
+import { starAjax, pinglunAjax, changeMinePostStatusAjax } from '../api/ajax_router.js';
 import { createNamespacedHelpers } from 'vuex';
 const { mapState } = createNamespacedHelpers('box');
 export default {
@@ -89,14 +90,15 @@ export default {
       console.log(num);
       this.currentNum = num;
     },
-    dropdownEvent (value) {
-      console.log(value);
-    },
     async pinglunEvent ({value, cbb}) {
       let result = await pinglunAjax({id: this.listItem.id, value});
       console.log(result);
       // this.listItem.commentList.unshift(result.data);
       this.listItem.commentList.push(result.data);
+    },
+    async changeMinePostStatusEvent (value) {
+      let result = await changeMinePostStatusAjax({status: value, id: this.listItem.id});
+      console.log(result);
     },
     starEvent ({cbb}) {
       if (this.userId - 0 === this.listItem.userId) {

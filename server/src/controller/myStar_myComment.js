@@ -36,7 +36,7 @@ export const myStarFunc = async (req, res) => {
           }
         });
       }
-      let {avatar} = await User.findOne({id: userId});
+      let {avatar} = await User.findOne({id: post.userId});
       let obj = {
         id: post.id,
         userId: post.userId - 0,
@@ -67,7 +67,6 @@ export const myCommentsFunc = async (req, res) => {
   let userId = req.headers.userid - 0;
   let arr = [];
 
-
   try {
 
     let {list} = await Comment.findOne({id: userId});
@@ -95,7 +94,7 @@ export const myCommentsFunc = async (req, res) => {
           }
         });
       }
-      let {avatar} = await User.findOne({id: userId});
+      let {avatar} = await User.findOne({id: post.userId});
       let obj = {
         id: post.id,
         userId: post.userId - 0,
