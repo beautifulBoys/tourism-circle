@@ -1,17 +1,16 @@
 <template>
   <div class="travel">
-    <li-header></li-header>
     <div class="main" style="height: calc(100% - 50px)">
-
+      <div class="top">
+        <div class="bg"></div>
+      </div>
     </div>
   </div>
 </template>
 <script>
   import data from './dynamic.json';
-  import Header from '../components/header.vue';
   export default {
     components: {
-      'li-header': Header
     },
     data () {
       return {
@@ -37,8 +36,17 @@
     overflow-y: scroll;
     .main {
       width: 100%;
-      margin-top: 50px;
       overflow-y: scroll;
+      .top {
+        width: 100%;
+        height: 250px;
+        background: url(https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/tourism-circle/client/bg.png) no-repeat center center;
+        .bg {
+          width: 100%;
+          height: 100%;
+          background: #20a0ff;
+        }
+      }
       ul {
         padding: 0;
         margin: 0;

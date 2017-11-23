@@ -21,6 +21,7 @@ export default new Router({
     {
       path: '/',
       component: Box,
+      redirect: '/dynamic',
       children: [
         {path: '/dynamic', component: Dynamic},
         {path: '/circle', component: Circle},

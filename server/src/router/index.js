@@ -84,7 +84,7 @@ export default (app) => {
   
   
   
-  app.post('/getCityData', async (req, res) => {
+  app.post('/getCityData', async (req, res) => { // 中国城市数据请求接口
     res.send({code: 200, message: '中国城市数据', data: cityData.china});
   });
 

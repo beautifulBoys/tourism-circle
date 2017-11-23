@@ -11,8 +11,8 @@ export default {
   data () {
     return {
       list: [
-        {path: '/dynamic', text: '动态'},
-        {path: '/circle', text: '圈子'},
+        {path: '/dynamic', text: '圈子'},
+        {path: '/chat', text: '聊天'},
         {path: '/mine', text: '我'}
       ],
       activeIndex: 0
