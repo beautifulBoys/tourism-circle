@@ -29,7 +29,7 @@ const { mapActions } = createNamespacedHelpers('box/gallery');
     methods: {
       ...mapActions(['watchEvent']),
       seeEvent () {
-        if (this.status) this.watchEvent(this.data);
+        if (this.status) this.watchEvent({url: this.src});
       }
     }
   };

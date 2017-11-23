@@ -24,8 +24,8 @@
     </div>
     <div class="content">{{listItem.content}}</div>
     <div class="img-box">
-      <div class="item" v-for="item in listItem.urls">
-        <load-img :src="item.url"></load-img>
+      <div class="item" v-for="item1 in listItem.urls">
+        <load-img :src="item1.url"></load-img>
       </div>
     </div>
     <collapse :num="listItem.commentList.length" :isStared="listItem.isStared" @starEvent="starEvent" @pinglunEvent="pinglunEvent">
