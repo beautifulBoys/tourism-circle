@@ -1,11 +1,9 @@
 
-import data from './data/table.json';
+import data from './data/ranking.json';
 export default {
   namespaced: true,
   state: {
-    list: [],
-    reason: '',
-    mailContent: ''
+    list: []
   },
   mutations: {
     changeList (state, list) {

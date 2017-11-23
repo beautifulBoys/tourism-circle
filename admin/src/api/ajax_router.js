@@ -26,6 +26,8 @@ export const pinglunAjax = data => ajax1.post('/pinglun', data);
 
 export const myFriendAjax = data => ajax1.post('/myFriend', data);
 export const deleteFriendAjax = data => ajax1.post('/deleteFriend', data);
-export const followingAjax = data => ajax1.post('/following', data);
+export const myFollowingAjax = data => ajax1.post('/myFollowing', data);
 
-export const testAjax = data => ajax1.post('/test', data);
+export const followAjax = data => ajax1.post('/toFollow', data);
+export const deleteFollowingAjax = data => ajax1.post('/deleteFollowing', data);
+export const followsAjax = data => ajax1.post('/follows', data);

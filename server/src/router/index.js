@@ -33,6 +33,12 @@ import {
   myFriendFunc, 
   friendHandleFunc
 } from '../controller/friend.js';
+import {
+  toFollowFunc,
+  myFollowingFunc,
+  deleteFollowingFunc,
+  followsFunc
+} from '../controller/follow.js';
 
 
 export default (app) => {
@@ -55,6 +61,10 @@ export default (app) => {
   app.post('/pinglun', pinglunFunc);
   app.post('/myFriend', myFriendFunc);
   app.post('/deleteFriend', deleteFriendFunc);
+  app.post('/toFollow', toFollowFunc);
+  app.post('/myFollowing', myFollowingFunc);
+  app.post('/deleteFollowing', deleteFollowingFunc);
+  app.post('/follows', followsFunc);
   
   
 

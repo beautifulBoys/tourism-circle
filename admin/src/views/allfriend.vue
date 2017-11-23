@@ -19,24 +19,14 @@
       <el-table-column label="碎碎念" prop="desc"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button size="small" @click="friendEvent(scope.$index, scope.row)">加好友</el-button>
+          <el-button size="small" @click="thisPageFriendEvent(scope.$index, scope.row)">加好友</el-button>
           <el-button size="small" @click="mailEvent(scope.$index, scope.row)">站内信</el-button>
-          <el-button size="small" type="danger" @click="followEvent(scope.$index, scope.row)">关 注</el-button>
+          <el-button size="small" type="danger" @click="thisPageFollowEvent(scope.$index, scope.row)">关 注</el-button>
         </template>
       </el-table-column>
     </el-table>
 
 
-
-    <el-dialog title="添加好友" :visible.sync="dialogFriendShow" size="tiny">
-      <el-form :model="formData">
-        <el-input v-model="formData.addFriendRemark" placeholder="请输入添加理由"></el-input>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFriendShow = false">取 消</el-button>
-        <el-button type="primary" :loading="addFriendLoading" @click="sendMessage">确 定</el-button>
-      </div>
-    </el-dialog>
 
     <el-dialog title="站内信" :visible.sync="dialogMailShow" size="tiny">
       <el-form :model="formData">
@@ -45,14 +35,6 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogMailShow = false">取 消</el-button>
         <el-button type="primary" :loading="webMailLoading" @click="sendWebMail">确 定</el-button>
-      </div>
-    </el-dialog>
-
-    <el-dialog title="解除关注" :visible.sync="dialogFollowShow" size="tiny">
-      水电费了解多少了房间里都是解放路上看到交流交流时代峰峻来说大家发了时间到了
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFollowShow = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFollowShow = false">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -65,11 +47,7 @@ const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpe
 export default {
   data () {
     return {
-      dialogFriendShow: false,
       dialogMailShow: false,
-      dialogFollowShow: false,
-      addFriendUserId: 0,
-      addFriendLoading: false,
       webMailUserId: 0,
       webMailLoading: false
     };
@@ -89,21 +67,19 @@ export default {
   },
   methods: {
     ...mapMutations([]),
-    ...mapActions(['getDataEvent', 'sendMessageEvent', 'sendWebMailEvent']),
-    sendMessage () {
+    ...mapActions(['getDataEvent', 'sendMessageEvent', 'sendWebMailEvent', 'followEvent']),
+    sendMessage (id, value) {
       let me = this;
       this.sendMessageEvent({
-        id: me.addFriendUserId,
+        id,
+        value,
         success (text) {
-          me.addFriendLoading = false;
-          me.dialogFriendShow = false;
           me.$message({
             type: 'success',
             message: text
           });
         },
         error (text) {
-          me.addFriendLoading = false;
           me.$message({
             type: 'error',
             message: text
@@ -132,13 +108,32 @@ export default {
         }
       });
     },
-    friendEvent (index, row) {
-      this.addFriendUserId = row.id;
-      this.dialogFriendShow = true;
+    thisPageFriendEvent (index, row) {
+      let me = this;
+      this.$prompt('请输入添加理由', '添加好友', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      }).then(({ value }) => {
+        me.sendMessage(row.id, value);
+      }).catch(() => {});
     },
-    followEvent (index, row) {
-      console.log(index, row);
-      this.dialogFollowShow = true;
+    thisPageFollowEvent (index, row) {
+      let me = this;
+      this.followEvent({
+        id: row.id,
+        success (text) {
+          me.$message({
+            type: 'success',
+            message: text
+          });
+        },
+        error (text) {
+          me.$message({
+            type: 'error',
+            message: text
+          });
+        }
+      });
     },
     mailEvent (index, row) {
       this.webMailUserId = row.id;

@@ -57,7 +57,7 @@
           {
             text: '数据中心',
             list: [
-              {path: 'friends', text: '圈友列表'},
+              {path: 'ranking', text: '排行榜'},
               {path: '3-2', text: '我的相关访问数据'}
             ]
           },

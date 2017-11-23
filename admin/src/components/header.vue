@@ -176,6 +176,7 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/head
     }
     .user-img {
       height: 36px;
+      width: 36px;
       border-radius: 5px;
       border: 2px solid #20A0FF;
       transition: all .5s;

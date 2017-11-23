@@ -1,0 +1,48 @@
+{
+  "list": [
+    {
+      "title": "分享排行榜",
+      "arr": [
+        {"id": 1002, "username": "李鑫", "num": 124},
+        {"id": 1002, "username": "李鑫", "num": 124},
+        {"id": 1002, "username": "李鑫", "num": 124},
+        {"id": 1002, "username": "李鑫", "num": 124},
+        {"id": 1002, "username": "李鑫", "num": 124},
+        {"id": 1002, "username": "李鑫", "num": 124}
+      ]
+    },
+    {
+      "title": "粉丝排行榜",
+      "arr": [
+        {"id": 1002, "username": "李鑫", "num": 124},
+        {"id": 1002, "username": "李鑫", "num": 124},
+        {"id": 1002, "username": "李鑫", "num": 124},
+        {"id": 1002, "username": "李鑫", "num": 124},
+        {"id": 1002, "username": "李鑫", "num": 124},
+        {"id": 1002, "username": "李鑫", "num": 124}
+      ]
+    },
+    {
+      "title": "关注排行榜",
+      "arr": [
+        {"id": 1002, "username": "李鑫", "num": 124},
+        {"id": 1002, "username": "李鑫", "num": 124},
+        {"id": 1002, "username": "李鑫", "num": 124},
+        {"id": 1002, "username": "李鑫", "num": 124},
+        {"id": 1002, "username": "李鑫", "num": 124},
+        {"id": 1002, "username": "李鑫", "num": 124}
+      ]
+    },
+    {
+      "title": "好友排行榜",
+      "arr": [
+        {"id": 1002, "username": "李鑫", "num": 124},
+        {"id": 1002, "username": "李鑫", "num": 124},
+        {"id": 1002, "username": "李鑫", "num": 124},
+        {"id": 1002, "username": "李鑫", "num": 124},
+        {"id": 1002, "username": "李鑫", "num": 124},
+        {"id": 1002, "username": "李鑫", "num": 124}
+      ]
+    }
+  ]
+}

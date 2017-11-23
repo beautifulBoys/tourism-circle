@@ -13,7 +13,7 @@ import likes from './likes.js';
 import following from './following.js';
 import followers from './followers.js';
 import friend from './friend.js';
-import friends from './friends.js';
+import ranking from './ranking.js';
 import chat from './chat.js';
 import allfriend from './allfriend.js';
 import header from './header.js';
@@ -63,7 +63,7 @@ export default {
     following,
     followers,
     friend,
-    friends,
+    ranking,
     chat,
     allfriend,
     header

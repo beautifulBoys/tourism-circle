@@ -19,7 +19,7 @@ import Comments from '@/views/comments.vue';
 import Space from '@/views/space.vue';
 import Gallery from '@/views/gallery.vue';
 
-import Friends from '@/views/friends.vue';
+import Ranking from '@/views/ranking.vue';
 
 import Personal from '@/views/personal.vue';
 import Permission from '@/views/permission.vue';
@@ -57,7 +57,7 @@ export default new Router({
         { path: 'space', component: Space },
         { path: 'gallery', component: Gallery },
 
-        {path: 'friends', component: Friends},
+        {path: 'ranking', component: Ranking},
         {path: '3-2', component: {}},
 
         { path: 'personal', component: Personal },

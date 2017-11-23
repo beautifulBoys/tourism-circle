@@ -15,38 +15,25 @@
         </template>
       </el-table-column>
       <el-table-column label="用户 ID" prop="id"></el-table-column>
-      <el-table-column label="用户名" prop="name"></el-table-column>
+      <el-table-column label="用户名" prop="username"></el-table-column>
       <el-table-column label="碎碎念" prop="desc"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button size="small" @click="addFriendEvent(scope.$index, scope.row)">加好友</el-button>
-          <el-button size="small" @click="mailEvent(scope.$index, scope.row)">站内信</el-button>
-          <el-button size="small" type="danger" @click="deleteFollowEvent(scope.$index, scope.row)">解除关注</el-button>
+          <el-button size="small" @click="thisPageFriendEvent(scope.$index, scope.row)">加好友</el-button>
+          <el-button size="small" @click="thisPageMailEvent(scope.$index, scope.row)">站内信</el-button>
+          <el-button size="small" type="danger" @click="thisPageDeleteFollowEvent(scope.$index, scope.row)">解除关注</el-button>
         </template>
       </el-table-column>
     </el-table>
 
-    <el-dialog title="添加好友" :visible.sync="dialogFriendShow" size="tiny">
-      <el-input v-model="reason" placeholder="请输入添加理由"></el-input>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFriendShow = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFriendShow = false">确 定</el-button>
-      </div>
-    </el-dialog>
 
     <el-dialog title="站内信" :visible.sync="dialogMailShow" size="tiny">
-      <el-input type="textarea" :autosize="{minRows: 3}" placeholder="请输入内容" v-model="mailContent"></el-input>
+      <el-form :model="formData">
+        <el-input type="textarea" :autosize="{minRows: 3}" placeholder="请输入内容" v-model="formData.mailContent"></el-input>
+      </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogMailShow = false">取 消</el-button>
-        <el-button type="primary" @click="dialogMailShow = false">确 定</el-button>
-      </div>
-    </el-dialog>
-
-    <el-dialog title="解除关注" :visible.sync="dialogFollowShow" size="tiny">
-      水电费了解多少了房间里都是解放路上看到交流交流时代峰峻来说大家发了时间到了
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFollowShow = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFollowShow = false">确 定</el-button>
+        <el-button type="primary" :loading="webMailLoading" @click="sendWebMail">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -60,16 +47,16 @@ const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpe
 export default {
   data () {
     return {
-      dialogFriendShow: false,
       dialogMailShow: false,
-      dialogFollowShow: false
+      webMailUserId: 0,
+      webMailLoading: false
     };
   },
   computed: {
     ...mapState({
       list: state => state.list,
       reason: state => state.reason,
-      mailContent: state => state.mailContent
+      formData: state => state.formData
     }),
     ...mapGetters([])
   },
@@ -78,18 +65,77 @@ export default {
   },
   methods: {
     ...mapMutations([]),
-    ...mapActions(['getDataEvent']),
-    addFriendEvent (index, row) {
-      console.log(index, row);
-      this.dialogFriendShow = true;
+    ...mapActions(['getDataEvent', 'deleteFollowEvent', 'addFriendEvent', 'sendWebMailEvent']),
+    sendWebMail () {
+      let me = this;
+      this.sendWebMailEvent({
+        id: me.webMailUserId,
+        success (text) {
+          me.webMailLoading = false;
+          me.dialogMailShow = false;
+          me.$message({
+            type: 'success',
+            message: text
+          });
+        },
+        error (text) {
+          me.webMailLoading = false;
+          me.$message({
+            type: 'error',
+            message: text
+          });
+        }
+      });
     },
-    mailEvent (index, row) {
-      console.log(index, row);
+    sendMessage (id, value) {
+      let me = this;
+      this.addFriendEvent({
+        id,
+        value,
+        success (text) {
+          me.$message({
+            type: 'success',
+            message: text
+          });
+        },
+        error (text) {
+          me.$message({
+            type: 'error',
+            message: text
+          });
+        }
+      });
+    },
+    thisPageFriendEvent (index, row) {
+      let me = this;
+      this.$prompt('请输入添加理由', '添加好友', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      }).then(({ value }) => {
+        me.sendMessage(row.id, value);
+      }).catch(() => {});
+    },
+    thisPageMailEvent (index, row) {
+      this.webMailUserId = row.id;
       this.dialogMailShow = true;
     },
-    deleteFollowEvent (index, row) {
-      console.log(index, row);
-      this.dialogFollowShow = true;
+    thisPageDeleteFollowEvent (index, row) {
+      let me = this;
+      this.deleteFollowEvent({
+        id: row.id,
+        success (text) {
+          me.$message({
+            type: 'success',
+            message: text
+          });
+        },
+        error (text) {
+          me.$message({
+            type: 'error',
+            message: text
+          });
+        }
+      });
     }
   }
 };

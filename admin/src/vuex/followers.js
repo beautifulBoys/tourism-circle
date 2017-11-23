@@ -1,11 +1,9 @@
 
-import data from './data/table.json';
+import {followsAjax} from '../api/ajax_router.js';
 export default {
   namespaced: true,
   state: {
-    list: [],
-    reason: '',
-    mailContent: ''
+    list: []
   },
   mutations: {
     changeList (state, list) {
@@ -13,10 +11,13 @@ export default {
     }
   },
   actions: {
-    getDataEvent ({ commit, state }) {
-      setTimeout(() => {
-        commit('changeList', data.list);
-      }, 1000);
+    async getDataEvent ({ commit, state }) {
+      let result = await followsAjax();
+      if (result.code === 200) {
+        commit('changeList', result.data.list);
+      } else {
+        console.log(result);
+      }
     }
   }
 };

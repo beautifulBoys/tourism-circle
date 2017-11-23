@@ -59,7 +59,7 @@ export default {
     },
     deleteFriendPageEvent (index, row) {
       let me = this;
-      this.$confirm(`你确认要接触与 ${row.username} 的好友？`, '解除好友关系', {
+      this.$confirm(`你确认要解除与 ${row.username} 的好友？`, '解除好友', {
         confirmButtonText: '确认',
         cancelButtonText: '取消',
         type: 'warning'
