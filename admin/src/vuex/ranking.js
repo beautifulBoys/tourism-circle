@@ -31,9 +31,12 @@ export default {
     }
   },
   actions: {
-    async getDataEvent ({ commit, state }) {
+    async getDataEvent ({ commit, state }, {error}) {
       let result = await rankingAjax();
-      commit('changeList', result.data);
+      if (result.code === 200) commit('changeList', result.data);
+      else {
+        error(result.message);
+      }
     }
   }
 };

@@ -46,23 +46,28 @@ async function FollowsFunc (list) {
 }
 
 export const rankingFunc = async (req, res) => {
-  // 分享排行榜
-  let postList = await User.find({});
-  postList = postUserFunc(postList);
-  // 粉丝排行榜
-  let followsList = await Follow.find({});
-  followsList = await FollowsFunc(followsList);
-  // 关注排行榜
-  let followingList = await Following.find({});
-  followingList = await FollowsFunc(followingList);
-  // 好友排行榜
-  let friendList = await Friend.find({});
-  friendList = await FollowsFunc(friendList);
+  try {
+    // 分享排行榜
+    let postList = await User.find({});
+    postList = postUserFunc(postList);
+    // 粉丝排行榜
+    let followsList = await Follow.find({});
+    followsList = await FollowsFunc(followsList);
+    // 关注排行榜
+    let followingList = await Following.find({});
+    followingList = await FollowsFunc(followingList);
+    // 好友排行榜
+    let friendList = await Friend.find({});
+    friendList = await FollowsFunc(friendList);
+
+    res.send({code: 200, message: '获取排行榜信息成功', data: {
+      friendList,
+      followingList, 
+      followsList, 
+      postList
+    }});
+  } catch (err) {
+    res.send({code: 200, message: '获取排行榜信息失败', data: {}});
+  }
   
-  res.send({code: 200, message: '获取排行榜信息成功', data: {
-    friendList,
-    followingList, 
-    followsList, 
-    postList
-  }});
 };

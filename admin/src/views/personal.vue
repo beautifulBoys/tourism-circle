@@ -78,11 +78,19 @@ export default {
   mounted () {
   	this.geolocation = new BMap.Geolocation();
     this.myGeo = new BMap.Geocoder();
+    this.getCityData({
+      error (text) {
+        this.$message({
+          type: 'error',
+          message: text
+        });
+      }
+    });
     this.getLocationEvent();
     this.getUserInfoEvent();
   },
   methods: {
-    ...mapActions(['postEvent', 'getUserInfoEvent']),
+    ...mapActions(['postEvent', 'getUserInfoEvent', 'getCityData']),
     ...mapMutations(['getDataEvent']),
     closeAvatarEvent () {
       this.show = false;

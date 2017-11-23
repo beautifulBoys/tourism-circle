@@ -41,7 +41,14 @@ export default {
     ...mapGetters([])
   },
   mounted () {
-    this.getDataEvent();
+    this.getDataEvent({
+      error (text) {
+        this.$message({
+          type: 'error',
+          message: text
+        });
+      }
+    });
   },
   methods: {
     ...mapMutations([]),

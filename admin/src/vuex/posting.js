@@ -1,6 +1,6 @@
 
-import cityData from './data/city.json';
-import {postingAjax, getGalleryAjax} from '../api/ajax_router.js';
+// import cityData from './data/city.json';
+import {getCityDataAjax, postingAjax, getGalleryAjax} from '../api/ajax_router.js';
 export default {
   namespaced: true,
   state: {
@@ -13,7 +13,7 @@ export default {
       tag: ''
     },
     imgList: [],
-    cityData: cityData.china,
+    cityData: [],
     tagList: [],
     postImgList: []
   },
@@ -53,9 +53,17 @@ export default {
       };
       state.tagList = [];
       state.postImgList = [];
+    },
+    changeCityData (state, data) {
+      state.cityData = data;
     }
   },
   actions: {
+    async getCityData ({commit}, {error}) {
+      let result = await getCityDataAjax();
+      if (result.code === 200) commit('changeCityData', result.data);
+      else error(result.message);
+    },
     async getHtmlDataEvent ({ commit }) {
       try {
         let result = await getGalleryAjax();

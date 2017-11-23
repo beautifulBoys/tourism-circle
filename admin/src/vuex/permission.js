@@ -1,6 +1,4 @@
 
-import data from './data/gallery.json';
-import cityData from './data/city.json';
 export default {
   namespaced: true,
   state: {
@@ -12,8 +10,6 @@ export default {
       comment: true,
       star: true
     },
-    imgList: data.list,
-    cityData: cityData.china,
     tagList: [],
     postImgList: [],
     postStatus: false

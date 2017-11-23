@@ -40,3 +40,5 @@ export const imagesAjax = data => ajax1.post('/imageSave', data);
 
 export const changeMinePostStatusAjax = data => ajax1.post('/changeMinePostStatus', data);
 export const rankingAjax = data => ajax1.post('/ranking', data);
+
+export const getCityDataAjax = data => ajax1.post('/getCityData', data);

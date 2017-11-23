@@ -4,6 +4,7 @@ import util from 'util';
 import Image from '../model/image.js';
 import Id from '../model/id.js';
 import User from '../model/user.js';
+import cityData from '../json/city.json';
 
 import {
   loginFunc, 
@@ -83,19 +84,8 @@ export default (app) => {
   
   
   
-  app.post('/imageSave', async (req, res) => {
-    let list = req.body.list;
-    let obj = await Id.findOne({type: 'imagesId'});
-    if (!obj) Id.create({type: 'imagesId'});
-    for (let i = 0; i < list.length; i++) {
-      let {value} = await Id.findOne({type: 'imagesId'});
-      await Image.create({
-        id: value - 0 + 1,
-        url: list[i].url
-      });
-      await Id.update({type: 'imagesId'}, {value: value - 0 + 1}, {multi: false}, (err) => {});
-    }
-    res.send({code: 200, message: '我是images 接口的返回', data: {}});
+  app.post('/getCityData', async (req, res) => {
+    res.send({code: 200, message: '中国城市数据', data: cityData.china});
   });
 
   app.post('/upload', (req, res) => {

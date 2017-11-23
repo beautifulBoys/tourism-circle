@@ -1,6 +1,6 @@
 
-import addressData from './data/city.json';
-import {updateUserInfoAjax, getUserInfoAjax} from '../api/ajax_router.js';
+// import addressData from './data/city.json';
+import {getCityDataAjax, updateUserInfoAjax, getUserInfoAjax} from '../api/ajax_router.js';
 export default {
   namespaced: true,
   state: {
@@ -12,7 +12,7 @@ export default {
       avatar: '',
       sex: '男孩'
     },
-    addressData: addressData.china,
+    addressData: [],
     postStatus: false
   },
   mutations: {
@@ -24,9 +24,17 @@ export default {
     },
     userInfo (state, data) {
       if (data) state.formValue = data;
+    },
+    changeCityData (state, data) {
+      state.addressData = data;
     }
   },
   actions: {
+    async getCityData ({commit}, {error}) {
+      let result = await getCityDataAjax();
+      if (result.code === 200) commit('changeCityData', result.data);
+      else error(result.message);
+    },
     async getUserInfoEvent ({ commit, rootState }) {
       try {
         let result = await getUserInfoAjax({userId: rootState.box.userInfo.userId});

@@ -70,10 +70,18 @@ export default {
   },
   created () {
     this.getHtmlDataEvent();
+    this.getCityData({
+      error (text) {
+        this.$message({
+          type: 'error',
+          message: text
+        });
+      }
+    });
   },
   methods: {
     ...mapMutations(['closeEvent']),
-    ...mapActions(['getHtmlDataEvent']),
+    ...mapActions(['getHtmlDataEvent', 'getCityData']),
     addPostImgEvent (arr) {
       console.log(arr);
       this.imgCheckDialogShow = false;

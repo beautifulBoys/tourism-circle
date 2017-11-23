@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Box from '@/views/box.vue';
 import Login from '@/views/login.vue';
 
+/*
 import Newest from '@/views/newest.vue';
 import Hotest from '@/views/hotest.vue';
 import Mostest from '@/views/mostest.vue';
@@ -27,6 +28,32 @@ import Admin from '@/views/admin.vue';
 
 import About from '@/views/about.vue';
 import Contact from '@/views/contact.vue';
+*/
+
+const Newest = () => import('@/views/newest.vue');
+const Hotest = () => import('@/views/hotest.vue');
+const Mostest = () => import('@/views/mostest.vue');
+const Allfriend = () => import('@/views/allfriend.vue');
+
+const Friend = () => import('@/views/friend.vue');
+const Following = () => import('@/views/following.vue');
+const Followers = () => import('@/views/followers.vue');
+
+const Posting = () => import('@/views/posting.vue');
+const Posted = () => import('@/views/posted.vue');
+const Likes = () => import('@/views/likes.vue');
+const Comments = () => import('@/views/comments.vue');
+const Space = () => import('@/views/space.vue');
+const Gallery = () => import('@/views/gallery.vue');
+
+const Ranking = () => import('@/views/ranking.vue');
+
+const Personal = () => import('@/views/personal.vue');
+const Permission = () => import('@/views/permission.vue');
+const Admin = () => import('@/views/admin.vue');
+
+const About = () => import('@/views/about.vue');
+const Contact = () => import('@/views/contact.vue');
 
 Vue.use(Router);
 
