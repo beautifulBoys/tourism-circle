@@ -102,7 +102,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "./swiper.css";
+@import "../lib/swiper.css";
 .content {
     width: 100%;
     height: 100%;

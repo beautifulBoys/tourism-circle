@@ -49,9 +49,9 @@
             title: '个人中心',
             arr: [
               [
-                {icon: base64png.posted, text: '我发表的', path: ''},
-                {icon: base64png.comment, text: '我评论的', path: ''},
-                {icon: base64png.star, text: '我喜欢的', path: ''}
+                {icon: base64png.posted, text: '我发表的', path: '/posted'},
+                {icon: base64png.comment, text: '我评论的', path: '/comment'},
+                {icon: base64png.star, text: '我喜欢的', path: '/likes'}
               ],
               [
                 {icon: base64png.empty, text: '规划中', path: ''},
@@ -64,8 +64,8 @@
             title: '数据中心',
             arr: [
               [
-                {icon: base64png.ranking, text: '排行榜', path: ''},
-                {icon: base64png.data, text: '接口统计', path: ''},
+                {icon: base64png.ranking, text: '排行榜', path: '/ranking'},
+                {icon: base64png.data, text: '接口统计', path: '/api'},
                 {icon: base64png.empty, text: '规划中', path: ''}
               ]
             ]
@@ -74,8 +74,8 @@
             title: '我的圈子',
             arr: [
               [
-                {icon: base64png.friend, text: '所有圈友', path: ''},
-                {icon: base64png.friend, text: '我的圈友', path: ''},
+                {icon: base64png.allfriend, text: '所有圈友', path: '/allfriend'},
+                {icon: base64png.friend, text: '我的圈友', path: '/friend'},
                 {icon: base64png.empty, text: '规划中', path: ''}
               ]
             ]
