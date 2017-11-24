@@ -1,19 +1,23 @@
 <template>
 <div class="bottom">
   <div class="item" v-for="(item, index) in list" :class="{active: index === activeIndex}" @click="event(item, index)">
-    <div class="icon" :class="'bg' + index"></div>
+    <div class="icon">
+      <img :src="item.icon" v-show="activeIndex !== index"/>
+      <img :src="item.iconAct" v-show="activeIndex === index"/>
+    </div>
     <div class="text">{{item.text}}</div>
   </div>
 </div>
 </template>
 <script>
+import base64png from '../images/base64png.json';
 export default {
   data () {
     return {
       list: [
-        {path: '/dynamic', text: '圈子'},
-        {path: '/chat', text: '聊天'},
-        {path: '/mine', text: '我'}
+        {path: '/dynamic', text: '圈子', icon: base64png.circle, iconAct: base64png.circle_act},
+        {path: '/chat', text: '聊天', icon: base64png.chat, iconAct: base64png.chat_act},
+        {path: '/mine', text: '我', icon: base64png.mine, iconAct: base64png.mine_act}
       ],
       activeIndex: 0
     };
@@ -49,40 +53,17 @@ export default {
           font-weight: 600;
           font-size: 11px;
         }
-        .icon {
-          &.bg0 {
-            background: url(../images/svg/dongtai.svg) no-repeat center center;
-            background-size: 21px;
-          }
-          &.bg1 {
-            background: url(../images/svg/quanzi.svg) no-repeat center center;
-            background-size: 21px;
-          }
-          &.bg2 {
-            background: url(../images/svg/wo.svg) no-repeat center center;
-            background-size: 21px;
-          }
-        }
       }
       .icon {
         line-height: 25px;
         height: 25px;
-        &.bg0 {
-          background: url(../images/svg/dongtai1.svg) no-repeat center center;
-          background-size: 20px;
-        }
-        &.bg1 {
-          background: url(../images/svg/quanzi1.svg) no-repeat center center;
-          background-size: 20px;
-        }
-        &.bg2 {
-          background: url(../images/svg/wo1.svg) no-repeat center center;
-          background-size: 20px;
+        img {
+          height: 25px;
         }
       }
       .text {
         line-height: 15px;
-        font-size: 10px;
+        font-size: 12px;
       }
     }
 }
