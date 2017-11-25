@@ -2,7 +2,7 @@
   <div class="ranking">
     <div class="header">所有圈友</div>
     <div class="page-main">
-
+          
     </div>
   </div>
 </template>

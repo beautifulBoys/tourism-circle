@@ -32,14 +32,9 @@
   </div>
 </template>
 <script>
-  import {Card, XButton} from 'vux';
   import data from './dynamic.json';
   import base64png from '../images/base64png.json';
   export default {
-    components: {
-      card: Card,
-      'x-buttom': XButton
-    },
     data () {
       return {
         travel: [],
