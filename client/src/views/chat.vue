@@ -201,6 +201,7 @@
                 height: 34px;
                 outline: none;
                 border: 1px solid #ddd;
+                border-right: none;
                 background: #efefef;
                 padding: 0;
                 box-sizing: border-box;
@@ -210,7 +211,8 @@
                 font-size: 14px;
                 font-family: "Microsoft YaHei";
                 &:focus {
-                    border: 1px solid #ccc;
+                    border: 1px solid rgba(32, 160, 255, 1);
+                    border-right: none;
                 }
             }
             .send {
@@ -340,6 +342,7 @@ export default {
       console.log('alert弹窗确认事件');
     },
     sendEvent () {
+      console.log('sdfds');
       this.inputValue = this.trim(this.inputValue);
       if (this.inputValue.length > 0) {
         if (this.connectState) {
