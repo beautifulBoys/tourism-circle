@@ -4,9 +4,10 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import store from './vuex/index.js';
+import componentConfig from './component_config.js';
 
 Vue.config.productionTip = false;
-
+componentConfig();
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

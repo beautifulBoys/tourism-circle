@@ -1,6 +1,10 @@
 <template>
   <div class="ranking">
-    <div class="header">排行榜</div>
+    <li-header class="header"
+      @headerLeftEvent="configEvent(true)"
+      @headerRightEvent="configEvent"
+      :config="headerConfig"
+    ></li-header>
     <div class="page-main">
       <li-tab :list="list">
         <div class="swiper-slide" :key="index" v-for="(item, index) in list">
@@ -28,6 +32,11 @@ import tab from '../components/tab.vue';
   export default {
     data () {
       return {
+        headerConfig: {
+          left: '返回',
+          title: '排行榜',
+          right: '设置'
+        },
         list: [
           {
             title: '关注',
@@ -100,6 +109,12 @@ import tab from '../components/tab.vue';
     },
     components: {
       'li-tab': tab
+    },
+    methods: {
+      configEvent (status) {
+        if (status) this.$router.go(-1);
+        else console.log('好友列表触发事件');
+      }
     }
   };
 </script>
@@ -113,11 +128,7 @@ import tab from '../components/tab.vue';
     flex-flow: column;
     .header {
       width: 100%;
-      height: 45px;
-      text-align: center;
-      line-height: 45px;
-      background: #20a0ff;
-      color: #fff;
+      height: 50px;
     }
     .page-main {
       flex: 1;
@@ -138,7 +149,7 @@ import tab from '../components/tab.vue';
           &.tab {
             line-height: 30px;
             background: #eee;
-            color: #aaa;
+            color: #888;
             font-size: 12px;
             height: 30px;
             padding: 0 15px;

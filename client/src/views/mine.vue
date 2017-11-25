@@ -10,10 +10,9 @@
       </div>
 
       <div class="info">
-        <div class="item">关注（2）</div>
-        <div class="item">好友（24）</div>
-        <div class="item">粉丝（234）</div>
+        <div class="item" v-for="(item, index) in infoList" @click="clickEvent(item.path)">{{item.text}}（{{item.num}}）</div>
       </div>
+
       <div class="content">
         <div class="square" v-for="squareItem in list">
           <div class="title">{{squareItem.title}}</div>
@@ -37,12 +36,17 @@
     data () {
       return {
         travel: [],
+        infoList: [
+          {path: '/following', text: '关注', num: 2},
+          {path: '/friend', text: '好友', num: 412},
+          {path: '/follow', text: '粉丝', num: 12}
+        ],
         list: [
           {
             title: '个人中心',
             arr: [
               [
-                {icon: base64png.posted, text: '我发表的', path: '/posted'},
+                {icon: base64png.posted, text: '我分享的', path: '/posted'},
                 {icon: base64png.comment, text: '我评论的', path: '/comment'},
                 {icon: base64png.star, text: '我喜欢的', path: '/likes'}
               ],
@@ -69,7 +73,7 @@
               [
                 {icon: base64png.allfriend, text: '所有圈友', path: '/allfriend'},
                 {icon: base64png.friend, text: '我的圈友', path: '/friend'},
-                {icon: base64png.empty, text: '规划中', path: ''}
+                {icon: base64png.empty, text: '全站聊天室', path: '/websit_chat'}
               ]
             ]
           }
@@ -80,6 +84,9 @@
       this.travel = data.travel;
     },
     methods: {
+      clickEvent (path) {
+        this.$router.push({path});
+      },
       clickItemEvent (item) {
         if (item.path) this.$router.push({path: item.path});
       },

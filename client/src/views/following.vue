@@ -1,17 +1,12 @@
 <template>
-  <div class="ranking">
+  <div class="following">
     <li-header class="header"
       @headerLeftEvent="configEvent(true)"
       @headerRightEvent="configEvent"
       :config="headerConfig"
     ></li-header>
     <div class="page-main">
-          <swipeout class="vux-1px-tb">
-            <swipeout-item transition-mode="follow" v-for="(item, index) in [1,1,1,1]" :key="index">
-              <div slot="right-menu">
-                <swipeout-button background-color="rgb(252,184,207)" @click.native="friendEvent(item)">加好友</swipeout-button>
-                <swipeout-button background-color="rgb(175,229,253)" @click.native="followEvent(item)">关注</swipeout-button>
-              </div>
+
               <div class="cell-box" slot="content">
                 <div class="id">2345</div>
                 <div class="icon">
@@ -22,8 +17,7 @@
                   <div class="desc">闪电发货梵蒂冈梵蒂冈发个梵蒂冈郭德纲地方地方规范地方</div>
                 </div>
               </div>
-            </swipeout-item>
-          </swipeout>
+
     </div>
   </div>
 </template>
@@ -41,7 +35,7 @@ import { Swipeout, SwipeoutItem, SwipeoutButton, XButton } from 'vux';
       return {
         headerConfig: {
           left: '返回',
-          title: '所有圈友',
+          title: '我的粉丝',
           right: '设置'
         }
       };
@@ -57,7 +51,7 @@ import { Swipeout, SwipeoutItem, SwipeoutButton, XButton } from 'vux';
 
 <style lang="less" scoped>
   @import '../lib/swiper.css';
-  .ranking {
+  .following {
     width: 100%;
     height: 100%;
     display: flex;
@@ -69,24 +63,6 @@ import { Swipeout, SwipeoutItem, SwipeoutButton, XButton } from 'vux';
     .page-main {
       flex: 1;
       overflow-y: scroll;
-      .list-sign {
-        line-height: 30px;
-        background: #eee;
-        font-size: 12px;
-        color: #666;
-        display: flex;
-        padding: 0 15px;
-        text-align: center;
-        .id {
-          width: 50px;
-        }
-        .icon {
-          width: 50px;
-        }
-        .other {
-          flex: 1;
-        }
-      }
       .cell-box {
         height: 60px;
         width: 100%;

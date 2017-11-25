@@ -243,8 +243,7 @@ export default {
     return {
       headerConfig: {
         left: '返回',
-        title: '最美狼毒花',
-        right: '设置'
+        title: '全站聊天室'
       },
       userInfo: {},
       userNameList: ['加菲猫 ', '流氓兔', '蜡笔小新', '樱木花道', '机器猫', '皮卡丘', '史努比', '蓝精灵', '紫龙', '芭比 '],

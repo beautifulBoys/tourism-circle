@@ -92,9 +92,9 @@
         }
         .header {
           width: 100%;
-          height: 45px;
+          height: 50px;
           text-align: center;
-          line-height: 45px;
+          line-height: 50px;
           color: #fff;
           position: fixed;
           top: 0;

@@ -48,11 +48,11 @@ export default {
 .tab {
   width: 100%;
   height: 100%;
-  background: #fff;
   .header {
     width: 100%;
     display: flex;
     border-bottom: 1px solid #eee;
+    background: #fff;
     .item-box {
       flex: 1;
       padding: 0 15px;

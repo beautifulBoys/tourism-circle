@@ -1,6 +1,10 @@
 <template>
   <div class="ranking">
-    <div class="header">接口统计</div>
+    <li-header class="header"
+      @headerLeftEvent="configEvent(true)"
+      @headerRightEvent="configEvent"
+      :config="headerConfig"
+    ></li-header>
     <div class="page-main">
 
     </div>
@@ -11,7 +15,18 @@
   export default {
     data () {
       return {
+        headerConfig: {
+          left: '返回',
+          title: '接口统计',
+          right: '设置'
+        }
       };
+    },
+    methods: {
+      configEvent (status) {
+        if (status) this.$router.go(-1);
+        else console.log('好友列表触发事件');
+      }
     }
   };
 </script>
@@ -25,11 +40,7 @@
     flex-flow: column;
     .header {
       width: 100%;
-      height: 45px;
-      text-align: center;
-      line-height: 45px;
-      background: #20a0ff;
-      color: #fff;
+      height: 50px;
     }
     .page-main {
       flex: 1;

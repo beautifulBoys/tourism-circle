@@ -16,7 +16,7 @@ export default {
     return {
       list: [
         {path: '/dynamic', text: '圈子', icon: base64png.circle, iconAct: base64png.circle_act},
-        {path: '/chat', text: '聊天', icon: base64png.chat, iconAct: base64png.chat_act},
+        {path: '/contact', text: '圈友', icon: base64png.chat, iconAct: base64png.chat_act},
         {path: '/mine', text: '我', icon: base64png.mine, iconAct: base64png.mine_act}
       ],
       activeIndex: 0

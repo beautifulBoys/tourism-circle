@@ -1,8 +1,8 @@
 <template>
 <div class="header">
-  <div class="left" @click="leftHandleEvent" v-show="config.left"><img :src="backData"/></div>
+  <div class="left" @click="leftHandleEvent"><img v-show="config.left" :src="backData"/></div>
   <div class="center">{{config.title}}</div>
-  <div class="right" @click="rightHandleEvent" v-show="config.right"><img :src="listData"/></div>
+  <div class="right" @click="rightHandleEvent"><img v-show="config.right" :src="listData"/></div>
 </div>
 </template>
 <script>
@@ -58,6 +58,7 @@ export default {
     .center {
         flex: 1;
         height: 50px;
+        font-size: 18px;
     }
 }
 @keyframes waitAn {

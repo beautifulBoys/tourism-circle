@@ -1,7 +1,11 @@
 <template>
-  <div class="travel">
-    <li-header></li-header>
-    <div class="main" style="height: calc(100% - 50px)">
+  <div class="dynamic">
+    <li-header class="header"
+      @headerLeftEvent="configEvent(true)"
+      @headerRightEvent="configEvent"
+      :config="headerConfig"
+    ></li-header>
+    <div class="page-main">
       <ul>
         <li-dynamic-item v-for="(item, index) in travel" :key="index" :data="item"></li-dynamic-item>
       </ul>
@@ -10,15 +14,16 @@
 </template>
 <script>
   import data from './dynamic.json';
-  import Header from '../components/header.vue';
   import dynamicItem from '../components/dynamic_item.vue';
   export default {
     components: {
-      'li-header': Header,
       'li-dynamic-item': dynamicItem
     },
     data () {
       return {
+        headerConfig: {
+          title: '旅游圈'
+        },
         travel: []
       };
     },
@@ -26,6 +31,10 @@
       this.travel = data.travel;
     },
     methods: {
+      configEvent (status) {
+        if (status) this.$router.go(-1);
+        else console.log('好友列表触发事件');
+      },
       toContentEvent () {
         this.$router.push({path: '/content'});
       }
@@ -34,19 +43,23 @@
 </script>
 
 <style lang="less" scoped>
-  .travel {
+.dynamic {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  .header {
     width: 100%;
-    height: 100%;
-    background: #eee;
+    height: 50px;
+  }
+  .page-main {
+    flex: 1;
     overflow-y: scroll;
-    .main {
-      width: 100%;
-      margin-top: 50px;
-      overflow-y: scroll;
-      ul {
-        padding: 0;
-        margin: 0;
-      }
+    ul {
+      padding: 0;
+      margin: 0;
     }
   }
+
+}
 </style>

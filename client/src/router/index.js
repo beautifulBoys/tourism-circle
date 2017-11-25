@@ -15,6 +15,10 @@ import Friend from '@/views/friend.vue';
 import Mine from '@/views/mine.vue';
 import UserMain from '@/views/user_main.vue';
 import Chat from '@/views/chat.vue';
+import Contact from '@/views/contact.vue';
+import websitChat from '@/views/websit_chat.vue';
+import Follow from '@/views/follow.vue';
+import Following from '@/views/following.vue';
 
 Vue.use(Router);
 
@@ -37,6 +41,10 @@ export default new Router({
       component: Chat
     },
     {
+      path: '/websit_chat',
+      component: websitChat
+    },
+    {
       path: '/main',
       component: secondBox,
       children: [
@@ -46,7 +54,9 @@ export default new Router({
         {path: '/api', component: Api},
         {path: '/likes', component: Likes},
         {path: '/allfriend', component: AllFriend},
-        {path: '/friend', component: Friend}
+        {path: '/friend', component: Friend},
+        {path: '/follow', component: Follow},
+        {path: '/following', component: Following}
       ]
     },
     {
@@ -56,7 +66,8 @@ export default new Router({
       children: [
         {path: '/dynamic', component: Dynamic},
         {path: '/circle', component: Circle},
-        {path: '/mine', component: Mine}
+        {path: '/mine', component: Mine},
+        {path: '/contact', component: Contact}
       ]
     }
   ]

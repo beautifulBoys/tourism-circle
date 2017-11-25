@@ -1,6 +1,6 @@
 <template>
   <div class="travel">
-    <li-header></li-header>
+    <li-header1></li-header1>
     <div class="main" style="height: calc(100% - 50px)">
       <ul>
         <li-item v-for="(item, index) in travel" :key="index" :data="item"></li-item>
@@ -15,7 +15,7 @@
   import {bind} from '../api/ajax_router.js';
   export default {
     components: {
-      'li-header': Header,
+      'li-header1': Header,
       'li-item': dynamicItem
     },
     data () {
