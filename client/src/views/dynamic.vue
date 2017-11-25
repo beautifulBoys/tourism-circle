@@ -3,7 +3,7 @@
     <li-header></li-header>
     <div class="main" style="height: calc(100% - 50px)">
       <ul>
-        <li-item v-for="(item, index) in travel" :key="index" :data="item"></li-item>
+        <li-dynamic-item v-for="(item, index) in travel" :key="index" :data="item"></li-dynamic-item>
       </ul>
     </div>
   </div>
@@ -11,11 +11,11 @@
 <script>
   import data from './dynamic.json';
   import Header from '../components/header.vue';
-  import Item from '../components/item.vue';
+  import dynamicItem from '../components/dynamic_item.vue';
   export default {
     components: {
       'li-header': Header,
-      'li-item': Item
+      'li-dynamic-item': dynamicItem
     },
     data () {
       return {

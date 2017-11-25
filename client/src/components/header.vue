@@ -1,8 +1,8 @@
 <template>
     <div class="header">
-      <div class="left"></div>
+      <!-- <div class="left"></div> -->
       <div class="center">旅游圈</div>
-      <div class="right"></div>
+      <!-- <div class="right"></div> -->
     </div>
 </template>
 
@@ -16,11 +16,10 @@
 .header {
   width: 100%;
   height: 50px;
-  border-bottom: 1px solid #ddd;
   position: fixed;
   top: 0;
   display: flex;
-  background: #fff;
+  background: #20a0ff;
   z-index: 10;
   .left {
     width: 50px;
@@ -33,7 +32,7 @@
     line-height: 50px;
     text-align: center;
     font-size: 16px;
-    color: #333;
+    color: #fff;
   }
   .right {
     width: 50px;

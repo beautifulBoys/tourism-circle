@@ -13,6 +13,8 @@ import Likes from '@/views/likes.vue';
 import AllFriend from '@/views/allfriend.vue';
 import Friend from '@/views/friend.vue';
 import Mine from '@/views/mine.vue';
+import UserMain from '@/views/user_main.vue';
+import Chat from '@/views/chat.vue';
 
 Vue.use(Router);
 
@@ -25,6 +27,14 @@ export default new Router({
     {
       path: '/content',
       component: Content
+    },
+    {
+      path: '/user/:id',
+      component: UserMain
+    },
+    {
+      path: '/chat',
+      component: Chat
     },
     {
       path: '/main',

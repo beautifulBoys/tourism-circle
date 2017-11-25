@@ -2,13 +2,14 @@
 const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
+const vuxLoader = require('vux-loader')
 const vueLoaderConfig = require('./vue-loader.conf')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
-module.exports = {
+module.exports = vuxLoader.merge({
   entry: {
     app: './src/main.js'
   },
@@ -77,4 +78,9 @@ module.exports = {
       }
     ]
   }
-}
+}, {
+  options: {},
+  plugins: [{
+    name: 'vux-ui'
+  }]
+})

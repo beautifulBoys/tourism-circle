@@ -11,12 +11,12 @@
 <script>
   import data from './dynamic.json';
   import Header from '../components/header.vue';
-  import Item from '../components/item.vue';
+  import dynamicItem from '../components/dynamic_item.vue';
   import {bind} from '../api/ajax_router.js';
   export default {
     components: {
       'li-header': Header,
-      'li-item': Item
+      'li-item': dynamicItem
     },
     data () {
       return {

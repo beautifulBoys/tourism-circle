@@ -1,8 +1,7 @@
 <template>
 <div class="box">
-  <div class="top">
-    <router-view/>
-  </div>
+  <router-view class="top"/>
+
   <bottom></bottom>
 </div>
 </template>

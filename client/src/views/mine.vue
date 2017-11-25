@@ -1,8 +1,7 @@
 <template>
-  <div class="travel" ref="travel">
+  <div class="travel">
     <div class="main">
       <div class="top">
-        <div class="header" :class="{opacity: opacity}"><span>晚猛地小梦</span></div>
         <div class="user">
           <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(1).jpg"/>
         </div>
@@ -38,7 +37,6 @@
     data () {
       return {
         travel: [],
-        opacity: false,
         list: [
           {
             title: '个人中心',
@@ -80,10 +78,6 @@
     },
     mounted () {
       this.travel = data.travel;
-      this.$refs.travel.onscroll = () => {
-        let n = this.$refs.travel.scrollTop / 92;
-        this.opacity = (n > 0.95);
-      };
     },
     methods: {
       clickItemEvent (item) {
@@ -131,24 +125,6 @@
           font-size: 12px;
           color: rgba(255,255,255,0.7);
         }
-        .header {
-          width: 100%;
-          height: 45px;
-          text-align: center;
-          line-height: 45px;
-          color: #fff;
-          position: fixed;
-          top: 0;
-          left: 0;
-          background: #fff;
-          color: #333;
-          opacity: 0;
-          border-bottom: 1px solid #ddd;
-          transition: opacity .5s;
-          &.opacity {
-            opacity: 1;
-          }
-        }
       }
       .info {
         width: 100%;
@@ -161,6 +137,9 @@
           text-align: center;
           line-height: 45px;
           color: #20a0ff;
+          &:active {
+            background: #eee;
+          }
         }
       }
       .content {
