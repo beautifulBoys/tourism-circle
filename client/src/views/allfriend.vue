@@ -2,7 +2,7 @@
   <div class="ranking">
     <div class="header">所有圈友</div>
     <div class="page-main">
-          
+
     </div>
   </div>
 </template>
@@ -29,7 +29,7 @@
       text-align: center;
       line-height: 45px;
       background: #20a0ff;
-      color: #fff;
+      color: #ffffff;
     }
     .page-main {
       flex: 1;
