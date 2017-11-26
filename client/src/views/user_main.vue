@@ -2,7 +2,13 @@
   <div class="user-main" ref="user_main">
     <div class="main">
       <div class="top">
-        <div class="header" :class="{opacity: opacity}"><span>晚猛地小梦</span></div>
+        <li-header class="header"
+          @headerLeftEvent="configEvent(true)"
+          @headerRightEvent="configEvent"
+          :config="headerConfig"
+          :class="{opacity: opacity}"
+        ></li-header>
+        <!-- <div class="header" :class="{opacity: opacity}"><span>晚猛地小梦</span></div> -->
         <div class="user">
           <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(1).jpg"/>
         </div>
@@ -12,7 +18,7 @@
 
       <div class="info">
         <div class="item">关注</div>
-        <div class="item">添加好友</div>
+        <div class="item">加好友/发消息</div>
         <div class="item">站内信</div>
       </div>
 
@@ -34,7 +40,11 @@
     data () {
       return {
         travel: [],
-        opacity: false
+        opacity: false,
+          headerConfig: {
+            left: '返回',
+            title: '晚猛地小梦'
+          }
       };
     },
     mounted () {
@@ -45,6 +55,10 @@
       };
     },
     methods: {
+      configEvent (status) {
+        if (status) this.$router.go(-1);
+        else console.log('好友列表触发事件');
+      },
       clickItemEvent (item) {
         if (item.path) this.$router.push({path: item.path});
       },

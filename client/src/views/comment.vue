@@ -1,4 +1,3 @@
-
 <template>
   <div class="comment">
     <li-header class="header"
@@ -25,7 +24,7 @@ export default {
     return {
       headerConfig: {
         left: '返回',
-        title: '我分享的',
+        title: '我评论的',
         right: '设置'
       },
       travel: []

@@ -43,14 +43,11 @@
   </div>
   <li-screen :status="userListStatus" @close="closeChatUserEvent"></li-screen>
   <div class="chat-list" :class="{move: userListStatus}">
-    <div class="title">热聊列表</div>
-    <div class="list-box">
-      <div class="cell-box" v-for="item in [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]" @click="userChatEvent(item)">
-        <div class="icon">
-          <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(1).jpg"/>
-        </div>
-        <div class="name">速度防守打法</div>
+    <div class="cell-box" v-for="item in [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]" @click="userChatEvent(item)">
+      <div class="icon">
+        <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(1).jpg"/>
       </div>
+      <div class="name">速度防守打法</div>
     </div>
   </div>
 </div>
@@ -72,64 +69,43 @@
       width: 50%;
       height: 100%;
       background: #fff;
+      padding: 10px 15px;
       box-sizing: border-box;
       position: fixed;
       top: 0;
-      left: 0;
-      overflow: hidden;
-      transform: translate3d(200%, 0, 0);
+      left: 100%;
       z-index: 10;
-      transition: all .4s;
-      display: flex;
-      flex-flow: column;
+      overflow-y: scroll;
+      transition: all .5s;
       &.move {
-        transform: translate3d(100%, 0, 0);
+        left: 50%;
       }
-      .title {
-        line-height: 50px;
-        width: 100%;
+      .cell-box {
         height: 50px;
-        text-align: center;
-        font-size: 18px;
-        color: #fff;
-        background: #20a0ff;
-      }
-      .list-box {
-        overflow-y: scroll;
-        flex: 1;
-        .cell-box {
-          height: 50px;
-          width: 100%;
-          display: flex;
-          padding: 7px 15px;
+        width: 100%;
+        display: flex;
+        padding: 7px 0;
+        box-sizing: border-box;
+        border-bottom: 1px solid #eee;
+        &:active {
+          background: #f6f6f6;
+        }
+        .icon {
+          width: 36px;
           box-sizing: border-box;
-          border-bottom: 1px solid #eee;
-          &:active {
-            background: #f6f6f6;
-          }
-          .icon {
-            width: 36px;
-            box-sizing: border-box;
-            img {
-              width: 100%;
-              border-radius: 8px;
-            }
-          }
-          .name {
-            flex: 1;
-            margin-left: 10px;
-            font-size: 16px;
-            color: #333;
-            line-height: 36px;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 1; // 超出行数
-            overflow: hidden;
-
+          img {
+            width: 100%;
+            border-radius: 8px;
           }
         }
+        .name {
+          flex: 1;
+          margin-left: 10px;
+          font-size: 16px;
+          color: #333;
+          line-height: 36px;
+        }
       }
-
     }
     .content {
         width: 100%;

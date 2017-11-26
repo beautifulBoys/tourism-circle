@@ -1,6 +1,3 @@
-
-
-
 <template>
   <div class="ranking">
     <li-header class="header"
