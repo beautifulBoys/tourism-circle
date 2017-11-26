@@ -18,9 +18,9 @@ export default new Vuex.Store({
   },
   mutations: {
     setUserInfo (state, obj) {
-      state.userId = obj.userId;
-      state.passport = obj.passport;
-      state.username = obj.username;
+      state.userInfo.userId = obj.userId;
+      state.userInfo.passport = obj.passport;
+      state.userInfo.username = obj.username;
     },
     changeList (state, list) {
       state.list = list;

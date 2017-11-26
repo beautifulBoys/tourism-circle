@@ -6,22 +6,25 @@ export default {
     httpServer: null,
     connect: false,
     messageList: [],
-    formData: {
-      value: ''
-    }
+    sendInputValue: ''
   },
   mutations: {
+    changeSendValue (state, value) {
+      state.sendInputValue = value;
+    },
     changeList (state, list) {
       state.list = list;
+    },
+    saveMessage (state, obj) {
+      state.messageList.push(obj);
     }
   },
   actions: {
     connectServer ({commit, state, rootState}) {
       state.httpServer = io.connect('http://10.209.96.67:3003');
-      state.httpServer.emit('login', rootState.box.userInfo);
+      state.httpServer.emit('login', rootState.userInfo);
       state.httpServer.on('comming', obj => {
         commit('saveMessage', obj);
-        commit('changeNoReadRoomNum1');
       });
       state.httpServer.on('loginSuccess', obj => { // 1 成功
         if (obj === 1) {
@@ -31,38 +34,36 @@ export default {
       });
       state.httpServer.on('logout', obj => {
         commit('saveMessage', obj);
-        commit('changeNoReadRoomNum1');
       });
       state.httpServer.on('message', obj => {
         console.log(obj);
-        commit('changeNoReadRoomNum1');
         state.messageList.push(obj);
       });
     },
-    sendMessageEvent ({commit, state, rootState}) {
-      if (!state.formData.value) return;
+    sendMessageEvent ({commit, state, rootState}, {success}) {
+      if (!state.sendInputValue) return;
+      console.log(rootState.userInfo);
       state.httpServer.emit('message', { // 推送聊天记录到服务器
         user: {
-          id: rootState.box.userInfo.userId,
-          name: rootState.box.userInfo.username
+          id: rootState.userInfo.userId,
+          name: rootState.userInfo.username
         },
         message: {
           type: 2,
-          text: state.formData.value
+          text: state.sendInputValue
         }
       });
       commit('saveMessage', { // 保留聊天记录到本地
         user: {
-          id: rootState.box.userInfo.userId,
-          name: rootState.box.userInfo.username
+          id: rootState.userInfo.userId,
+          name: rootState.userInfo.username
         },
         message: {
           type: 3,
-          text: state.formData.value
+          text: state.sendInputValue
         }
       });
-
-      state.formData.value = '';
+      success();
     }
   }
 };

@@ -36,9 +36,9 @@
   </div>
   <div class="footer">
     <div class="main">
-      <input type="text" class="input" v-model="inputValue" @keyup.enter="sendEvent" v-show="connectState" />
-      <input type="text" class="input" disabled v-show="!connectState" v-model="inputValue" />
-      <div class="send" :class="{logout: !connectState}" @click="sendEvent">发送</div>
+      <input type="text" class="input" v-model="inputValue" @keyup.enter="thisPageSendMessageEvent" v-show="connect" />
+      <input type="text" class="input" disabled v-show="!connect" v-model="inputValue" />
+      <div class="send" :class="{logout: !connect}" @click="thisPageSendMessageEvent">发送</div>
     </div>
   </div>
 </div>
@@ -55,67 +55,41 @@ export default {
         left: '返回',
         title: '全站聊天室'
       },
-      userInfo: {},
-      userNameList: ['加菲猫 ', '流氓兔', '蜡笔小新', '樱木花道', '机器猫', '皮卡丘', '史努比', '蓝精灵', '紫龙', '芭比 '],
-      onlineUserList: [],
-      inputValue: '',
-      connectState: true
+      userIconUrl: 'https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(3).jpg',
+      inputValue: ''
     };
   },
-    computed: {
-      ...mapState({
-        messageList: state => state.messageList
-      })
-    },
+  computed: {
+    ...mapState({
+      messageList: state => state.messageList,
+      connect: state => state.connect
+    })
+  },
+  watch: {
+    inputValue (n) {
+      this.changeSendValue(n);
+    }
+  },
   mounted () {
-    // this.connectServer();
+    this.connectServer();
   },
   methods: {
-    ...mapMutations([]),
+    ...mapMutations(['changeSendValue']),
     ...mapActions(['connectServer', 'sendMessageEvent']),
     getUserId () {
       return (new Date().getTime() + '' + Math.floor(Math.random() * 100000 + 100)) - 0;
     },
+    thisPageSendMessageEvent () {
+      let me = this;
+      this.sendMessageEvent({
+        success () {
+          me.inputValue = '';
+        }
+      });
+    },
     configEvent (status) {
       if (status) this.$router.go(-1);
       else console.log('好友列表触发事件');
-    },
-    loginEvent () {
-      console.log('加入聊天室事件');
-      console.log(this.connectState);
-      if (!this.connectState) {
-        this.$refs.confirm.modelOpen();
-      }
-    },
-    headCenterEvent () {
-      if (this.connectState) {
-        console.log('弹出群组全部成员弹窗事件');
-        this.$refs.pop.modelOpen();
-        console.log(this.onlineUserList);
-      }
-    },
-    alertBtnEvent () {
-      console.log('alert弹窗确认事件');
-    },
-    sendEvent () {
-      console.log('sdfds');
-      this.inputValue = this.trim(this.inputValue);
-      if (this.inputValue.length > 0) {
-        if (this.connectState) {
-          this.httpServer.emit('message', {
-            msg: this.inputValue,
-            user: this.userInfo
-          });
-          this.messageList.push({
-            type: 3,
-            msg: this.inputValue,
-            msgUser: this.userInfo
-          });
-          this.inputValue = '';
-        } else {
-          this.$refs.confirm.modelOpen();
-        }
-      }
     },
     trim (s) {
       return s.replace(/(^\s*)|(\s*$)/g, '');

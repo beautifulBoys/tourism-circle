@@ -20,13 +20,14 @@ export default {
     }
   },
   actions: {
-    setUserInfo ({state, rootCommit}) {
+    setUserInfo ({state, commit}) {
       let obj = {
         userId: Cookie.get('userId'),
         username: Cookie.get('username'),
         passport: Cookie.get('passport')
       };
-      rootCommit('setUserInfo', obj);
+      console.log('obj', obj);
+      commit('setUserInfo', obj, {root: true});
     },
     async loginEvent ({commit, state}, {success, error}) {
       console.log(state.username, state.password);
