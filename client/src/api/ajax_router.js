@@ -1,3 +1,3 @@
 import ajax from './ajax.js';
 
-export const bind = data => ajax.post('/string', data);
+export const loginAjax = data => ajax.post('/login', data);

@@ -3,22 +3,23 @@
  */
 import axios from 'axios';
 import Vue from 'vue';
-// import Cookie from 'js-cookie';
+import Cookie from 'js-cookie';
+
 let ajaxConfig = {
-  baseURL: '/api/',
-  // baseURL: 'http://ehr.sit.ffan.com/api',
+  baseURL: '/api/client/',
   transformResponse: [function (data) {
     return JSON.parse(data);
   }],
   headers: {
     'accept': 'application/json',
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'passport': '',
+    'userId': ''
   }
 };
 
 var _ajax = axios.create(ajaxConfig);
 
-// 拦截response(有加载等待)
 _ajax.interceptors.response.use((response) => {
   if (response.status === 200) {
       return response.data;
@@ -27,10 +28,7 @@ _ajax.interceptors.response.use((response) => {
     throw new Error('Internal Server Error');
   }
 }, (error) => {
-  if (error.message) {
-    console.log(error.message);
-
-  }
+  if (error.message) console.log(error.message);
   throw error;
 });
 
@@ -39,7 +37,10 @@ function _ajaxCatch (err) {
   throw err;
 };
 
-var func = {
+var ajax = {
+  setHeader (name, value) {
+    _ajax.defaults.headers[name] = value;
+  },
   parseParam (data) {
     if (!data) return '';
     return '?' + Object.keys(data).map((k) => {
@@ -47,19 +48,24 @@ var func = {
     }).join('&');
   }
 };
-var ajax = {
+Vue.prototype.ajaxFunc = ajax;
+var ajax1 = {
   get (url, data) {
-    return _ajax.get(url + func.parseParam(data)).catch(_ajaxCatch);
+    return _ajax.get(url + ajax.parseParam(data)).catch(_ajaxCatch);
   },
   post (url, data) {
     return _ajax.post(url, data).catch(_ajaxCatch);
-  },
-  put (url, data) {
-    return _ajax.put(url, data).catch(_ajaxCatch);
-  },
-  delete (url, data) {
-    return _ajax.delete(url, data).catch(_ajaxCatch);
   }
 };
 
-export default ajax;
+
+if (Cookie.get('passport') && Cookie.get('userId') && Cookie.get('username')) {
+  ajax.setHeader('passport', Cookie.get('passport'));
+  ajax.setHeader('userId', Cookie.get('userId'));
+  window.loginStatus = true;
+} else {
+  window.loginStatus = false;
+}
+
+
+export default ajax1;

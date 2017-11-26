@@ -1,12 +1,26 @@
 <template>
   <div id="app">
-    <router-view/>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
+  import { createNamespacedHelpers } from 'vuex';
+  const { mapActions } = createNamespacedHelpers('login');
 export default {
-  name: 'app'
+  name: 'app',
+  created () {
+    if (window.loginStatus) this.setUserInfo();
+    else this.$router.push({path: '/login'});
+  },
+  watch: {
+    $route (n, o) {
+      if (!window.loginStatus) this.$router.push({path: '/login'});
+    }
+  },
+  methods: {
+    ...mapActions(['setUserInfo'])
+  }
 };
 </script>
 

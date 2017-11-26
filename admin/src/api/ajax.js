@@ -97,7 +97,7 @@ var ajax2 = {
 };
 
 
-if (Cookie.get('passport')) {
+if (Cookie.get('passport') && Cookie.get('userId') && Cookie.get('username')) {
   ajax.setHeader('passport', Cookie.get('passport'));
   ajax.setHeader('userId', Cookie.get('userId'));
   window.loginStatus = true;

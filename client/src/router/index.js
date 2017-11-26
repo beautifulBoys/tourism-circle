@@ -19,6 +19,7 @@ import Contact from '@/views/contact.vue';
 import websitChat from '@/views/websit_chat.vue';
 import Follow from '@/views/follow.vue';
 import Following from '@/views/following.vue';
+import Login from '@/views/login.vue';
 
 Vue.use(Router);
 
@@ -31,6 +32,10 @@ export default new Router({
     {
       path: '/content',
       component: Content
+    },
+    {
+      path: '/login',
+      component: Login
     },
     {
       path: '/user/:id',

@@ -1,9 +1,10 @@
 
 import express from 'express';
+import {
+  loginFunc
+} from '../controller/user.js';
 var router = express.Router();
 
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.post('/login', loginFunc);
 
 export default router;
