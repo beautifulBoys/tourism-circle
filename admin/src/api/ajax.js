@@ -6,7 +6,7 @@ import Vue from 'vue';
 import Cookie from 'js-cookie';
 
 let ajaxConfig = {
-  baseURL: '/api/',
+  baseURL: '/api/admin/',
   transformResponse: [function (data) {
     return JSON.parse(data);
   }],
@@ -19,7 +19,7 @@ let ajaxConfig = {
 };
 
 let ajaxConfigForm = {
-  baseURL: '/api/',
+  baseURL: '/api/admin/',
   headers: {
     'Content-Type': 'multipart/form-data',
     'passport': '',

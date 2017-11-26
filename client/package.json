@@ -16,6 +16,7 @@
     "blueimp-md5": "2.10.0",
     "element-ui": "^2.0.2",
     "json-loader": "^0.5.7",
+    "socket.io-client": "^2.0.4",
     "swiper": "^4.0.3",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
