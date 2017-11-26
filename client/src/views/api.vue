@@ -6,7 +6,7 @@
       :config="headerConfig"
     ></li-header>
     <div class="page-main">
-
+      
     </div>
   </div>
 </template>

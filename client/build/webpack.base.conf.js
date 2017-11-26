@@ -43,6 +43,10 @@ module.exports = vuxLoader.merge({
         loader: 'json-loader'
       },
       {
+        test: /\.html$/,
+        loader: 'html-loader'
+      },
+      {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: vueLoaderConfig

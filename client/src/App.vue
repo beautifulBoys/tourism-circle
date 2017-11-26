@@ -10,12 +10,12 @@
 export default {
   name: 'app',
   created () {
-    if (window.loginStatus) this.setUserInfo();
-    else this.$router.push({path: '/login'});
+    // if (window.loginStatus) this.setUserInfo();
+    // else this.$router.push({path: '/login'});
   },
   watch: {
     $route (n, o) {
-      if (!window.loginStatus) this.$router.push({path: '/login'});
+      // if (!window.loginStatus) this.$router.push({path: '/login'});
     }
   },
   methods: {
