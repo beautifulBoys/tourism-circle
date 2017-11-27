@@ -6,30 +6,24 @@
       :config="headerConfig"
     ></li-header>
     <div class="page-main">
-          <swipeout class="vux-1px-tb">
-            <swipeout-item transition-mode="follow" v-for="(item, index) in [1,1,1,1]" :key="index">
-              <div slot="right-menu">
-                <swipeout-button background-color="rgb(252,184,207)" @click.native="friendEvent(item)">加好友</swipeout-button>
-                <swipeout-button background-color="rgb(175,229,253)" @click.native="followEvent(item)">关注</swipeout-button>
-              </div>
-              <div class="cell-box" slot="content">
-                <div class="id">2345</div>
-                <div class="icon">
-                  <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(1).jpg"/>
-                </div>
-                <div class="other">
-                  <div class="name">速度防守打法</div>
-                  <div class="desc">闪电发货梵蒂冈梵蒂冈发个梵蒂冈郭德纲地方地方规范地方</div>
-                </div>
-              </div>
-            </swipeout-item>
-          </swipeout>
+        <div class="cell-box" v-for="item in list" @click="userMainPageEvent(item)">
+          <div class="id">{{item.id}}</div>
+          <div class="icon">
+            <img :src="item.avatar"/>
+          </div>
+          <div class="other">
+            <div class="name">{{item.username}}</div>
+            <div class="desc">{{item.desc === '未设置' ? '这个人太懒了，还没有填写' : item.desc}}</div>
+          </div>
+        </div>
     </div>
   </div>
 </template>
 
 <script>
 import { Swipeout, SwipeoutItem, SwipeoutButton, XButton } from 'vux';
+import { createNamespacedHelpers } from 'vuex';
+const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('box2/allfriend');
   export default {
     components: {
       XButton,
@@ -46,7 +40,25 @@ import { Swipeout, SwipeoutItem, SwipeoutButton, XButton } from 'vux';
         }
       };
     },
+    computed: {
+      ...mapState({
+        list: state => state.list
+      }),
+      ...mapGetters([])
+    },
+    mounted () {
+      this.getDataEvent({
+        error (text) {
+          console.log(text);
+        }
+      });
+    },
     methods: {
+      ...mapMutations([]),
+      ...mapActions(['getDataEvent']),
+      userMainPageEvent (item) {
+        this.$router.push({path: '/user/' + item.id});
+      },
       configEvent (status) {
         if (status) this.$router.go(-1);
         else console.log('好友列表触发事件');
@@ -94,6 +106,9 @@ import { Swipeout, SwipeoutItem, SwipeoutButton, XButton } from 'vux';
         padding: 5px 15px;
         box-sizing: border-box;
         border-bottom: 1px solid #eee;
+        &:active {
+          background: #eee;
+        }
         .id {
           width: 50px;
           line-height: 50px;

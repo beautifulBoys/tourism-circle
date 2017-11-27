@@ -2,19 +2,19 @@
   <li class="li" @click="toContentEvent()">
     <div class="head">
       <div class="left">
-        <img :src="data.userInfo.img"/>
+        <img :src="data.avatar"/>
       </div>
       <div class="center">
-        <span class="name">最美好的年级遇见最好的你</span>
-        <span class="desc">2017.12.23 12:22:00</span>
+        <span class="name">{{data.title}}</span>
+        <span class="desc">{{data.postTime}}</span>
       </div>
     </div>
     <div class="imgList">
       <ul>
-        <li v-for="imgItem in data.imgList">
+        <li v-for="imgInfo in data.urls">
           <div class="img-box">
             <div class="img-box1">
-              <img :src="imgItem"/>
+              <img :src="imgInfo.url"/>
             </div>
           </div>
         </li>

@@ -7,28 +7,28 @@
   ></li-header>
   <div class="content" ref="scroll">
     <div class="height-hook">
-      <div v-for="(item, index) in messageList">
-        <div class="item-box left-hook" v-if="item.type === 2">
+      <div v-for="(item, index) in hotChatObj[hotChatObjIndex].list">
+        <div class="item-box left-hook" v-if="item.type === 1">
           <div class="left">
-            <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(1).jpg" />
+            <img :src="hotChatObj[hotChatObjIndex].userInfo.avatar" />
           </div>
           <div class="center">
-            <div class="user">{{ item.msgUser.userName }}</div>
-            <div class="text"><span class="horn">◀</span>{{ item.msg }}</div>
+            <div class="user">{{ hotChatObj[hotChatObjIndex].userInfo.username }}</div>
+            <div class="text"><span class="horn">◀</span>{{ item.message }}</div>
           </div>
           <br style="clear: both;" />
         </div>
-        <div class="item-box right-hook" v-if="item.type === 3">
+        <div class="item-box right-hook" v-if="item.type === 0">
           <div class="right">
-            <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(1).jpg" />
+            <img :src="meInfo.avatar" />
           </div>
           <div class="center">
-            <div class="user">{{ item.msgUser.userName }}</div>
-            <div class="text"><span class="horn">▶</span>{{ item.msg }}</div>
+            <div class="user">{{ meInfo.username }}</div>
+            <div class="text"><span class="horn">▶</span>{{ item.message }}</div>
           </div>
           <br style="clear: both;" />
         </div>
-        <div class="item-box center-hook" v-if="item.type === 1">
+        <div class="item-box center-hook" v-if="item.type === 2">
           <span class="tip">{{ item.msg }}</span>
         </div>
       </div>
@@ -41,20 +41,175 @@
       <div class="send" :class="{logout: !connectState}" @click="sendEvent">发送</div>
     </div>
   </div>
-  <li-screen :status="userListStatus" @close="closeChatUserEvent"></li-screen>
+  <li-screen :opacity="0.5" :status="userListStatus" @close="closeChatUserEvent"></li-screen>
   <div class="chat-list" :class="{move: userListStatus}">
     <div class="title">热聊列表</div>
     <div class="list-box">
-      <div class="cell-box" v-for="item in [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]" @click="userChatEvent(item)">
+      <div class="cell-box" v-for="item in hotChatObj" @click="userChatEvent(item)">
         <div class="icon">
-          <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(1).jpg"/>
+          <img :src="item.userInfo.avatar"/>
         </div>
-        <div class="name">速度防守打法</div>
+        <div class="name">{{item.userInfo.username}}</div>
       </div>
     </div>
   </div>
 </div>
 </template>
+
+
+<script>
+import { createNamespacedHelpers } from 'vuex';
+const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('chat');
+export default {
+  data () {
+    return {
+      userInfo: {},
+      userNameList: ['加菲猫 ', '流氓兔', '蜡笔小新', '樱木花道', '机器猫', '皮卡丘', '史努比', '蓝精灵', '紫龙', '芭比 '],
+      onlineUserList: [],
+      messageList: [],
+      inputValue: '',
+      connectState: true,
+      userListStatus: false
+    };
+  },
+  computed: {
+    ...mapState({
+      headerConfig: state => state.headerConfig,
+      hotChatObj: state => state.hotChatObj,
+      hotChatObjIndex: state => state.hotChatObjIndex,
+      meInfo: state => state.meInfo
+    }),
+    ...mapGetters([])
+  },
+  created () {
+    this.userInfo = {};
+    this.messageList = []; // type = 1 提示信息     type = 2 对方内容     type = 3 我发送内容
+  },
+  mounted () {
+    // this.connectEvent();
+  },
+  updated () {
+    this.scroll();
+  },
+  methods: {
+    ...mapMutations([]),
+    ...mapActions(['getDataEvent']),
+    userChatEvent () {
+      this.userListStatus = false;
+    },
+    closeChatUserEvent () {
+      this.userListStatus = false;
+    },
+    connectEvent () {
+      var me = this;
+      var randomNum = Math.floor(Math.random() * 10);
+      this.userInfo = {
+        userId: this.getUserId(),
+        userName: this.userNameList[randomNum],
+        userImg: randomNum + 1
+      };
+      // this.httpServer = io.connect('http://10.209.96.67:3000');
+      this.httpServer.emit('login', this.userInfo);
+      this.onlineUserList.push(this.userInfo);
+      this.httpServer.on('login', function (obj) {
+        console.log(obj);
+        me.onlineUserList = obj.onlineUserList;
+        me.messageList.push({
+          type: 1,
+          msg: '用户 ' + obj.msgUser.userName + ' 加入聊天',
+          msgUser: obj.msgUser
+        });
+      });
+      this.httpServer.on('loginSuccess', function (obj) { // 1 成功
+        if (obj.sign === 1) {
+          me.onlineUserList = obj.onlineUserList;
+          me.connectState = true; // 登录状态
+          me.headerConfig.left = me.userInfo.userImg.toString();
+          console.log('连接好了');
+        }
+      });
+      this.httpServer.on('logout', function (obj) {
+        me.messageList.push({
+          type: 1,
+          msg: '用户 ' + obj.msgUser.userName + ' 退出聊天',
+          msgUser: obj.msgUser
+        });
+      });
+      this.httpServer.on('message', function (obj) {
+        console.log(obj);
+        me.onlineUserList = obj.onlineUserList;
+        me.messageList.push({
+          type: 2,
+          msg: obj.msg,
+          msgUser: obj.user
+        });
+      });
+    },
+    unConnectEvent () {
+
+    },
+    getUserId () {
+      return (new Date().getTime() + '' + Math.floor(Math.random() * 100000 + 100)) - 0;
+    },
+    configEvent (status) {
+      if (status) this.$router.go(-1);
+      else {
+        console.log('好友列表触发事件');
+        this.userListStatus = true;
+        console.log(this.userListStatus);
+      }
+    },
+    loginEvent () {
+      console.log('加入聊天室事件');
+      console.log(this.connectState);
+      if (!this.connectState) {
+        this.$refs.confirm.modelOpen();
+      }
+    },
+    headCenterEvent () {
+      if (this.connectState) {
+        console.log('弹出群组全部成员弹窗事件');
+        this.$refs.pop.modelOpen();
+        console.log(this.onlineUserList);
+      }
+    },
+    alertBtnEvent () {
+      console.log('alert弹窗确认事件');
+    },
+    sendEvent () {
+      console.log('sdfds');
+      this.inputValue = this.trim(this.inputValue);
+      if (this.inputValue.length > 0) {
+        if (this.connectState) {
+          this.httpServer.emit('message', {
+            msg: this.inputValue,
+            user: this.userInfo
+          });
+          this.messageList.push({
+            type: 3,
+            msg: this.inputValue,
+            msgUser: this.userInfo
+          });
+          this.inputValue = '';
+        } else {
+          this.$refs.confirm.modelOpen();
+        }
+      }
+    },
+    trim (s) {
+      return s.replace(/(^\s*)|(\s*$)/g, '');
+    },
+    confirmBtnEvent (num) {
+      if (num === 1) {
+        this.connectEvent();
+      }
+    },
+    scroll () {
+      this.$refs.scroll.scrollTop = this.$refs.scroll.scrollHeight;
+    }
+  }
+};
+</script>
 
 <style lang="less" scoped>
 .chat {
@@ -310,154 +465,3 @@
     }
 }
 </style>
-
-<script>
-// import io from '../../../lib/socket.io';
-import liScreen from '../components/li_screen.vue';
-export default {
-  components: {
-    'li-screen': liScreen
-  },
-  data () {
-    return {
-      headerConfig: {
-        left: '返回',
-        title: '最美狼毒花',
-        right: '设置'
-      },
-      userInfo: {},
-      userNameList: ['加菲猫 ', '流氓兔', '蜡笔小新', '樱木花道', '机器猫', '皮卡丘', '史努比', '蓝精灵', '紫龙', '芭比 '],
-      onlineUserList: [],
-      messageList: [],
-      inputValue: '',
-      connectState: true,
-      userListStatus: false
-    };
-  },
-  created () {
-    this.userInfo = {};
-    this.messageList = []; // type = 1 提示信息     type = 2 对方内容     type = 3 我发送内容
-  },
-  mounted () {
-    // this.connectEvent();
-  },
-  updated () {
-    this.scroll();
-  },
-  methods: {
-    userChatEvent () {
-      this.userListStatus = false;
-    },
-    closeChatUserEvent () {
-      this.userListStatus = false;
-    },
-    connectEvent () {
-      var me = this;
-      var randomNum = Math.floor(Math.random() * 10);
-      this.userInfo = {
-        userId: this.getUserId(),
-        userName: this.userNameList[randomNum],
-        userImg: randomNum + 1
-      };
-      // this.httpServer = io.connect('http://10.209.96.67:3000');
-      this.httpServer.emit('login', this.userInfo);
-      this.onlineUserList.push(this.userInfo);
-      this.httpServer.on('login', function (obj) {
-        console.log(obj);
-        me.onlineUserList = obj.onlineUserList;
-        me.messageList.push({
-          type: 1,
-          msg: '用户 ' + obj.msgUser.userName + ' 加入聊天',
-          msgUser: obj.msgUser
-        });
-      });
-      this.httpServer.on('loginSuccess', function (obj) { // 1 成功
-        if (obj.sign === 1) {
-          me.onlineUserList = obj.onlineUserList;
-          me.connectState = true; // 登录状态
-          me.headerConfig.left = me.userInfo.userImg.toString();
-          console.log('连接好了');
-        }
-      });
-      this.httpServer.on('logout', function (obj) {
-        me.messageList.push({
-          type: 1,
-          msg: '用户 ' + obj.msgUser.userName + ' 退出聊天',
-          msgUser: obj.msgUser
-        });
-      });
-      this.httpServer.on('message', function (obj) {
-        console.log(obj);
-        me.onlineUserList = obj.onlineUserList;
-        me.messageList.push({
-          type: 2,
-          msg: obj.msg,
-          msgUser: obj.user
-        });
-      });
-    },
-    unConnectEvent () {
-
-    },
-    getUserId () {
-      return (new Date().getTime() + '' + Math.floor(Math.random() * 100000 + 100)) - 0;
-    },
-    configEvent (status) {
-      if (status) this.$router.go(-1);
-      else {
-        console.log('好友列表触发事件');
-        this.userListStatus = true;
-        console.log(this.userListStatus);
-      }
-    },
-    loginEvent () {
-      console.log('加入聊天室事件');
-      console.log(this.connectState);
-      if (!this.connectState) {
-        this.$refs.confirm.modelOpen();
-      }
-    },
-    headCenterEvent () {
-      if (this.connectState) {
-        console.log('弹出群组全部成员弹窗事件');
-        this.$refs.pop.modelOpen();
-        console.log(this.onlineUserList);
-      }
-    },
-    alertBtnEvent () {
-      console.log('alert弹窗确认事件');
-    },
-    sendEvent () {
-      console.log('sdfds');
-      this.inputValue = this.trim(this.inputValue);
-      if (this.inputValue.length > 0) {
-        if (this.connectState) {
-          this.httpServer.emit('message', {
-            msg: this.inputValue,
-            user: this.userInfo
-          });
-          this.messageList.push({
-            type: 3,
-            msg: this.inputValue,
-            msgUser: this.userInfo
-          });
-          this.inputValue = '';
-        } else {
-          this.$refs.confirm.modelOpen();
-        }
-      }
-    },
-    trim (s) {
-      return s.replace(/(^\s*)|(\s*$)/g, '');
-    },
-    confirmBtnEvent (num) {
-      if (num === 1) {
-        this.connectEvent();
-      }
-    },
-    scroll () {
-      this.$refs.scroll.scrollTop = this.$refs.scroll.scrollHeight;
-    }
-  }
-};
-</script>

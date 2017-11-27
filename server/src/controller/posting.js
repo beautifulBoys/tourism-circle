@@ -4,6 +4,7 @@ import Id from '../model/id.js';
 import User from '../model/user.js';
 import Star from '../model/star.js';
 import Comment from '../model/comment.js';
+import util from '../lib/formDate.js';
 
 
 export const postingFunc = async (req, res) => {
@@ -72,8 +73,8 @@ export const postFunc = async (req, res) => {
     let isStared = (arr[i].starList.indexOf(userId) === -1 ? false : true);
     let starList = [];
     for (let j = 0; j < arr[i].starList.length; j++) {
-      let user = await User.findOne({id: arr[i].starList[j] - 0});
-      starList.push(user);
+      let userStar = await User.findOne({id: arr[i].starList[j] - 0});
+      starList.push(userStar);
     }
     let commentList = [];
     for (let h = 0; h < arr[i].commentList.length; h++) {
@@ -90,7 +91,12 @@ export const postFunc = async (req, res) => {
     let obj = {
       id: arr[i].id,
       userId: arr[i].userId - 0,
-      postTime: arr[i].postTime,
+      userInfo: {
+        username: user.username,
+        desc: user.desc,
+        avatar: user.avatar
+      },
+      postTime: util.formatCSTDate(arr[i].postTime),
       commentList,
       starList,
       tagList: arr[i].tagList,
@@ -106,7 +112,7 @@ export const postFunc = async (req, res) => {
     };
     list.push(obj);
   }
-  res.send({code: 200, message: '获取数据成功', data: {list: list}});
+  res.send({code: 200, message: '获取数据成功', data: {list}});
 };
 
 
@@ -226,7 +232,7 @@ export const myPostedFunc = async (req, res) => {
       let obj = {
         id: arr[i].id,
         userId: arr[i].userId - 0,
-        postTime: arr[i].postTime,
+        postTime: util.formatCSTDate(arr[i].postTime),
         commentList,
         starList,
         tagList: arr[i].tagList,

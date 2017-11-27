@@ -7,11 +7,11 @@
     ></li-header>
     <div class="page-main">
 
-        <div class="cell-box" v-for="item in [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]" @click="roomEvent">
+        <div class="cell-box" v-for="item in list" @click="roomEvent">
           <div class="icon">
-            <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(1).jpg"/>
+            <img :src="item.avatar"/>
           </div>
-          <div class="name">速度防守打法</div>
+          <div class="name">{{item.username}}（ID: {{item.id}}）</div>
         </div>
 
     </div>
@@ -20,6 +20,8 @@
 
 <script>
 import { Swipeout, SwipeoutItem, SwipeoutButton, XButton } from 'vux';
+import { createNamespacedHelpers } from 'vuex';
+const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('box1/contact');
   export default {
     components: {
       XButton,
@@ -32,11 +34,26 @@ import { Swipeout, SwipeoutItem, SwipeoutButton, XButton } from 'vux';
         headerConfig: {
           left: '返回',
           title: '我的圈友',
-          right: '设置'
+          right: '热聊列表'
         }
       };
     },
+    computed: {
+      ...mapState({
+        list: state => state.list
+      }),
+      ...mapGetters([])
+    },
+    mounted () {
+      this.getDataEvent({
+        error (text) {
+          console.log(text);
+        }
+      });
+    },
     methods: {
+      ...mapMutations([]),
+      ...mapActions(['getDataEvent']),
       configEvent (status) {
         if (status) this.$router.go(-1);
         else console.log('好友列表触发事件');

@@ -7,15 +7,16 @@
     ></li-header>
     <div class="page-main">
       <ul>
-        <li-user-post-item v-for="(item, index) in travel" :key="index" :data="item"></li-user-post-item>
+        <li-user-post-item v-for="(item, index) in list" :key="index" :data="item"></li-user-post-item>
       </ul>
     </div>
   </div>
 </template>
 
 <script>
-import data from './dynamic.json';
 import Item from '../components/user_post_item.vue';
+import { createNamespacedHelpers } from 'vuex';
+const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('box2/comment');
 export default {
   components: {
     'li-user-post-item': Item
@@ -26,14 +27,25 @@ export default {
         left: '返回',
         title: '我评论的',
         right: '设置'
-      },
-      travel: []
+      }
     };
   },
+  computed: {
+    ...mapState({
+      list: state => state.list
+    }),
+    ...mapGetters([])
+  },
   mounted () {
-    this.travel = data.travel;
+    this.getDataEvent({
+      error (text) {
+        console.log(text);
+      }
+    });
   },
   methods: {
+    ...mapMutations([]),
+    ...mapActions(['getDataEvent']),
     configEvent (status) {
       if (status) this.$router.go(-1);
       else console.log('好友列表触发事件');

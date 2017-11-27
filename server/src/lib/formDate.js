@@ -36,7 +36,7 @@ var util = {
       MM: this.paddNum(date.getMonth() + 1), // 月 : 如果1位的时候补0
       d: date.getDate(), // 日 : 如果1位的时候不补0
       dd: this.paddNum(date.getDate()), // 日 : 如果1位的时候补0
-      hh: date.getHours(), // 时
+      hh: this.paddNum(date.getHours()), // 时 : 如果1位的时候补0
       mm: this.paddNum(date.getMinutes()), // 分
       ss: date.getSeconds() // 秒
     };

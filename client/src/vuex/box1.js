@@ -1,16 +1,15 @@
-
+import dynamic from './dynamic.js';
+import contact from './contact.js';
 export default {
   namespaced: true,
   state: {
-    list: []
   },
   mutations: {
-    changeList (state, list) {
-      state.list = list;
-    }
   },
   actions: {
-    getDataEvent ({ commit, state }) {
-    }
+  },
+  modules: {
+    dynamic,
+    contact
   }
 };

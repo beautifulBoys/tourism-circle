@@ -28,7 +28,8 @@
 
 <script>
 import tab from '../components/tab.vue';
-// import tabItem from '../components/tab_item.vue';
+import { createNamespacedHelpers } from 'vuex';
+const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('box2/ranking');
   export default {
     data () {
       return {
@@ -36,81 +37,28 @@ import tab from '../components/tab.vue';
           left: '返回',
           title: '排行榜',
           right: '设置'
-        },
-        list: [
-          {
-            title: '关注',
-            arr: [
-              {id: 1232, username: '张小二', num: 12},
-              {id: 1234, username: '王小三', num: 132},
-              {id: 1234, username: '赵二狗', num: 13},
-              {id: 1234, username: '崔文字', num: 12},
-              {id: 1234, username: '赵二狗', num: 13},
-              {id: 1234, username: '崔文字', num: 12},
-              {id: 1234, username: '王小三', num: 132},
-              {id: 1234, username: '赵二狗', num: 13},
-              {id: 1234, username: '崔文字', num: 12},
-              {id: 1234, username: '赵二狗', num: 13},
-              {id: 1234, username: '崔文字', num: 12},
-              {id: 1234, username: '赵二狗', num: 13},
-              {id: 1234, username: '崔文字', num: 12},
-              {id: 1234, username: '王小三', num: 132},
-              {id: 1234, username: '赵二狗', num: 13},
-              {id: 1234, username: '崔文字', num: 12},
-              {id: 1234, username: '赵二狗', num: 13},
-              {id: 1234, username: '崔文字', num: 12},
-              {id: 1234, username: '赵二狗', num: 13},
-              {id: 1234, username: '崔文字', num: 12},
-              {id: 1234, username: '王小三', num: 132},
-              {id: 1234, username: '赵二狗', num: 13},
-              {id: 1234, username: '崔文字', num: 12},
-              {id: 1234, username: '赵二狗', num: 13}
-            ]
-          },
-          {
-            title: '粉丝',
-            arr: [
-              {id: 1232, username: '张小二', num: 12},
-              {id: 1234, username: '王小三', num: 132},
-              {id: 1234, username: '赵二狗', num: 13},
-              {id: 1234, username: '崔文字', num: 12},
-              {id: 1234, username: '赵二狗', num: 13},
-              {id: 1234, username: '赵二狗', num: 13},
-              {id: 1234, username: '崔文字', num: 12},
-              {id: 1234, username: '赵二狗', num: 13}
-            ]
-          },
-          {
-            title: '分享',
-            arr: [
-              {id: 1232, username: '张小二', num: 12},
-              {id: 1234, username: '王小三', num: 132},
-              {id: 1234, username: '赵二狗', num: 13},
-              {id: 1234, username: '赵二狗', num: 13},
-              {id: 1234, username: '崔文字', num: 12},
-              {id: 1234, username: '赵二狗', num: 13}
-            ]
-          },
-          {
-            title: '好友',
-            arr: [
-              {id: 1232, username: '张小二', num: 12},
-              {id: 1234, username: '王小三', num: 132},
-              {id: 1234, username: '赵二狗', num: 13},
-              {id: 1234, username: '崔文字', num: 12},
-              {id: 1234, username: '赵二狗', num: 13},
-              {id: 1234, username: '崔文字', num: 12},
-              {id: 1234, username: '王小三', num: 132},
-              {id: 1234, username: '赵二狗', num: 13}
-            ]
-          }
-        ]
+        }
       };
     },
     components: {
       'li-tab': tab
     },
+    computed: {
+      ...mapState({
+        list: state => state.list
+      }),
+      ...mapGetters([])
+    },
+    mounted () {
+      this.getDataEvent({
+        error (text) {
+          console.log(text);
+        }
+      });
+    },
     methods: {
+      ...mapMutations([]),
+      ...mapActions(['getDataEvent']),
       configEvent (status) {
         if (status) this.$router.go(-1);
         else console.log('好友列表触发事件');

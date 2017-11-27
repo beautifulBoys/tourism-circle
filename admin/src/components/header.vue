@@ -75,7 +75,7 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/head
     },
     mounted () {
       if (!this.connect && window.loginStatus) {
-        this.connectServer();
+        // this.connectServer();
       }
       this.getMessageListEvent();
       this.getUserInfo();

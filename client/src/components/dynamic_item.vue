@@ -2,30 +2,30 @@
   <li class="li">
     <div class="head">
       <div class="left" @click="toContentEvent()">
-        <img :src="data.userInfo.img"/>
+        <img :src="data.userInfo.avatar"/>
       </div>
       <div class="center" @click="toContentEvent()">
-        <span class="name">{{data.userInfo.name}}</span>
-        <span class="desc">{{data.userInfo.desc}}</span>
+        <span class="name">{{data.userInfo.username}}</span>
+        <span class="desc">{{data.userInfo.desc || '这个人很懒，还没有填写'}}</span>
       </div>
       <div class="right"></div>
     </div>
     <div class="imgList">
-      <ul :style="{'width': data.imgList.length * 195 + 'px'}">
-        <li v-for="imgItem in data.imgList">
-          <img :src="imgItem"/>
+      <ul :style="{'width': data.urls.length * 195 + 'px'}">
+        <li v-for="imgInfo in data.urls">
+          <img :src="imgInfo.url"/>
         </li>
       </ul>
     </div>
     <div class="footer">
       <div class="info">
-        <span class="title">{{data.topicInfo.title}}</span>
-        <span class="date"><span class="tag">● </span> {{data.topicInfo.desc}}</span>
+        <span class="title">{{data.title}}</span>
+        <span class="date"><span class="tag">● </span> {{data.postTime}}</span>
       </div>
       <div class="control">
         <div class="left">
-          <img v-for="(img, index) in data.bottomInfo.starList" :src="img" :class="{se: index != 0}"/>
-          <span class="kan">{{data.bottomInfo.num}}人浏览</span>
+          <img v-for="(user, index) in data.starList" :src="user.avatar" :class="{se: index != 0}"/>
+          <span class="kan">{{data.starList.length}}人喜欢</span>
         </div>
         <div class="right">
           <span class="star"></span>

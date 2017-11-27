@@ -8,23 +8,23 @@
           :config="headerConfig"
           :class="{opacity: opacity}"
         ></li-header>
-        <!-- <div class="header" :class="{opacity: opacity}"><span>晚猛地小梦</span></div> -->
+
         <div class="user">
-          <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(1).jpg"/>
+          <img :src="userInfo.avatar"/>
         </div>
-        <div class="name">晚猛地小梦</div>
-        <div class="desc">sdds是的范德萨发生范德萨发生的发的是</div>
+        <div class="name">{{userInfo.username}}</div>
+        <div class="desc">{{userInfo.desc}}</div>
       </div>
 
       <div class="info">
-        <div class="item">关注</div>
-        <div class="item">加好友/发消息</div>
-        <div class="item">站内信</div>
+        <div class="item" @click="followEvent">关注</div>
+        <div class="item" @click="messageOrFriendEvent">{{isFriend ? '发消息' : '加好友'}}</div>
+        <div class="item" @click="webMailEvent">站内信</div>
       </div>
 
       <div class="content">
         <ul>
-          <li-user-post-item v-for="(item, index) in travel" :key="index" :data="item"></li-user-post-item>
+          <li-user-post-item v-for="(item, index) in postList" :key="index" :data="item"></li-user-post-item>
         </ul>
       </div>
     </div>
@@ -33,6 +33,8 @@
 <script>
   import data from './dynamic.json';
   import Item from '../components/user_post_item.vue';
+  import { createNamespacedHelpers } from 'vuex';
+  const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('userMain');
   export default {
     components: {
       'li-user-post-item': Item
@@ -40,21 +42,40 @@
     data () {
       return {
         travel: [],
-        opacity: false,
-          headerConfig: {
-            left: '返回',
-            title: '晚猛地小梦'
-          }
+        userId: 0,
+        opacity: false
       };
     },
+    computed: {
+      ...mapState({
+        userInfo: state => state.userInfo,
+        headerConfig: state => state.headerConfig,
+        isFriend: state => state.isFriend,
+        postList: state => state.postList
+      }),
+      ...mapGetters([])
+    },
     mounted () {
+      this.userId = this.$route.params.id;
+      console.log(this.userId);
       this.travel = data.travel;
+      this.getDataEvent({
+        id: this.userId,
+        error (text) {
+          console.log(text);
+        }
+      });
       this.$refs.user_main.onscroll = () => {
         let n = this.$refs.user_main.scrollTop / 92;
         this.opacity = (n > 0.95);
       };
     },
     methods: {
+      ...mapMutations([]),
+      ...mapActions(['getDataEvent', 'followEvent', 'webMailEvent', '']),
+      messageOrFriendEvent () {
+        if (this.isFriend) this.$router.push({path: '/chat'});
+      },
       configEvent (status) {
         if (status) this.$router.go(-1);
         else console.log('好友列表触发事件');

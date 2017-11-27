@@ -125,7 +125,8 @@ export const getAllUserFunc = async (req, res) => {
         id: result[i].id,
         username: result[i].username,
         desc: result[i].desc || '未设置',
-        postNum: result[i].postNum
+        postNum: result[i].postNum,
+        avatar: result[i].avatar
       };
       if (result[i].sex === 1) item.sex = '女孩';
       else if (result[i].sex === 2) item.sex = '男孩';
