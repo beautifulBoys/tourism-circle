@@ -84,6 +84,7 @@ export default {
       this.sendMessageEvent({
         success () {
           me.inputValue = '';
+          setTimeout(me.scroll);
         }
       });
     },
@@ -100,7 +101,9 @@ export default {
       }
     },
     scroll () {
-      this.$refs.scroll.scrollTop = this.$refs.scroll.scrollHeight;
+      this.$nextTick(() => {
+        this.$refs.scroll.scrollTop = this.$refs.scroll.scrollHeight;
+      });
     }
   }
 };
