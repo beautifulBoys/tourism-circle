@@ -36,8 +36,8 @@
   </div>
   <div class="footer">
     <div class="main">
-      <input type="text" class="input" v-model="inputValue" @keyup.enter="sendEvent" v-show="connectState" />
-      <input type="text" class="input" disabled v-show="!connectState" v-model="inputValue" />
+      <input type="text" class="input" placeholder="回车发送消息" v-model="inputValue" @keyup.enter="sendEvent" v-show="connectState" />
+      <input type="text" class="input" placeholder="回车发送消息" disabled v-show="!connectState" v-model="inputValue" />
       <div class="send" :class="{logout: !connectState}" @click="sendEvent">发送</div>
     </div>
   </div>
@@ -45,7 +45,7 @@
   <div class="chat-list" :class="{move: userListStatus}">
     <div class="title">热聊列表</div>
     <div class="list-box">
-      <div class="cell-box" v-for="item in hotChatObj" @click="userChatEvent(item)">
+      <div class="cell-box" v-for="(item, key) in hotChatObj" @click="choiceUserChatEvent(key)">
         <div class="icon">
           <img :src="item.userInfo.avatar"/>
         </div>
@@ -63,10 +63,6 @@ const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpe
 export default {
   data () {
     return {
-      userInfo: {},
-      userNameList: ['加菲猫 ', '流氓兔', '蜡笔小新', '樱木花道', '机器猫', '皮卡丘', '史努比', '蓝精灵', '紫龙', '芭比 '],
-      onlineUserList: [],
-      messageList: [],
       inputValue: '',
       connectState: true,
       userListStatus: false
@@ -81,128 +77,36 @@ export default {
     }),
     ...mapGetters([])
   },
-  created () {
-    this.userInfo = {};
-    this.messageList = []; // type = 1 提示信息     type = 2 对方内容     type = 3 我发送内容
-  },
   mounted () {
-    // this.connectEvent();
+    this.userInfoInit();
+    this.connectEvent();
   },
   updated () {
     this.scroll();
   },
   methods: {
-    ...mapMutations([]),
-    ...mapActions(['getDataEvent']),
-    userChatEvent () {
+    ...mapMutations(['changeChatUserIndex']),
+    ...mapActions(['getDataEvent', 'sendMessageEvent', 'connectEvent', 'userInfoInit']),
+    choiceUserChatEvent (key) {
       this.userListStatus = false;
+      this.changeChatUserIndex(key);
     },
     closeChatUserEvent () {
       this.userListStatus = false;
     },
-    connectEvent () {
-      var me = this;
-      var randomNum = Math.floor(Math.random() * 10);
-      this.userInfo = {
-        userId: this.getUserId(),
-        userName: this.userNameList[randomNum],
-        userImg: randomNum + 1
-      };
-      // this.httpServer = io.connect('http://10.209.96.67:3000');
-      this.httpServer.emit('login', this.userInfo);
-      this.onlineUserList.push(this.userInfo);
-      this.httpServer.on('login', function (obj) {
-        console.log(obj);
-        me.onlineUserList = obj.onlineUserList;
-        me.messageList.push({
-          type: 1,
-          msg: '用户 ' + obj.msgUser.userName + ' 加入聊天',
-          msgUser: obj.msgUser
-        });
-      });
-      this.httpServer.on('loginSuccess', function (obj) { // 1 成功
-        if (obj.sign === 1) {
-          me.onlineUserList = obj.onlineUserList;
-          me.connectState = true; // 登录状态
-          me.headerConfig.left = me.userInfo.userImg.toString();
-          console.log('连接好了');
-        }
-      });
-      this.httpServer.on('logout', function (obj) {
-        me.messageList.push({
-          type: 1,
-          msg: '用户 ' + obj.msgUser.userName + ' 退出聊天',
-          msgUser: obj.msgUser
-        });
-      });
-      this.httpServer.on('message', function (obj) {
-        console.log(obj);
-        me.onlineUserList = obj.onlineUserList;
-        me.messageList.push({
-          type: 2,
-          msg: obj.msg,
-          msgUser: obj.user
-        });
-      });
-    },
-    unConnectEvent () {
-
-    },
-    getUserId () {
-      return (new Date().getTime() + '' + Math.floor(Math.random() * 100000 + 100)) - 0;
-    },
     configEvent (status) {
       if (status) this.$router.go(-1);
-      else {
-        console.log('好友列表触发事件');
-        this.userListStatus = true;
-        console.log(this.userListStatus);
-      }
-    },
-    loginEvent () {
-      console.log('加入聊天室事件');
-      console.log(this.connectState);
-      if (!this.connectState) {
-        this.$refs.confirm.modelOpen();
-      }
-    },
-    headCenterEvent () {
-      if (this.connectState) {
-        console.log('弹出群组全部成员弹窗事件');
-        this.$refs.pop.modelOpen();
-        console.log(this.onlineUserList);
-      }
-    },
-    alertBtnEvent () {
-      console.log('alert弹窗确认事件');
+      else this.userListStatus = true;
     },
     sendEvent () {
-      console.log('sdfds');
-      this.inputValue = this.trim(this.inputValue);
-      if (this.inputValue.length > 0) {
-        if (this.connectState) {
-          this.httpServer.emit('message', {
-            msg: this.inputValue,
-            user: this.userInfo
-          });
-          this.messageList.push({
-            type: 3,
-            msg: this.inputValue,
-            msgUser: this.userInfo
-          });
-          this.inputValue = '';
-        } else {
-          this.$refs.confirm.modelOpen();
-        }
-      }
+      this.sendMessageEvent({
+        type: 0,
+        message: this.inputValue
+      });
+      this.inputValue = '';
     },
     trim (s) {
       return s.replace(/(^\s*)|(\s*$)/g, '');
-    },
-    confirmBtnEvent (num) {
-      if (num === 1) {
-        this.connectEvent();
-      }
     },
     scroll () {
       this.$refs.scroll.scrollTop = this.$refs.scroll.scrollHeight;
@@ -295,7 +199,8 @@ export default {
         overflow-y: auto;
         .item-box {
             width: 100%;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+
             .left {
                 float: left;
                 width: 40px;
@@ -314,14 +219,15 @@ export default {
                 max-width: 65%;
                 .text {
                     position: relative;
-                    font-size: 13px;
-                    padding: 8px 10px 5px;
-                    border-radius: 3px;
-                    line-height: 20px;
+                    font-size: 16px;
+                    padding: 8px;
+                    border-radius: 5px;
+                    line-height: 24px;
+                    box-shadow: 0 0 1px rgba(0,0,0,0.2);
                     .horn {
                         position: absolute;
                         top: 5px;
-                        font-size: 12px;
+                        font-size: 16px;
                     }
                 }
             }
@@ -347,7 +253,7 @@ export default {
                     color: #333;
                     .horn {
                         color: #fff;
-                        left: -8px;
+                        left: -7px;
                     }
                 }
                 .user {
@@ -368,7 +274,7 @@ export default {
                     color: #fff;
                     .horn {
                         color: #499eff;
-                        right: -8px;
+                        right: -7px;
                     }
                 }
                 .user {
@@ -417,7 +323,7 @@ export default {
     }
     .footer {
         width: 100%;
-        height: 50px;
+        height: 55px;
         background: #fff;
         border-top: 1px solid #dedede;
         padding: 8px 10px;
@@ -425,10 +331,10 @@ export default {
         .main {
             width: 100%;
             height: 100%;
+            display: flex;
             .input {
-                float: left;
-                width: 78%;
-                height: 34px;
+                flex: 1;
+                height: 39px;
                 outline: none;
                 border: 1px solid #ddd;
                 border-right: none;
@@ -446,15 +352,14 @@ export default {
                 }
             }
             .send {
-                float: right;
                 width: 22%;
-                height: 34px;
+                height: 39px;
                 outline: none;
                 background: #20a0ff;
                 border-radius: 0 5px 5px 0;
                 box-sizing: border-box;
                 text-align: center;
-                line-height: 34px;
+                line-height: 39px;
                 color: #fff;
                 cursor: pointer;
                 &.logout {

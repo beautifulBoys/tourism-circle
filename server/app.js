@@ -11,7 +11,8 @@ var app = express();
 import dbconnect from './src/config/db.js';
 var db = dbconnect();
 
-import chatRoom from './src/servers/chat_room.js';
+import websit_chat_room from './src/servers/websit_chat_room.js';
+import chat_room from './src/servers/chat_room.js';
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -21,7 +22,9 @@ app.use(cookieParser());
 app.use(express.static('./public'));
 
 router(app);
-// chatRoom(); // 全站聊天室启动
+// websit_chat_room(); // 全站聊天室启动
+
+chat_room(); // 通讯录聊天功能启动
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

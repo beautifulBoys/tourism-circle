@@ -3,6 +3,10 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+//在线用户
+var onlineUserList = [];
+//当前在线人数
+var onlineUserCount = 0;
 export default () => {
   io.on('connection', socket => {
     console.log('服务已创建 !');
@@ -61,7 +65,7 @@ export default () => {
 
   });
 
-  const port = 3004;
+  const port = 3003;
   http.listen(port, function () {
     console.log('监听端口: ' + port);
   });

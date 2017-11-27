@@ -1,10 +1,13 @@
 
+import io from 'socket.io-client';
 export default {
   namespaced: true,
   state: {
+    httpServer: null,
+    connect: false,
     headerConfig: {
       left: '返回',
-      title: '',
+      title: '机器人',
       right: '设置'
     },
     meInfo: {
@@ -12,72 +15,91 @@ export default {
       avatar: 'https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/tourism-circle/avatar.png',
       userId: 0
     },
-    hotChatObjIndex: '1005',
-    hotChatObj: {
-      '1005': {
-        userInfo: {
-          username: '对方1005',
-          avatar: 'https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/tourism-circle/avatar.png',
-          userId: 1005
-        },
-        list: [
-          {
-            type: 0, // 本人
-            message: '哈哈哈，我是李鑫（本人）'
-          },
-          {
-            type: 1, // 对方
-            message: '哈哈哈，我是对方'
-          }
-        ]
+    hotTemplate: {
+      userInfo: {
+        username: '',
+        avatar: '',
+        userId: 0
       },
-      '1006': {
-        userInfo: {
-          username: '对方1006',
-          avatar: 'https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/tourism-circle/avatar.png',
-          userId: 1006
-        },
-        list: [
-          {
-            type: 0, // 本人
-            message: '哈哈哈，我是第二个人（本人）'
-          },
-          {
-            type: 1, // 对方
-            message: '哈哈哈，我是对方'
-          }
-        ]
-      }
+      list: []
     },
-    hotChatList: [
-      {
+    hotChatObjIndex: 100,
+    hotChatObj: {
+      '100': {
         userInfo: {
-          username: '',
-          avatar: '',
-          userId: 0
+          username: '机器人',
+          avatar: 'https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/tourism-circle/robot.png',
+          userId: 100
         },
         list: [
           {
-            type: 0,
-            userInfo: {},
-            messageInfo: {}
+            type: 1,
+            message: '你好，我是机器人小助手，请问有什么可以帮你的吗？'
           }
         ]
       }
-    ],
-    hotChatIndex: -1
+    }
   },
   mutations: {
-    addUserToHotChatList (state, obj) {
-      state.hotChatList.push({userInfo: {...obj}, list: []});
-      state.hotChatIndex = state.hotChatList[state.hotChatList.length - 1];
+    setMeInfo (state, obj) {
+      state.meInfo.userId = obj.userId - 0;
+      state.meInfo.username = obj.username;
     },
-    changeList (state, list) {
-      state.list = list;
+    addUserToHotChatList (state, obj) {
+      console.log(obj);
+      state.hotTemplate = {
+        userInfo: {
+          username: obj.username,
+          avatar: obj.avatar,
+          userId: obj.id
+        },
+        list: []
+      };
+      state.hotChatObj[obj.id] = state.hotTemplate;
+      state.hotChatObjIndex = obj.id;
+      state.headerConfig.title = obj.username;
+      console.log(state.hotChatObj);
+    },
+    changeChatUserIndex (state, key) {
+      state.hotChatObjIndex = key;
+      state.headerConfig.title = state.hotChatObj[state.hotChatObjIndex].userInfo.username;
+    },
+    saveMessage (state, obj) {
+      state.hotChatObj[state.hotChatObjIndex].list.push(obj);
     }
   },
   actions: {
-    getDataEvent ({ commit, state }) {
+    userInfoInit ({ commit, rootState }) {
+      commit('setMeInfo', rootState.userInfo);
+    },
+    connectEvent ({ commit, state }) {
+      state.httpServer = io.connect('http://10.209.96.67:3003');
+      state.httpServer.emit('login', {
+        fromId: state.meInfo.userId - 0,
+        toId: state.hotChatObjIndex - 0,
+        username: state.meInfo.username
+      });
+      state.httpServer.on('loginSuccess', obj => { // 1 成功
+        if (obj === 1) {
+          state.connect = true; // 登录状态
+          console.log('聊天室已连接成功');
+        }
+      });
+      state.httpServer.on('logout', obj => {
+        console.log(obj);
+      });
+      state.httpServer.on('message', obj => {
+        console.log(obj);
+        commit('saveMessage', obj);
+      });
+    },
+    sendMessageEvent ({commit, state}, obj) {
+      commit('saveMessage', obj);
+      state.httpServer.emit('message', { // 推送聊天记录到服务器
+        fromId: state.meInfo.userId - 0,
+        toId: state.hotChatObjIndex - 0,
+        message: obj.message
+      });
     }
   }
 };

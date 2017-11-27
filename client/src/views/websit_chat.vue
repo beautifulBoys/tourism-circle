@@ -252,7 +252,7 @@ export default {
     }
     .footer {
         width: 100%;
-        height: 50px;
+        height: 55px;
         background: #fff;
         border-top: 1px solid #dedede;
         padding: 8px 10px;
@@ -263,7 +263,7 @@ export default {
             .input {
                 float: left;
                 width: 78%;
-                height: 34px;
+                height: 39px;
                 outline: none;
                 border: 1px solid #ddd;
                 border-right: none;
@@ -283,13 +283,13 @@ export default {
             .send {
                 float: right;
                 width: 22%;
-                height: 34px;
+                height: 39px;
                 outline: none;
                 background: #20a0ff;
                 border-radius: 0 5px 5px 0;
                 box-sizing: border-box;
                 text-align: center;
-                line-height: 34px;
+                line-height: 39px;
                 color: #fff;
                 cursor: pointer;
                 &.logout {

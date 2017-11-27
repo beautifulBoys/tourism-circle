@@ -7,7 +7,7 @@
     ></li-header>
     <div class="page-main">
 
-        <div class="cell-box" v-for="item in list" @click="roomEvent">
+        <div class="cell-box" v-for="item in list" @click="roomEvent(item)">
           <div class="icon">
             <img :src="item.avatar"/>
           </div>
@@ -58,8 +58,9 @@ const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpe
         if (status) this.$router.go(-1);
         else console.log('好友列表触发事件');
       },
-      roomEvent () {
+      roomEvent (item) {
         this.$router.push({path: '/chat'});
+        this.$store.commit('chat/addUserToHotChatList', item);
       }
     }
   };
