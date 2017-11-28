@@ -7,11 +7,11 @@
     ></li-header>
     <div class="page-main">
 
-        <div class="cell-box" v-for="item in list" @click="roomEvent(item)">
+        <div class="cell-box" :class="{noread: item.noReadNum}" v-for="item in list" @click="roomEvent(item)">
           <div class="icon">
             <img :src="item.avatar"/>
           </div>
-          <div class="name">{{item.username}}（ID: {{item.id}}）</div>
+          <div class="name">{{item.username}}（ID: {{item.id}}）<span class="sign" v-show="item.noReadNum">{{item.noReadNum}}</span></div>
         </div>
     </div>
     <div v-show="!connect" class="connect-box" @click="chat"></div>
@@ -55,7 +55,7 @@ const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpe
       });
     },
     methods: {
-      ...mapMutations([]),
+      ...mapMutations(['noReadEmpty']),
       ...mapActions(['getDataEvent']),
       chat () {
         let me = this;
@@ -88,6 +88,7 @@ const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpe
           return;
         }
         this.$router.push({path: '/chat'});
+        this.noReadEmpty(item);
         this.$store.commit('chat/addUserToHotChatList', item);
       }
     }
@@ -124,14 +125,16 @@ const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpe
     .page-main {
       flex: 1;
       overflow-y: scroll;
-      padding: 0 15px;
       .cell-box {
         height: 50px;
         width: 100%;
         display: flex;
-        padding: 7px 0;
+        padding: 7px 15px;
         box-sizing: border-box;
         border-bottom: 1px solid #eee;
+        &.noread {
+          background: rgba(255, 152, 0, 0.3);
+        }
         &:active {
           background: #f6f6f6;
         }
@@ -149,6 +152,18 @@ const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpe
           font-size: 16px;
           color: #333;
           line-height: 36px;
+          .sign {
+            background: red;
+            float: right;
+            height: 21px;
+            display: block;
+            line-height: 21px;
+            text-align: center;
+            margin: 7px 0;
+            border-radius: 11px;
+            padding: 0 7px;
+            color: #fff;
+          }
         }
 
       }

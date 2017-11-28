@@ -59,6 +59,7 @@
 </template>
 <script>
 import dataJson from './content.json';
+import Swiper from 'swiper';
 export default {
   data () {
     return {
@@ -85,7 +86,7 @@ export default {
   methods: {
     swiperInit () {
       /* eslint-disable no-new */
-      new window.Swiper(this.$refs.a, {
+      new Swiper(this.$refs.a, {
         loop: true,
         autoplay: 3000,
         pagination: '.swiper-pagination',

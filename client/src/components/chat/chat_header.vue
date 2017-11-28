@@ -5,15 +5,15 @@
   </div>
   <div class="center">{{config.title}}</div>
   <div class="right" @click="rightHandleEvent">
-    <!-- <img v-show="config.right" :src="listData"/> -->
-    <span class="sign" v-show="true">3</span>
+    <img v-show="config.right && !noRead" :src="listData"/>
+    <span class="sign" v-show="noRead">{{noRead}}</span>
   </div>
 </div>
 </template>
 <script>
 import base64png from '../../images/base64png.json';
 export default {
-  props: ['config'],
+  props: ['config', 'noRead'],
   data () {
     return {
       backData: base64png.back,

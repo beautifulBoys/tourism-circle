@@ -3,6 +3,7 @@
   <chat-header class="header"
     @headerLeftEvent="configEvent(true)"
     @headerRightEvent="configEvent"
+    :noRead="noReadUserNum"
     :config="headerConfig"
   ></chat-header>
   <div class="content" ref="scroll">
@@ -45,12 +46,12 @@
   <div class="chat-list" :class="{move: userListStatus}">
     <div class="title">热聊列表</div>
     <div class="list-box">
-      <div class="cell-box" :class="{noread: item.noReadNum}" v-for="(item, key) in hotChatObj" @click="choiceUserChatEvent(key)">
+      <div class="cell-box" :class="{noread: item.noReadMessageNum}" v-for="(item, key) in hotChatObj" @click="choiceUserChatEvent(key)">
         <div class="icon">
           <img :src="item.userInfo.avatar"/>
         </div>
         <div class="name">{{item.userInfo.username}}</div>
-        <span class="sign" v-show="item.noReadNum">{{item.noReadNum}}</span>
+        <span class="sign" v-show="item.noReadMessageNum">{{item.noReadMessageNum}}</span>
       </div>
     </div>
   </div>
@@ -80,7 +81,7 @@ export default {
       hotChatObjIndex: state => state.hotChatObjIndex,
       meInfo: state => state.meInfo
     }),
-    ...mapGetters([])
+    ...mapGetters(['noReadUserNum'])
   },
   mounted () {
     this.saveScrollFunc(this.scroll);

@@ -33,7 +33,7 @@ export default {
           avatar: 'https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/tourism-circle/robot.png',
           userId: 100
         },
-        noReadNum: 3,
+        noReadMessageNum: 3,
         list: [
           {
             type: 1,
@@ -41,6 +41,15 @@ export default {
           }
         ]
       }
+    }
+  },
+  getters: {
+    noReadUserNum (state) { // 未读消息用户数
+      let n = 0;
+      for (let key in state.hotChatObj) {
+        if (state.hotChatObj[key].noReadMessageNum) n++;
+      }
+      return n;
     }
   },
   mutations: {
@@ -56,6 +65,7 @@ export default {
           avatar: obj.avatar,
           userId: obj.id
         },
+        noReadMessageNum: 0,
         list: []
       };
       state.hotChatObj[obj.id] = state.hotTemplate;
@@ -87,15 +97,16 @@ export default {
     },
     changeChatUserIndex (state, key) {
       state.hotChatObjIndex = key;
+      state.hotChatObj[key].noReadMessageNum = 0;
       state.headerConfig.title = state.hotChatObj[state.hotChatObjIndex].userInfo.username;
     },
     saveMessage (state, obj) { // {fromId, toId, type, message}
-      if (state.hotChatObj[obj.fromId]) {
-        state.hotChatObj[obj.fromId].list.push({
-          type: obj.type,
-          message: obj.message
-        });
-      }
+      state.hotChatObj[obj.fromId].list.push({
+        type: obj.type,
+        message: obj.message
+      });
+      // 在热聊列表中，但是不是当前聊天窗口
+      if (state.hotChatObjIndex - 0 !== obj.fromId - 0) state.hotChatObj[obj.fromId].noReadMessageNum++;
     },
     saveMessageToMe (state, obj) {
       state.hotChatObj[state.hotChatObjIndex].list.push(obj);
@@ -127,7 +138,11 @@ export default {
         if (state.scrollFunc) state.scrollFunc();
       });
       state.httpServer.on('message', obj => { // {fromId, toId, type, message}
-        commit('saveMessage', obj);
+        if (state.hotChatObj[obj.fromId]) { // 是否在热聊列表中
+          commit('saveMessage', obj);
+        } else {
+          commit('box1/contact/noReadSetting', obj, {root: true});
+        }
         if (state.scrollFunc) state.scrollFunc();
       });
     },

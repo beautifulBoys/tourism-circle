@@ -15,8 +15,6 @@ export default {
       pictures: []
     };
   },
-  mounted () {
-  },
   methods: {
     leftEvent () {
       this.$emit('sidebarMenu');
