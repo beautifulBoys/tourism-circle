@@ -22,6 +22,7 @@ export default {
         avatar: '',
         userId: 0
       },
+      noReadNum: 0,
       list: []
     },
     hotChatObjIndex: 100,
@@ -32,6 +33,7 @@ export default {
           avatar: 'https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/tourism-circle/robot.png',
           userId: 100
         },
+        noReadNum: 3,
         list: [
           {
             type: 1,
@@ -106,7 +108,7 @@ export default {
     userInfoInit ({ commit, rootState }) {
       commit('setMeInfo', rootState.userInfo);
     },
-    connectEvent ({ commit, state }) {
+    connectEvent ({ commit, state }, {fn}) {
       state.httpServer = io.connect('http://10.209.96.67:3003');
       state.httpServer.emit('online', {
         fromId: state.meInfo.userId - 0,
@@ -117,20 +119,21 @@ export default {
           state.connect = true; // 变更在线状态
           console.log('已上线');
           commit('onlined', obj);
-          state.scrollFunc();
+          if (fn) fn('连接服务器成功');
+          if (state.scrollFunc) state.scrollFunc();
       });
       state.httpServer.on('logout', obj => { // {userId: 1004}
         commit('logout', obj);
-        state.scrollFunc();
+        if (state.scrollFunc) state.scrollFunc();
       });
       state.httpServer.on('message', obj => { // {fromId, toId, type, message}
         commit('saveMessage', obj);
-        state.scrollFunc();
+        if (state.scrollFunc) state.scrollFunc();
       });
     },
     sendMessageEvent ({commit, state}, obj) { // {type, message}
       commit('saveMessageToMe', obj);
-      state.scrollFunc();
+      if (state.scrollFunc) state.scrollFunc();
       state.httpServer.emit('message', { // 推送聊天记录到服务器
         fromId: state.meInfo.userId - 0,
         toId: state.hotChatObjIndex - 0,

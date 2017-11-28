@@ -1,10 +1,10 @@
 <template>
 <div class="chat">
-  <li-header class="header"
+  <chat-header class="header"
     @headerLeftEvent="configEvent(true)"
     @headerRightEvent="configEvent"
     :config="headerConfig"
-  ></li-header>
+  ></chat-header>
   <div class="content" ref="scroll">
     <div class="height-hook">
       <div v-for="(item, index) in hotChatObj[hotChatObjIndex].list">
@@ -16,17 +16,17 @@
             <div class="user">{{ hotChatObj[hotChatObjIndex].userInfo.username }}</div>
             <div class="text"><span class="horn">◀</span>{{ item.message }}</div>
           </div>
-          <br style="clear: both;" />
+          <div class="right"></div>
         </div>
         <div class="item-box right-hook" v-if="item.type === 0">
-          <div class="right">
-            <img :src="meInfo.avatar" />
-          </div>
+          <div class="left"></div>
           <div class="center">
             <div class="user">{{ meInfo.username }}</div>
             <div class="text"><span class="horn">▶</span>{{ item.message }}</div>
           </div>
-          <br style="clear: both;" />
+          <div class="right">
+            <img :src="meInfo.avatar" />
+          </div>
         </div>
         <div class="item-box center-hook" v-if="item.type === 2">
           <span class="tip">{{ item.message }}</span>
@@ -45,11 +45,12 @@
   <div class="chat-list" :class="{move: userListStatus}">
     <div class="title">热聊列表</div>
     <div class="list-box">
-      <div class="cell-box" v-for="(item, key) in hotChatObj" @click="choiceUserChatEvent(key)">
+      <div class="cell-box" :class="{noread: item.noReadNum}" v-for="(item, key) in hotChatObj" @click="choiceUserChatEvent(key)">
         <div class="icon">
           <img :src="item.userInfo.avatar"/>
         </div>
         <div class="name">{{item.userInfo.username}}</div>
+        <span class="sign" v-show="item.noReadNum">{{item.noReadNum}}</span>
       </div>
     </div>
   </div>
@@ -58,9 +59,13 @@
 
 
 <script>
+import chatHeader from '../components/chat/chat_header.vue';
 import { createNamespacedHelpers } from 'vuex';
 const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('chat');
 export default {
+  components: {
+    'chat-header': chatHeader
+  },
   data () {
     return {
       inputValue: '',
@@ -101,12 +106,13 @@ export default {
       else this.userListStatus = true;
     },
     sendEvent () {
-      if (!this.trim(this.inputValue)) return;
+      let value = this.trim(this.inputValue);
+      this.inputValue = '';
+      if (!value) return;
       this.sendMessageEvent({
         type: 0,
-        message: this.trim(this.inputValue)
+        message: value
       });
-      this.inputValue = '';
     },
     trim (s) {
       return s.replace(/(^\s*)|(\s*$)/g, '');
@@ -180,6 +186,21 @@ export default {
               border-radius: 8px;
             }
           }
+          &.noread {
+            background: rgba(255, 152, 0, 0.3);
+          }
+          .sign {
+            background: red;
+            float: right;
+            width: 21px;
+            height: 21px;
+            display: block;
+            line-height: 21px;
+            text-align: center;
+            margin: 7px 0;
+            border-radius: 100%;
+            color: #fff;
+          }
           .name {
             flex: 1;
             margin-left: 10px;
@@ -206,29 +227,28 @@ export default {
         .item-box {
             width: 100%;
             margin-bottom: 20px;
-
+            display: flex;
             .left {
-                float: left;
                 width: 40px;
                 img {
                     height: 40px;
                 }
             }
             .right {
-                float: right;
                 width: 40px;
                 img {
                     height: 40px;
                 }
             }
             .center {
-                max-width: 65%;
+                flex: 1;
                 .text {
                     position: relative;
                     font-size: 16px;
                     padding: 8px;
                     border-radius: 5px;
                     line-height: 24px;
+                    display: inline-block;
                     .horn {
                         position: absolute;
                         top: 5px;
@@ -237,15 +257,14 @@ export default {
                 }
             }
             &.center-hook {
-                text-align: center;
-                padding: 10px 0;
                 .tip {
+                    text-align: center;
                     padding: 5px 15px;
                     border-radius: 2px;
                     background: rgba(0, 0, 0, 0.2);
                     color: #fff;
                     font-size: 12px;
-                    line-height: 12px;
+                    margin: 0 auto;
                 }
             }
         }
@@ -273,11 +292,11 @@ export default {
         .right-hook {
             .center {
                 float: right;
-                text-align: right;
                 margin-right: 10px;
                 .text {
                     background: #499eff;
                     color: #fff;
+                    float: right;
                     .horn {
                         color: #499eff;
                         right: -7px;

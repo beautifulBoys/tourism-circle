@@ -13,8 +13,8 @@
           </div>
           <div class="name">{{item.username}}（ID: {{item.id}}）</div>
         </div>
-        <div v-show="!connect" style="width: 200px;background: red;line-height: 50px;" @click="chat">连接服务器</div>
     </div>
+    <div v-show="!connect" class="connect-box" @click="chat"></div>
   </div>
 </template>
 
@@ -48,7 +48,6 @@ const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpe
       ...mapGetters([])
     },
     mounted () {
-      console.log('this.connect', this.connect);
       this.getDataEvent({
         error (text) {
           console.log(text);
@@ -59,14 +58,35 @@ const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpe
       ...mapMutations([]),
       ...mapActions(['getDataEvent']),
       chat () {
+        let me = this;
         this.$store.dispatch('chat/userInfoInit');
-        this.$store.dispatch('chat/connectEvent');
+        this.$store.dispatch('chat/connectEvent', {
+          fn (text) {
+            me.$vux.toast.show({
+              text,
+              position: 'middle',
+              time: 3000,
+              type: 'text',
+              width: '15em'
+            });
+          }
+        });
       },
       configEvent (status) {
         if (status) this.$router.go(-1);
         else console.log('好友列表触发事件');
       },
       roomEvent (item) {
+        if (!this.connect) {
+          this.$vux.toast.show({
+            text: '请先设置在线状态才可以进入聊天。',
+            position: 'middle',
+            time: 3000,
+            type: 'text',
+            width: '15em'
+          });
+          return;
+        }
         this.$router.push({path: '/chat'});
         this.$store.commit('chat/addUserToHotChatList', item);
       }
@@ -85,6 +105,21 @@ const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpe
     .header {
       width: 100%;
       height: 50px;
+    }
+    .connect-box {
+      width: 60px;
+      height: 60px;
+      line-height: 55px;
+      background: #20a0ff url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNTExODU4NzYzNTMwIiBjbGFzcz0iaWNvbiIgc3R5bGU9IiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjI4OTciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMzIiIGhlaWdodD0iMzIiPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PC9zdHlsZT48L2RlZnM+PHBhdGggZD0iTTE2MC4zMjI5MTcgNDUzLjMyOTc2Mmw3MDEuOTg4MDUyIDAgMCAxMTYuOTk4NjkxLTcwMS45ODgwNTIgMCAwLTExNi45OTg2OTFaIiBwLWlkPSIyODk4IiBmaWxsPSIjZmZmZmZmIj48L3BhdGg+PHBhdGggZD0iTTQ1Mi40Nzc4NiAxNjAuODM0MDU5bDExNi45OTc2NjggMCAwIDcwMS45ODgwNTItMTE2Ljk5NzY2OCAwIDAtNzAxLjk4ODA1MloiIHAtaWQ9IjI4OTkiIGZpbGw9IiNmZmZmZmYiPjwvcGF0aD48L3N2Zz4=) no-repeat center center;
+      color: #fff;
+      font-size: 45px;
+      text-align: center;
+      border-radius: 100%;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+      position: fixed;
+      bottom: 100px;
+      right: 10px;
+      cursor: pointer;
     }
     .page-main {
       flex: 1;

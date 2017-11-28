@@ -22,7 +22,13 @@ export default {
       activeIndex: 0
     };
   },
-  mounted () {
+  created () {
+    for (let i = 0; i < this.list.length; i++) {
+      if (this.list[i].path === this.$route.path) {
+        this.activeIndex = i;
+        break;
+      }
+    }
   },
   methods: {
     event (item, index) {

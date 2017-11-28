@@ -1,6 +1,8 @@
 <template>
   <div class="travel">
-    <li-header1></li-header1>
+    <li-header class="header"
+      :config="headerConfig"
+    ></li-header>
     <div class="main" style="height: calc(100% - 50px)">
       <ul>
         <li-item v-for="(item, index) in travel" :key="index" :data="item"></li-item>
@@ -10,16 +12,17 @@
 </template>
 <script>
   import data from './dynamic.json';
-  import Header from '../components/header.vue';
   import dynamicItem from '../components/dynamic_item.vue';
   export default {
     components: {
-      'li-header1': Header,
       'li-item': dynamicItem
     },
     data () {
       return {
-        travel: []
+        travel: [],
+        headerConfig: {
+          title: '旅游圈'
+        }
       };
     },
     created () {
