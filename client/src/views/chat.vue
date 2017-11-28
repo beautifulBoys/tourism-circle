@@ -29,7 +29,7 @@
           <br style="clear: both;" />
         </div>
         <div class="item-box center-hook" v-if="item.type === 2">
-          <span class="tip">{{ item.msg }}</span>
+          <span class="tip">{{ item.message }}</span>
         </div>
       </div>
     </div>
@@ -37,7 +37,7 @@
   <div class="footer">
     <div class="main">
       <input type="text" class="input" placeholder="回车发送消息" v-model="inputValue" @keyup.enter="sendEvent" v-show="connectState" />
-      <input type="text" class="input" placeholder="回车发送消息" disabled v-show="!connectState" v-model="inputValue" />
+      <input type="text" class="input" disabled v-show="!connectState" v-model="inputValue" />
       <div class="send" :class="{logout: !connectState}" @click="sendEvent">发送</div>
     </div>
   </div>
@@ -78,14 +78,16 @@ export default {
     ...mapGetters([])
   },
   mounted () {
+    this.saveScrollFunc(this.scroll);
     this.userInfoInit();
-    this.connectEvent();
+
+    // this.connectEvent();
   },
-  updated () {
-    this.scroll();
-  },
+  // updated () {
+  //   this.scroll();
+  // },
   methods: {
-    ...mapMutations(['changeChatUserIndex']),
+    ...mapMutations(['changeChatUserIndex', 'saveScrollFunc']),
     ...mapActions(['getDataEvent', 'sendMessageEvent', 'connectEvent', 'userInfoInit']),
     choiceUserChatEvent (key) {
       this.userListStatus = false;
@@ -99,9 +101,10 @@ export default {
       else this.userListStatus = true;
     },
     sendEvent () {
+      if (!this.trim(this.inputValue)) return;
       this.sendMessageEvent({
         type: 0,
-        message: this.inputValue
+        message: this.trim(this.inputValue)
       });
       this.inputValue = '';
     },
@@ -109,7 +112,10 @@ export default {
       return s.replace(/(^\s*)|(\s*$)/g, '');
     },
     scroll () {
-      this.$refs.scroll.scrollTop = this.$refs.scroll.scrollHeight;
+      let me = this;
+      this.$nextTick(() => {
+        me.$refs.scroll.scrollTop = this.$refs.scroll.scrollHeight;
+      });
     }
   }
 };
@@ -223,7 +229,6 @@ export default {
                     padding: 8px;
                     border-radius: 5px;
                     line-height: 24px;
-                    box-shadow: 0 0 1px rgba(0,0,0,0.2);
                     .horn {
                         position: absolute;
                         top: 5px;
@@ -233,9 +238,9 @@ export default {
             }
             &.center-hook {
                 text-align: center;
-                padding: 20px 0;
+                padding: 10px 0;
                 .tip {
-                    padding: 3px 6px;
+                    padding: 5px 15px;
                     border-radius: 2px;
                     background: rgba(0, 0, 0, 0.2);
                     color: #fff;
@@ -251,6 +256,7 @@ export default {
                 .text {
                     background: #fff;
                     color: #333;
+                    box-shadow: 0 0 1px rgba(0,0,0,0.2);
                     .horn {
                         color: #fff;
                         left: -7px;

@@ -13,7 +13,7 @@
           </div>
           <div class="name">{{item.username}}（ID: {{item.id}}）</div>
         </div>
-
+        <div v-show="!connect" style="width: 200px;background: red;line-height: 50px;" @click="chat">连接服务器</div>
     </div>
   </div>
 </template>
@@ -42,9 +42,13 @@ const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpe
       ...mapState({
         list: state => state.list
       }),
+      connect () {
+        return this.$store.state.chat.connect;
+      },
       ...mapGetters([])
     },
     mounted () {
+      console.log('this.connect', this.connect);
       this.getDataEvent({
         error (text) {
           console.log(text);
@@ -54,6 +58,10 @@ const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpe
     methods: {
       ...mapMutations([]),
       ...mapActions(['getDataEvent']),
+      chat () {
+        this.$store.dispatch('chat/userInfoInit');
+        this.$store.dispatch('chat/connectEvent');
+      },
       configEvent (status) {
         if (status) this.$router.go(-1);
         else console.log('好友列表触发事件');

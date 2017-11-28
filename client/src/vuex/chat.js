@@ -10,6 +10,7 @@ export default {
       title: '机器人',
       right: '设置'
     },
+    scrollFunc: null, // 滚动条置底方法
     meInfo: {
       username: '',
       avatar: 'https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/tourism-circle/avatar.png',
@@ -60,12 +61,45 @@ export default {
       state.headerConfig.title = obj.username;
       console.log(state.hotChatObj);
     },
+    logout (state, obj) { // {userId}
+      for (let key in state.hotChatObj) {
+        if (obj.userId - 0 === key - 0) {
+          state.hotChatObj[key].list.push({
+            type: 2,
+            message: '对方已离线'
+          });
+          break;
+        }
+      }
+    },
+    onlined (state, obj) { // {userId: 1004}
+      for (let key in state.hotChatObj) {
+        if (obj.userId - 0 === key - 0) {
+          state.hotChatObj[key].list.push({
+            type: 2,
+            message: '对方上线'
+          });
+          break;
+        }
+      }
+    },
     changeChatUserIndex (state, key) {
       state.hotChatObjIndex = key;
       state.headerConfig.title = state.hotChatObj[state.hotChatObjIndex].userInfo.username;
     },
-    saveMessage (state, obj) {
+    saveMessage (state, obj) { // {fromId, toId, type, message}
+      if (state.hotChatObj[obj.fromId]) {
+        state.hotChatObj[obj.fromId].list.push({
+          type: obj.type,
+          message: obj.message
+        });
+      }
+    },
+    saveMessageToMe (state, obj) {
       state.hotChatObj[state.hotChatObjIndex].list.push(obj);
+    },
+    saveScrollFunc (state, fn) {
+      state.scrollFunc = fn;
     }
   },
   actions: {
@@ -74,27 +108,29 @@ export default {
     },
     connectEvent ({ commit, state }) {
       state.httpServer = io.connect('http://10.209.96.67:3003');
-      state.httpServer.emit('login', {
+      state.httpServer.emit('online', {
         fromId: state.meInfo.userId - 0,
         toId: state.hotChatObjIndex - 0,
         username: state.meInfo.username
       });
-      state.httpServer.on('loginSuccess', obj => { // 1 成功
-        if (obj === 1) {
-          state.connect = true; // 登录状态
-          console.log('聊天室已连接成功');
-        }
+      state.httpServer.on('onlined', (obj) => { // {userId}
+          state.connect = true; // 变更在线状态
+          console.log('已上线');
+          commit('onlined', obj);
+          state.scrollFunc();
       });
-      state.httpServer.on('logout', obj => {
-        console.log(obj);
+      state.httpServer.on('logout', obj => { // {userId: 1004}
+        commit('logout', obj);
+        state.scrollFunc();
       });
-      state.httpServer.on('message', obj => {
-        console.log(obj);
+      state.httpServer.on('message', obj => { // {fromId, toId, type, message}
         commit('saveMessage', obj);
+        state.scrollFunc();
       });
     },
-    sendMessageEvent ({commit, state}, obj) {
-      commit('saveMessage', obj);
+    sendMessageEvent ({commit, state}, obj) { // {type, message}
+      commit('saveMessageToMe', obj);
+      state.scrollFunc();
       state.httpServer.emit('message', { // 推送聊天记录到服务器
         fromId: state.meInfo.userId - 0,
         toId: state.hotChatObjIndex - 0,

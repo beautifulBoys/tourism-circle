@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import tab from '../components/tab.vue';
 import { createNamespacedHelpers } from 'vuex';
 const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('box2/ranking');
   export default {
@@ -39,9 +38,6 @@ const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpe
           right: '设置'
         }
       };
-    },
-    components: {
-      'li-tab': tab
     },
     computed: {
       ...mapState({
