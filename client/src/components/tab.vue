@@ -16,6 +16,7 @@
 </div>
 </template>
 <script>
+import Swiper from 'swiper';
 export default {
   props: ['list'],
   data () {
@@ -33,9 +34,12 @@ export default {
       this.swiper.slideTo(index);
     },
     swiperInit () {
-      this.swiper = new window.Swiper(this.$refs.tab, {
-        onSlideChangeEnd: ({activeIndex}) => {
-          this.tabIndex = activeIndex;
+      let me = this;
+      this.swiper = new Swiper(this.$refs.tab, {
+        on: {
+          slideChange () {
+            me.tabIndex = this.activeIndex;
+          }
         }
       });
     }

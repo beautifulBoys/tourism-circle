@@ -43,10 +43,6 @@ module.exports = vuxLoader.merge({
         loader: 'json-loader'
       },
       {
-        test: /\.html$/,
-        loader: 'html-loader'
-      },
-      {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: vueLoaderConfig
@@ -83,8 +79,5 @@ module.exports = vuxLoader.merge({
     ]
   }
 }, {
-  options: {},
-  plugins: [{
-    name: 'vux-ui'
-  }]
+  plugins: ['vux-ui']
 })
