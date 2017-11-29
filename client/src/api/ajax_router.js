@@ -15,5 +15,11 @@ export const myStarAjax = data => ajax.post('/myStar', data);
 export const rankingAjax = data => ajax.post('/ranking', data);
 // 所有圈友
 export const allUserListAjax = data => ajax.post('/allUser', data);
-
+// 用户个人主页数据
 export const userMainPageInfoAjax = data => ajax.post('/userMainInfo', data);
+// 我的主页数据
+export const mineAjax = data => ajax.post('/mine', data);
+// 我的粉丝数据
+export const followsAjax = data => ajax.post('/follows', data);
+// 我的关注数据
+export const myFollowingAjax = data => ajax.post('/myFollowing', data);

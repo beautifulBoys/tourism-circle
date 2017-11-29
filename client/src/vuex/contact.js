@@ -8,7 +8,8 @@ export default {
     allNoRead (state) {
       let n = 0;
       for (let i = 0; i < state.list.length; i++) {
-        n += state.list[i].noReadNum;
+        // n += state.list[i].noReadNum;
+        if (state.list[i].noReadNum) n++;
       }
       return n;
     }
@@ -19,12 +20,17 @@ export default {
       for (let i = 0; i < list.length; i++) {
         arr.push({
           avatar: list[i].avatar,
-          id: list[i].id,
+          id: list[i].id - 0,
           username: list[i].username,
           noReadNum: 0
         });
       }
       state.list = arr;
+    },
+    getUserInfo (state, {id, cbb}) {
+      for (let i = 0; i < state.list.length; i++) {
+        if (id - 0 === state.list[i].id) cbb(state.list[i]);
+      }
     },
     noReadSetting (state, obj) {
       console.log(obj.fromId);

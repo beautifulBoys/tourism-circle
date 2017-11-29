@@ -1,0 +1,63 @@
+@charset "UTF-8";
+@import '../../lib/swiper.css';
+@import '../../lib/css/1px.less';
+.follow {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  .header {
+    width: 100%;
+    height: 50px;
+  }
+  .page-main {
+    flex: 1;
+    overflow-y: scroll;
+    .cell-box {
+      height: 60px;
+      width: 100%;
+      display: flex;
+      padding: 5px 15px;
+      box-sizing: border-box;
+      .border-1px-bottom(#ddd);
+      &:active {
+        background: #eee;
+      }
+      .id {
+        width: 50px;
+        line-height: 50px;
+        text-align: center;
+      }
+      .icon {
+        width: 50px;
+        padding: 5px;
+        box-sizing: border-box;
+        img {
+          width: 100%;
+          border-radius: 100%;
+        }
+      }
+      .other {
+        flex: 1;
+        margin-left: 5px;
+        .name {
+          font-size: 16px;
+          color: #333;
+          line-height: 28px;
+        }
+        .desc {
+          font-size: 13px;
+          color: #aaa;
+          line-height: 20px;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 1;
+          overflow: hidden;
+
+        }
+      }
+
+    }
+  }
+
+}

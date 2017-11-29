@@ -3,6 +3,9 @@ import comment from './comment.js';
 import likes from './likes.js';
 import ranking from './ranking.js';
 import allfriend from './allfriend.js';
+import friend from './friend.js';
+import follow from './follow.js';
+import following from './following.js';
 
 export default {
   namespaced: true,
@@ -17,6 +20,9 @@ export default {
     comment,
     likes,
     ranking,
-    allfriend
+    allfriend,
+    following,
+    follow,
+    friend
   }
 };

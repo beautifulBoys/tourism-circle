@@ -24,7 +24,15 @@ import {
 } from '../controller/ranking.js';
 
 import {
-  userMainInfoFunc
+  toFollowFunc,
+  myFollowingFunc,
+  deleteFollowingFunc,
+  followsFunc
+} from '../controller/follow.js';
+
+import {
+  userMainInfoFunc,
+  mineFunc
 } from '../controller/client_other.js';
 
 var router = express.Router();
@@ -38,6 +46,9 @@ router.post('/myComments', myCommentsFunc);
 router.post('/ranking', rankingFunc);
 router.post('/allUser', getAllUserFunc);
 router.post('/userMainInfo', userMainInfoFunc);
+router.post('/mine', mineFunc);
+router.post('/follows', followsFunc);
+router.post('/myFollowing', myFollowingFunc);
 
 
 export default router;

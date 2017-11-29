@@ -7,14 +7,14 @@
     ></li-header>
     <div class="page-main">
 
-        <div class="cell-box" slot="content" v-for="item in [1,1,1,1,1]">
-          <div class="id">2345</div>
+        <div class="cell-box border-1px-bottom" slot="content" v-for="item in list" @click="toUserMainPage(item)">
+          <div class="id">{{item.id}}</div>
           <div class="icon">
-            <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(1).jpg"/>
+            <img :src="item.avatar"/>
           </div>
           <div class="other">
-            <div class="name">速度防守打法</div>
-            <div class="desc">闪电发货梵蒂冈梵蒂冈发个梵蒂冈郭德纲地方地方规范地方</div>
+            <div class="name">{{item.username}}</div>
+            <div class="desc">{{item.desc || '这个人太懒了，还没有填写呢'}}</div>
           </div>
         </div>
 
@@ -23,14 +23,9 @@
 </template>
 
 <script>
-import { Swipeout, SwipeoutItem, SwipeoutButton, XButton } from 'vux';
+import { createNamespacedHelpers } from 'vuex';
+const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('box2/follow');
   export default {
-    components: {
-      XButton,
-      Swipeout,
-      SwipeoutItem,
-      SwipeoutButton
-    },
     data () {
       return {
         headerConfig: {
@@ -40,7 +35,32 @@ import { Swipeout, SwipeoutItem, SwipeoutButton, XButton } from 'vux';
         }
       };
     },
+    computed: {
+      ...mapState({
+        list: state => state.list
+      }),
+      ...mapGetters([])
+    },
+    mounted () {
+      let me = this;
+      this.getDataEvent({
+        error (text) {
+          me.$vux.toast.show({
+            text,
+            position: 'middle',
+            time: 3000,
+            type: 'text',
+            width: '15em'
+          });
+        }
+      });
+    },
     methods: {
+      ...mapMutations([]),
+      ...mapActions(['getDataEvent']),
+      toUserMainPage (item) {
+        this.$router.push({path: '/user/' + item.id});
+      },
       configEvent (status) {
         if (status) this.$router.go(-1);
         else console.log('好友列表触发事件');
@@ -50,62 +70,5 @@ import { Swipeout, SwipeoutItem, SwipeoutButton, XButton } from 'vux';
 </script>
 
 <style lang="less" scoped>
-  @import '../lib/swiper.css';
-  .follow {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-flow: column;
-    .header {
-      width: 100%;
-      height: 50px;
-    }
-    .page-main {
-      flex: 1;
-      overflow-y: scroll;
-      .cell-box {
-        height: 60px;
-        width: 100%;
-        display: flex;
-        padding: 5px 15px;
-        box-sizing: border-box;
-        border-bottom: 1px solid #eee;
-        .id {
-          width: 50px;
-          line-height: 50px;
-          text-align: center;
-        }
-        .icon {
-          width: 50px;
-          padding: 5px;
-          box-sizing: border-box;
-          img {
-            width: 100%;
-            border-radius: 100%;
-          }
-        }
-        .other {
-          flex: 1;
-          margin-left: 5px;
-          .name {
-            font-size: 16px;
-            color: #333;
-            line-height: 28px;
-          }
-          .desc {
-            font-size: 13px;
-            color: #aaa;
-            line-height: 20px;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 1;
-            overflow: hidden;
-
-          }
-        }
-
-      }
-    }
-
-  }
+  @import './common_less/friend_follow_following.less';
 </style>

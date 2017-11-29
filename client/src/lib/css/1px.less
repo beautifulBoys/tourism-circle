@@ -1,0 +1,76 @@
+.border-1px-right (@color) { // 右
+  position: relative;
+  &::before {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: 1px;
+    border-right: 1px solid @color;
+    content: ' ';
+  }
+}
+.border-1px-left (@color) { // 左
+  position: relative;
+  &::before {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 1px;
+    border-left: 1px solid @color;
+    content: ' ';
+  }
+}
+.border-1px-top (@color) { // 上
+  position: relative;
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 1px;
+    width: 100%;
+    border-top: 1px solid @color;
+    content: ' ';
+  }
+}
+.border-1px-bottom (@color) { // 下
+  position: relative;
+  &::after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-bottom: 1px solid @color;
+    content: ' ';
+  }
+}
+
+@media (-webkit-min-device-pixel-ratio: 1.5), (min-device-pixel-ratio: 1.5) {
+  .border-1px-bottom, .border-1px-top {
+    &::after {
+      -webkit-transform: scaleY(0.7);
+      transform: scaleY(0.7);
+    }
+  }
+  .border-1px-right, .border-1px-left {
+    &::before {
+      -webkit-transform: scaleX(0.7);
+      transform: scaleX(0.7);
+    }
+  }
+}
+@media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {
+  .border-1px-bottom, .border-1px-top {
+    &::after {
+      -webkit-transform: scaleY(0.5);
+      transform: scaleY(0.5);
+    }
+  }
+  .border-1px-right, .border-1px-left {
+    &::before {
+      -webkit-transform: scaleX(0.5);
+      transform: scaleX(0.5);
+    }
+  }
+}

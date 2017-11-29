@@ -33,7 +33,7 @@ export default {
           avatar: 'https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/tourism-circle/robot.png',
           userId: 100
         },
-        noReadMessageNum: 3,
+        noReadMessageNum: 0,
         list: [
           {
             type: 1,
@@ -41,18 +41,17 @@ export default {
           }
         ]
       }
-    }
-  },
-  getters: {
-    noReadUserNum (state) { // 未读消息用户数
-      let n = 0;
-      for (let key in state.hotChatObj) {
-        if (state.hotChatObj[key].noReadMessageNum) n++;
-      }
-      return n;
-    }
+    },
+    noReadUserNum: 0
   },
   mutations: {
+    initNoReadUserNum (state) {
+      let n = 0;
+      for (let key in state.hotChatObj) { // 重新计算 noReadUserNum
+        if (state.hotChatObj[key].noReadMessageNum) n++;
+      }
+      state.noReadUserNum = n;
+    },
     setMeInfo (state, obj) {
       state.meInfo.userId = obj.userId - 0;
       state.meInfo.username = obj.username;
@@ -68,9 +67,29 @@ export default {
         noReadMessageNum: 0,
         list: []
       };
-      state.hotChatObj[obj.id] = state.hotTemplate;
+      if (!state.hotChatObj[obj.id]) state.hotChatObj[obj.id] = state.hotTemplate;
       state.hotChatObjIndex = obj.id;
       state.headerConfig.title = obj.username;
+      state.hotChatObj[obj.id].noReadMessageNum = 0;
+      let n = 0;
+      for (let key1 in state.hotChatObj) { // 重新计算 noReadUserNum
+        if (state.hotChatObj[key1].noReadMessageNum) n++;
+      }
+      state.noReadUserNum = n;
+      console.log(state.hotChatObj);
+    },
+    addUserToHotChatListFromPostMessage (state, obj) {
+      console.log(obj);
+      state.hotTemplate = {
+        userInfo: {
+          username: obj.username,
+          avatar: obj.avatar,
+          userId: obj.id
+        },
+        noReadMessageNum: 0,
+        list: []
+      };
+      state.hotChatObj[obj.id] = state.hotTemplate;
       console.log(state.hotChatObj);
     },
     logout (state, obj) { // {userId}
@@ -99,6 +118,11 @@ export default {
       state.hotChatObjIndex = key;
       state.hotChatObj[key].noReadMessageNum = 0;
       state.headerConfig.title = state.hotChatObj[state.hotChatObjIndex].userInfo.username;
+      let n = 0;
+      for (let key1 in state.hotChatObj) { // 重新计算 noReadUserNum
+        if (state.hotChatObj[key1].noReadMessageNum) n++;
+      }
+      state.noReadUserNum = n;
     },
     saveMessage (state, obj) { // {fromId, toId, type, message}
       state.hotChatObj[obj.fromId].list.push({
@@ -118,6 +142,7 @@ export default {
   actions: {
     userInfoInit ({ commit, rootState }) {
       commit('setMeInfo', rootState.userInfo);
+      commit('initNoReadUserNum');
     },
     connectEvent ({ commit, state }, {fn}) {
       state.httpServer = io.connect('http://10.209.96.67:3003');
@@ -140,8 +165,19 @@ export default {
       state.httpServer.on('message', obj => { // {fromId, toId, type, message}
         if (state.hotChatObj[obj.fromId]) { // 是否在热聊列表中
           commit('saveMessage', obj);
+          commit('initNoReadUserNum');
         } else {
           commit('box1/contact/noReadSetting', obj, {root: true});
+          commit('box1/contact/getUserInfo', { // 从contact中获取用户信息
+            id: obj.fromId,
+            cbb (userInfo) {
+              commit('addUserToHotChatListFromPostMessage', userInfo);
+              setTimeout(() => {
+                commit('saveMessage', obj);
+                commit('initNoReadUserNum');
+              });
+            }
+          }, {root: true});
         }
         if (state.scrollFunc) state.scrollFunc();
       });

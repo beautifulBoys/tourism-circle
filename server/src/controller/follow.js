@@ -44,8 +44,9 @@ export const myFollowingFunc = async (req, res) => {
         email: user.email || '未设置',
         id: user.id,
         username: user.username,
-        desc: user.desc || '未设置',
-        postNum: user.postNum
+        desc: user.desc,
+        postNum: user.postNum,
+        avatar: user.avatar
       };
       if (user.sex === 1) item.sex = '女孩';
       else if (user.sex === 2) item.sex = '男孩';
@@ -106,8 +107,9 @@ export const followsFunc = async (req, res) => {
         email: user.email || '未设置',
         id: user.id,
         username: user.username,
-        desc: user.desc || '未设置',
-        postNum: user.postNum
+        desc: user.desc,
+        postNum: user.postNum,
+        avatar: user.avatar
       };
       if (user.sex === 1) item.sex = '女孩';
       else if (user.sex === 2) item.sex = '男孩';

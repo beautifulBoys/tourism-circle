@@ -1,5 +1,5 @@
 <template>
-<div class="bottom">
+<div class="bottom border-1px-top">
 
     <div class="item" :class="{active: 0 === activeIndex}" @click="event(list[0], 0)">
       <div class="icon">
@@ -64,12 +64,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import '../lib/css/1px.less';
 .bottom {
     width: 100%;
     height: 50px;
     background: #fff;
     display: flex;
-    border-top: 1px solid #ddd;
+    .border-1px-top(#ccc);
     .item {
       flex: 1;
       height: 100%;

@@ -7,7 +7,7 @@
     ></li-header>
     <div class="page-main">
 
-        <div class="cell-box" :class="{noread: item.noReadNum}" v-for="item in list" @click="roomEvent(item)">
+        <div class="cell-box border-1px-bottom" :class="{noread: item.noReadNum}" v-for="item in list" @click="roomEvent(item)">
           <div class="icon">
             <img :src="item.avatar"/>
           </div>
@@ -97,6 +97,7 @@ const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpe
 
 <style lang="less" scoped>
   @import '../lib/swiper.css';
+  @import '../lib/css/1px.less';
   .contact {
     width: 100%;
     height: 100%;
@@ -131,7 +132,7 @@ const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpe
         display: flex;
         padding: 7px 15px;
         box-sizing: border-box;
-        border-bottom: 1px solid #eee;
+        .border-1px-bottom(#ddd);
         &.noread {
           background: rgba(255, 152, 0, 0.3);
         }

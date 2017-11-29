@@ -79,9 +79,10 @@ export default {
       headerConfig: state => state.headerConfig,
       hotChatObj: state => state.hotChatObj,
       hotChatObjIndex: state => state.hotChatObjIndex,
-      meInfo: state => state.meInfo
+      meInfo: state => state.meInfo,
+      noReadUserNum: state => state.noReadUserNum
     }),
-    ...mapGetters(['noReadUserNum'])
+    ...mapGetters([])
   },
   mounted () {
     this.saveScrollFunc(this.scroll);
@@ -193,14 +194,14 @@ export default {
           .sign {
             background: red;
             float: right;
-            width: 21px;
             height: 21px;
             display: block;
             line-height: 21px;
             text-align: center;
             margin: 7px 0;
-            border-radius: 100%;
+            border-radius: 10px;
             color: #fff;
+            padding: 0 6px;
           }
           .name {
             flex: 1;

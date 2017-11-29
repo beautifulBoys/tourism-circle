@@ -2,8 +2,40 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+import chatRobot from './chat_robot.js';
+
+const errObj = {
+  result: 0,
+  content: '没有理解你的意思，你能说的简单一点吗？'
+};
+const qingyunkeUrl = 'http://api.qingyunke.com/api.php?key=free&appid=0&msg=';
 
 let socketList = [];
+function ajax (text) {
+  return new Promise((resolve, reject) => {
+    try {
+      httpApi.get(qingyunkeUrl + encodeURI(text), (req) => {
+        req.setEncoding('utf8');  
+        req.on('data', function (data) {
+          resolve(data); 
+        });
+        req.on('error', (e) => {
+          resolve(errObj); 
+        });
+      });
+    } catch (err) {
+      resolve(errObj);
+    }
+  });
+}
+async function autoChat (text, fn) {
+  try {
+    let result = await ajax(text);
+    fn(JSON.parse(result));
+  } catch (err) {
+    fn(errObj);
+  }
+}
 module.exports = function () {
   io.on('connection', socket => {
 
@@ -27,6 +59,19 @@ module.exports = function () {
     //监听用户发布聊天内容
     socket.on('message', function (obj) { // {fromId, toId, message}
       let sign = true;
+      let me = this;
+      if (obj.toId - 0 === 100) {
+        console.log('收到发给机器人的消息');
+        chatRobot(obj.message, (result) => {
+          me.emit('message', {
+            fromId: obj.toId,
+            toId: obj.fromId,
+            type: 1,
+            message: result.content
+          });
+        });
+        return;
+      }
       for (let i = 0; i < socketList.length; i++) {
         if (obj.toId - 0 === socketList[i].userId - 0) {
           sign = false;

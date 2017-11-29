@@ -3,10 +3,10 @@
     <div class="main">
       <div class="top">
         <div class="user">
-          <img src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(1).jpg"/>
+          <img :src="user.avatar"/>
         </div>
-        <div class="name">晚猛地小梦</div>
-        <div class="desc">sdds是的范德萨发生范德萨发生的发的是</div>
+        <div class="name">{{user.username}}</div>
+        <div class="desc">{{user.desc || '这个人很懒，还没有填写呢'}}</div>
       </div>
 
       <div class="info">
@@ -15,9 +15,9 @@
 
       <div class="content">
         <div class="square" v-for="squareItem in list">
-          <div class="title">{{squareItem.title}}</div>
+          <div class="title border-1px-bottom">{{squareItem.title}}</div>
           <div class="row" v-for="rowList in squareItem.arr">
-            <div class="item" v-for="item in rowList" @click="clickItemEvent(item)">
+            <div class="item border-1px-bottom border-1px-right" v-for="item in rowList" @click="clickItemEvent(item)">
               <div class="img-box">
                 <img :src="item.icon"/>
               </div>
@@ -30,17 +30,13 @@
   </div>
 </template>
 <script>
-  import data from './dynamic.json';
   import base64png from '../images/base64png.json';
+  import { createNamespacedHelpers } from 'vuex';
+  const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('box1/mine');
   export default {
     data () {
       return {
         travel: [],
-        infoList: [
-          {path: '/following', text: '关注', num: 2},
-          {path: '/friend', text: '好友', num: 412},
-          {path: '/follow', text: '粉丝', num: 12}
-        ],
         list: [
           {
             title: '个人中心',
@@ -80,10 +76,30 @@
         ]
       };
     },
+    computed: {
+      ...mapState({
+        user: state => state.user,
+        infoList: state => state.infoList
+      }),
+      ...mapGetters([])
+    },
     mounted () {
-      this.travel = data.travel;
+      let me = this;
+      this.getDataEvent({
+        error (text) {
+          me.$vux.toast.show({
+            text,
+            position: 'middle',
+            time: 3000,
+            type: 'text',
+            width: '15em'
+          });
+        }
+      });
     },
     methods: {
+      ...mapMutations([]),
+      ...mapActions(['getDataEvent']),
       clickEvent (path) {
         this.$router.push({path});
       },
@@ -98,6 +114,8 @@
 </script>
 
 <style lang="less" scoped>
+
+@import '../lib/css/1px.less';
   .travel {
     width: 100%;
     height: 100%;
@@ -160,7 +178,7 @@
             padding: 0 15px;
             box-sizing: border-box;
             color: #888;
-            border-bottom: 1px solid #eee;
+            .border-1px-bottom(#ddd);
           }
           .row {
             width: 100%;
@@ -169,8 +187,9 @@
             .item {
               flex: 1;
               padding: 10px 0;
-              border-right: 1px solid #eee;
-              border-bottom: 1px solid #eee;
+              // border-right: 1px solid #ddd;
+              .border-1px-bottom(#ddd);
+              .border-1px-right(#ddd);
               &:active {
                 background: #f4f4f4;
               }

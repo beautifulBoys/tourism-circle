@@ -144,7 +144,7 @@ export const myFriendFunc = async (req, res) => {
         email: friend.email || '未设置',
         id: friend.id,
         username: friend.username,
-        desc: friend.desc || '未设置',
+        desc: friend.desc,
         postNum: friend.postNum,
         avatar: friend.avatar
       };
