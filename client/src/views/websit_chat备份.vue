@@ -14,19 +14,19 @@
           </div>
           <div class="center">
             <div class="user">{{ item.user.name }}</div>
-            <pre class="text"><span class="horn">◀</span>{{ item.message.text }}</pre>
+            <div class="text"><span class="horn">◀</span>{{ item.message.text }}</div>
           </div>
-          <div class="right"></div>
+          <br style="clear: both;" />
         </div>
         <div class="item-box right-hook" v-if="item.message.type === 3">
-          <div class="left"></div>
-          <div class="center">
-            <div class="user">{{ item.user.name }}</div>
-            <pre class="text"><span class="horn">▶</span>{{ item.message.text }}</pre>
-          </div>
           <div class="right">
             <img :src="userIconUrl"/>
           </div>
+          <div class="center">
+            <div class="user">{{ item.user.name }}</div>
+            <div class="text"><span class="horn">▶</span>{{ item.message.text }}</div>
+          </div>
+          <br style="clear: both;" />
         </div>
         <div class="item-box center-hook" v-if="item.message.type === 1">
           <span class="tip">{{ item.message.text }}</span>
@@ -121,84 +121,6 @@ export default {
       height: 50px;
       width: 100%;
     }
-    .chat-list {
-      width: 50%;
-      height: 100%;
-      background: #fff;
-      box-sizing: border-box;
-      position: fixed;
-      top: 0;
-      left: 0;
-      overflow: hidden;
-      transform: translate3d(200%, 0, 0);
-      z-index: 10;
-      transition: all .4s;
-      display: flex;
-      flex-flow: column;
-      &.move {
-        transform: translate3d(100%, 0, 0);
-      }
-      .title {
-        line-height: 50px;
-        width: 100%;
-        height: 50px;
-        text-align: center;
-        font-size: 18px;
-        color: #fff;
-        background: #20a0ff;
-      }
-      .list-box {
-        overflow-y: scroll;
-        flex: 1;
-        .cell-box {
-          height: 50px;
-          width: 100%;
-          display: flex;
-          padding: 7px 15px;
-          box-sizing: border-box;
-          border-bottom: 1px solid #eee;
-          &:active {
-            background: #f6f6f6;
-          }
-          .icon {
-            width: 36px;
-            box-sizing: border-box;
-            img {
-              width: 100%;
-              border-radius: 8px;
-            }
-          }
-          &.noread {
-            background: rgba(255, 152, 0, 0.3);
-          }
-          .sign {
-            background: red;
-            float: right;
-            height: 21px;
-            display: block;
-            line-height: 21px;
-            text-align: center;
-            margin: 7px 0;
-            border-radius: 10px;
-            color: #fff;
-            padding: 0 6px;
-          }
-          .name {
-            flex: 1;
-            margin-left: 10px;
-            font-size: 16px;
-            color: #333;
-            line-height: 36px;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 1; // 超出行数
-            overflow: hidden;
-
-          }
-        }
-      }
-
-    }
     .content {
         width: 100%;
         flex: 1;
@@ -208,61 +130,59 @@ export default {
         overflow-y: auto;
         .item-box {
             width: 100%;
-            margin-bottom: 20px;
-            display: flex;
+            margin-bottom: 10px;
             .left {
+                float: left;
                 width: 40px;
                 img {
                     height: 40px;
                 }
             }
             .right {
+                float: right;
                 width: 40px;
                 img {
                     height: 40px;
                 }
             }
             .center {
-                flex: 1;
+                max-width: 65%;
                 .text {
                     position: relative;
-                    font-size: 16px;
-                    padding: 8px;
-                    border-radius: 5px;
-                    line-height: 24px;
-                    display: inline-block;
-                    white-space: pre-wrap;
-                    word-wrap: break-word;
-                    margin: 0;
+                    font-size: 13px;
+                    padding: 8px 10px 5px;
+                    border-radius: 3px;
+                    line-height: 20px;
                     .horn {
                         position: absolute;
                         top: 5px;
-                        font-size: 16px;
+                        font-size: 12px;
                     }
                 }
             }
             &.center-hook {
+                text-align: center;
+                padding: 20px 0;
                 .tip {
-                    text-align: center;
-                    padding: 5px 15px;
+                    padding: 3px 6px;
                     border-radius: 2px;
                     background: rgba(0, 0, 0, 0.2);
                     color: #fff;
                     font-size: 12px;
-                    margin: 0 auto;
+                    line-height: 12px;
                 }
             }
         }
         .left-hook {
             .center {
+                float: left;
                 margin-left: 10px;
                 .text {
                     background: #fff;
                     color: #333;
-                    box-shadow: 0 0 1px rgba(0,0,0,0.2);
                     .horn {
                         color: #fff;
-                        left: -7px;
+                        left: -8px;
                     }
                 }
                 .user {
@@ -275,14 +195,15 @@ export default {
         }
         .right-hook {
             .center {
+                float: right;
+                text-align: right;
                 margin-right: 10px;
                 .text {
                     background: #499eff;
                     color: #fff;
-                    float: right;
                     .horn {
                         color: #499eff;
-                        right: -7px;
+                        right: -8px;
                     }
                 }
                 .user {
@@ -339,9 +260,9 @@ export default {
         .main {
             width: 100%;
             height: 100%;
-            display: flex;
             .input {
-                flex: 1;
+                float: left;
+                width: 78%;
                 height: 39px;
                 outline: none;
                 border: 1px solid #ddd;
@@ -360,6 +281,7 @@ export default {
                 }
             }
             .send {
+                float: right;
                 width: 22%;
                 height: 39px;
                 outline: none;

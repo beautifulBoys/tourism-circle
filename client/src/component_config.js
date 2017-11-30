@@ -5,6 +5,7 @@ import liTab from './components/li_tab.vue';
 import webMail from './components/li_webMail.vue';
 import userPostItem from './components/li_user_post_item.vue';
 import liListEmpty from './components/li_list_empty.vue';
+import liUserEmpty from './components/li_user_empty.vue';
 
 import {ToastPlugin} from 'vux';
 
@@ -15,6 +16,7 @@ export default () => {
   Vue.component('li-web-mail', webMail);
   Vue.component('li-user-post-item', userPostItem);
   Vue.component('li-list-empty', liListEmpty);
+  Vue.component('li-user-empty', liUserEmpty);
 
   Vue.use(ToastPlugin);
 };

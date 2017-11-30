@@ -1,12 +1,12 @@
 <template>
   <div class="empty" v-show="show">
-    <div class="line">这个人有点吝啬</div>
-    <div class="line" style="font-size: 16px;">还没有分享过自己的旅程呢</div>
+    <div class="line">{{line1}}</div>
+    <div class="line" style="font-size: 16px;">{{line2}}</div>
   </div>
 </template>
 <script>
 export default {
-  props: ['show']
+  props: ['show', 'line1', 'line2']
 };
 </script>
 

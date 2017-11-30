@@ -6,6 +6,11 @@
       :config="headerConfig"
     ></li-header>
     <div class="page-main">
+      <li-list-empty
+        line1="你还没有评论过别人的分享呢"
+        line2="去试试吧"
+        :show="!list.length"
+      ></li-list-empty>
       <ul>
         <li-user-post-item v-for="(item, index) in list" :key="index" :data="item"></li-user-post-item>
       </ul>

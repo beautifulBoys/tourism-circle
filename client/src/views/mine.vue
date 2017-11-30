@@ -42,12 +42,12 @@
             title: '个人中心',
             arr: [
               [
+                {icon: base64png.post, text: '分享', path: '/post'},
                 {icon: base64png.posted, text: '我分享的', path: '/posted'},
-                {icon: base64png.comment, text: '我评论的', path: '/comment'},
-                {icon: base64png.star, text: '我喜欢的', path: '/likes'}
+                {icon: base64png.comment, text: '我评论的', path: '/comment'}
               ],
               [
-                {icon: base64png.empty, text: '规划中', path: ''},
+                {icon: base64png.star, text: '我喜欢的', path: '/likes'},
                 {icon: base64png.empty, text: '规划中', path: ''},
                 {icon: base64png.empty, text: '规划中', path: ''}
               ]
@@ -127,6 +127,7 @@
       .top {
         width: 100%;
         background: #20a0ff;
+        background-size: 100%;
         padding: 25px 0;
         box-sizing: border-box;
         .user {

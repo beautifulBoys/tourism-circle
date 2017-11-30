@@ -6,7 +6,7 @@
       :config="headerConfig"
     ></li-header>
     <div class="page-main">
-
+        <li-user-empty :show="!list.length">你还没有好友</li-user-empty>
         <div class="cell-box border-1px-bottom" slot="content" v-for="item in list" @click="toUserMainPage(item)">
           <div class="id">{{item.id}}</div>
           <div class="icon">

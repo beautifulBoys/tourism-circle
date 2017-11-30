@@ -16,6 +16,7 @@ function ajax (text) {
           resolve(data); 
         });
         req.on('error', (e) => {
+          console.log('我是ajax的错误', e);
           resolve(errObj); 
         });
       });

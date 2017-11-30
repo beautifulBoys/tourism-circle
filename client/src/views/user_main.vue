@@ -17,13 +17,17 @@
   </div>
 
   <div class="content">
-    <li-list-empty :show="!postList.length"></li-list-empty>
+    <li-list-empty
+      line1="这个人太懒了"
+      line2="还没有分享过自己的旅程呢"
+      :show="!postList.length"
+    ></li-list-empty>
     <ul>
       <li-user-post-item v-for="(item, index) in postList" :key="index" :data="item"></li-user-post-item>
     </ul>
   </div>
   <li-screen :status="webMailStatus" @close="webMailStatus = false"></li-screen>
-  <li-web-mail ref="web_mail" :show="webMailStatus" @send="webMailThisPageEvent"></li-web-mail>
+  <li-web-mail ref="web_mail" :name="userInfo.username" :show="webMailStatus" @send="webMailThisPageEvent"></li-web-mail>
 </div>
 </template>
 <script>

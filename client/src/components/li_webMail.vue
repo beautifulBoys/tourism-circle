@@ -1,7 +1,7 @@
 <template>
     <div class="mail" :class="{move: show}">
       <div class="top border-1px-bottom">
-        <div class="title">发给 李鑫 的站内信</div>
+        <div class="title">发给 {{name}} 的站内信</div>
         <div class="button" @click="sendThisPageEvent">发 送</div>
       </div>
       <div class="box">
@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  props: ['show'],
+  props: ['show', 'name'],
   data () {
     return {
       textareaVal: ''
@@ -44,7 +44,7 @@ export default {
       transform: translate3d(0, 100%, 0);
       display: flex;
       flex-flow: column;
-      transition: all .5s;
+      transition: all .3s;
       z-index: 10;
       &.move {
         transform: translate3d(0, 0, 0);

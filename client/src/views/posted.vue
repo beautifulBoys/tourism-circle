@@ -6,6 +6,11 @@
       :config="headerConfig"
     ></li-header>
     <div class="page-main">
+      <li-list-empty
+        line1="身体和灵魂总有一个要在路上"
+        line2="你的在哪？"
+        :show="!list.length"
+      ></li-list-empty>
       <ul>
         <li-user-post-item v-for="(item, index) in list" :key="index" :data="item"></li-user-post-item>
       </ul>
