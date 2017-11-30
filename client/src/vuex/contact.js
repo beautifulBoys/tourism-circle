@@ -2,7 +2,14 @@ import {myFriendAjax} from '../api/ajax_router.js';
 export default {
   namespaced: true,
   state: {
-    list: []
+    list: [
+      {
+        username: '机器人',
+        avatar: 'https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/tourism-circle/robot.png',
+        id: 100,
+        noReadNum: 0
+      }
+    ]
   },
   getters: {
     allNoRead (state) {
@@ -16,16 +23,14 @@ export default {
   },
   mutations: {
     changeList (state, list) {
-      let arr = [];
       for (let i = 0; i < list.length; i++) {
-        arr.push({
+        state.list.push({
           avatar: list[i].avatar,
           id: list[i].id - 0,
           username: list[i].username,
           noReadNum: 0
         });
       }
-      state.list = arr;
     },
     getUserInfo (state, {id, cbb}) {
       for (let i = 0; i < state.list.length; i++) {
@@ -52,7 +57,7 @@ export default {
   },
   actions: {
     async getDataEvent ({ commit, state }, {error}) {
-      if (state.list.length > 0) return;
+      if (state.list.length > 1) return;
       let result = await myFriendAjax();
       if (result.code === 200) {
         commit('changeList', result.data.list);

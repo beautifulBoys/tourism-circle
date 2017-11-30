@@ -56,6 +56,9 @@ import {
   rankingFunc
 } from '../controller/ranking.js';
 
+import {
+  getCityDataFunc
+} from '../controller/admin_other.js';
 const router = express.Router();
 
 router.post('/login', loginFunc);
@@ -86,5 +89,8 @@ router.post('/myStar', myStarFunc);
 router.post('/myComments', myCommentsFunc);
 router.post('/changeMinePostStatus', changeMinePostStatusFunc);
 router.post('/ranking', rankingFunc);
+router.post('/getCityData', getCityDataFunc);
+
+
 
 export default router;

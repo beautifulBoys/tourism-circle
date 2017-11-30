@@ -23,3 +23,9 @@ export const mineAjax = data => ajax.post('/mine', data);
 export const followsAjax = data => ajax.post('/follows', data);
 // 我的关注数据
 export const myFollowingAjax = data => ajax.post('/myFollowing', data);
+// 发送站内信
+export const sendWebMailAjax = data => ajax.post('/sendWebMail', data);
+// 去关注
+export const toFollowAjax = data => ajax.post('/toFollow', data);
+// 解除关注
+export const deleteFollowingAjax = data => ajax.post('/deleteFollowing', data);

@@ -15,7 +15,7 @@
           </div>
           <div class="center">
             <div class="user">{{ hotChatObj[hotChatObjIndex].userInfo.username }}</div>
-            <div class="text"><span class="horn">◀</span>{{ item.message }}</div>
+            <pre class="text"><span class="horn">◀</span>{{ item.message }}</pre>
           </div>
           <div class="right"></div>
         </div>
@@ -23,7 +23,7 @@
           <div class="left"></div>
           <div class="center">
             <div class="user">{{ meInfo.username }}</div>
-            <div class="text"><span class="horn">▶</span>{{ item.message }}</div>
+            <pre class="text"><span class="horn">▶</span>{{ item.message }}</pre>
           </div>
           <div class="right">
             <img :src="meInfo.avatar" />
@@ -37,6 +37,7 @@
   </div>
   <div class="footer">
     <div class="main">
+
       <input type="text" class="input" placeholder="回车发送消息" v-model="inputValue" @keyup.enter="sendEvent" v-show="connectState" />
       <input type="text" class="input" disabled v-show="!connectState" v-model="inputValue" />
       <div class="send" :class="{logout: !connectState}" @click="sendEvent">发送</div>
@@ -251,6 +252,9 @@ export default {
                     border-radius: 5px;
                     line-height: 24px;
                     display: inline-block;
+                    white-space: pre-wrap;
+                    word-wrap: break-word;
+                    margin: 0;
                     .horn {
                         position: absolute;
                         top: 5px;
@@ -272,7 +276,6 @@ export default {
         }
         .left-hook {
             .center {
-                float: left;
                 margin-left: 10px;
                 .text {
                     background: #fff;
@@ -293,7 +296,6 @@ export default {
         }
         .right-hook {
             .center {
-                float: right;
                 margin-right: 10px;
                 .text {
                     background: #499eff;

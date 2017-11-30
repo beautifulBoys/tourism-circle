@@ -10,7 +10,7 @@ export const userMainInfoFunc = async (req, res) => {
   let toId = req.body.id - 0;
   try {
     let user = await User.findOne({id: toId});
-    let {list} = await Friend.findOne({id: userId});
+    let friend = await Friend.findOne({id: userId});
     let postList = await Post.find({userId: toId});
     let arr = [];
     for (let i = 0; i < postList.length; i++) {
@@ -21,7 +21,11 @@ export const userMainInfoFunc = async (req, res) => {
         urls: postList[i].urls
       });
     }
-    let isFriend = list.indexOf(toId);
+    let isFriend = friend.list.indexOf(toId);
+    let following = await Following.findOne({id: userId});
+    let isFollowing = following.list.indexOf(toId);
+    
+
     let result = {
       userInfo: {
         username: user.username,
@@ -30,6 +34,7 @@ export const userMainInfoFunc = async (req, res) => {
         desc: user.desc
       },
       isFriend: (isFriend !== -1),
+      isFollowing: (isFollowing !== -1),
       postList: arr
     };
 

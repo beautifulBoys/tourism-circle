@@ -35,6 +35,13 @@ import {
   mineFunc
 } from '../controller/client_other.js';
 
+import {
+  webMailSendFunc, 
+  messageBoxListFunc, 
+  ignoreMessageFunc,
+  sendWebMailFunc
+} from '../controller/message.js';
+
 var router = express.Router();
 
 router.post('/login', loginFunc);
@@ -49,6 +56,9 @@ router.post('/userMainInfo', userMainInfoFunc);
 router.post('/mine', mineFunc);
 router.post('/follows', followsFunc);
 router.post('/myFollowing', myFollowingFunc);
+router.post('/sendWebMail', sendWebMailFunc);
+router.post('/toFollow', toFollowFunc);
+router.post('/deleteFollowing', deleteFollowingFunc);
 
 
 export default router;

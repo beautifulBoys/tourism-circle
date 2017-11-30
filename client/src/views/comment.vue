@@ -14,13 +14,9 @@
 </template>
 
 <script>
-import Item from '../components/user_post_item.vue';
 import { createNamespacedHelpers } from 'vuex';
 const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('box2/comment');
 export default {
-  components: {
-    'li-user-post-item': Item
-  },
   data () {
     return {
       headerConfig: {
