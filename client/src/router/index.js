@@ -20,6 +20,7 @@ import websitChat from '@/views/websit_chat.vue';
 import Follow from '@/views/follow.vue';
 import Following from '@/views/following.vue';
 import Login from '@/views/login.vue';
+import Post from '@/views/post.vue';
 
 Vue.use(Router);
 
@@ -61,7 +62,8 @@ export default new Router({
         {path: '/allfriend', component: AllFriend},
         {path: '/friend', component: Friend},
         {path: '/follow', component: Follow},
-        {path: '/following', component: Following}
+        {path: '/following', component: Following},
+        {path: '/post', component: Post}
       ]
     },
     {

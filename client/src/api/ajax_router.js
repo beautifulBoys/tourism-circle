@@ -29,3 +29,7 @@ export const sendWebMailAjax = data => ajax.post('/sendWebMail', data);
 export const toFollowAjax = data => ajax.post('/toFollow', data);
 // 解除关注
 export const deleteFollowingAjax = data => ajax.post('/deleteFollowing', data);
+// 发布分享
+export const postingAjax = data => ajax.post('/posting', data);
+// 获取图库数据
+export const galleryAjax = data => ajax.post('/gallery', data);

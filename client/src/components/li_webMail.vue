@@ -1,3 +1,4 @@
+
 <template>
     <div class="mail" :class="{move: show}">
       <div class="top border-1px-bottom">

@@ -7,8 +7,13 @@ import {
 
 import {
   postFunc,
-  myPostedFunc
+  myPostedFunc,
+  postingFunc
 } from '../controller/posting.js';
+
+import {
+  galleryFunc
+} from '../controller/gallery.js';
 
 import { 
   myFriendFunc
@@ -59,6 +64,8 @@ router.post('/myFollowing', myFollowingFunc);
 router.post('/sendWebMail', sendWebMailFunc);
 router.post('/toFollow', toFollowFunc);
 router.post('/deleteFollowing', deleteFollowingFunc);
+router.post('/posting', postingFunc);
+router.post('/gallery', galleryFunc);
 
 
 export default router;

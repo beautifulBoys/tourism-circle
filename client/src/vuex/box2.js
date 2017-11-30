@@ -6,6 +6,7 @@ import allfriend from './allfriend.js';
 import friend from './friend.js';
 import follow from './follow.js';
 import following from './following.js';
+import post from './post.js';
 
 export default {
   namespaced: true,
@@ -23,6 +24,7 @@ export default {
     allfriend,
     following,
     follow,
-    friend
+    friend,
+    post
   }
 };
