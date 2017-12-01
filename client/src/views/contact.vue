@@ -33,8 +33,7 @@ const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpe
     data () {
       return {
         headerConfig: {
-          title: '我的圈友',
-          right: '热聊列表'
+          title: '我的圈友'
         }
       };
     },

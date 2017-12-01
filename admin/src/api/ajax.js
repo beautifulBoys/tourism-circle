@@ -96,7 +96,6 @@ var ajax2 = {
   }
 };
 
-
 if (Cookie.get('passport') && Cookie.get('userId') && Cookie.get('username')) {
   ajax.setHeader('passport', Cookie.get('passport'));
   ajax.setHeader('userId', Cookie.get('userId'));
@@ -104,6 +103,5 @@ if (Cookie.get('passport') && Cookie.get('userId') && Cookie.get('username')) {
 } else {
   window.loginStatus = false;
 }
-
 
 export {ajax1, ajax2};

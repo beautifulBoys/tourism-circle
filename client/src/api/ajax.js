@@ -75,10 +75,18 @@ var ajax1 = {
   }
 };
 
-
 if (Cookie.get('passport') && Cookie.get('userId') && Cookie.get('username')) {
   ajax.setHeader('passport', Cookie.get('passport'));
   ajax.setHeader('userId', Cookie.get('userId'));
+  window.loginStatus = true;
+} else {
+  window.loginStatus = false;
+}
+
+if (localStorage.getItem('user')) {
+  let user = JSON.parse(localStorage.getItem('user'));
+  ajax.setHeader('passport', user.passport);
+  ajax.setHeader('userId', user.userId);
   window.loginStatus = true;
 } else {
   window.loginStatus = false;

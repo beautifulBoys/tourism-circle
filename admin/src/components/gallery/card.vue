@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <load-img :src="data.url"></load-img>
-    <div class="title">速度防守打法的.jpg</div>
+    <div class="title">{{data.name || '未命名'}}.{{data.suff || 'jpg'}}</div>
     <div class="control-box">
       <div class="btn left" ref="imgUrl" :data-clipboard-text="data.url" @click="copyPathEvent">复制</div>
       <div class="btn center" @click="watchEvent">查看</div>

@@ -1,6 +1,6 @@
 <template>
 <div class="gallery">
-  <h1>我的圈友<el-button type="primary" style="float: right;" @click="checkUploadEvent()">上传图片</el-button></h1>
+  <h1>我的图库<el-button type="primary" style="float: right;" @click="checkUploadEvent()">上传图片</el-button></h1>
   <div class="content-box">
     <template v-for="item in list">
       <card :data="item" @event="event"></card>

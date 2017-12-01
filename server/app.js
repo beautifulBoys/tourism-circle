@@ -6,6 +6,8 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 
+var cors = require('cors')
+
 import router from './src/router/index.js';
 var app = express();
 import dbconnect from './src/config/db.js';
@@ -20,6 +22,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(express.static('./public'));
+app.use(cors());
 
 router(app);
 // websit_chat_room(); // 全站聊天室启动

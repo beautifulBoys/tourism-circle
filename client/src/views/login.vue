@@ -56,6 +56,7 @@
             me.$router.push({path: '/dynamic'});
             me.ajaxFunc.setHeader('passport', result.data.passport);
             me.ajaxFunc.setHeader('userId', result.data.userId);
+            localStorage.setItem('user', JSON.stringify(result.data));
             me.$vux.toast.show({
              text,
              width: '15em',

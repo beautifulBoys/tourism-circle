@@ -26,6 +26,7 @@
           </div>
         </div>
       </div>
+      <div class="btn" @click="logout">退出登录</div>
     </div>
   </div>
 </template>
@@ -99,7 +100,11 @@
     },
     methods: {
       ...mapMutations([]),
-      ...mapActions(['getDataEvent']),
+      ...mapActions(['getDataEvent', 'logoutEvent']),
+      logout () {
+        this.logoutEvent();
+        this.$router.push({path: '/login'});
+      },
       clickEvent (path) {
         this.$router.push({path});
       },
@@ -108,6 +113,15 @@
       },
       toContentEvent () {
         this.$router.push({path: '/content'});
+      },
+      toast (text) {
+        this.$vux.toast.show({
+          text,
+          position: 'middle',
+          time: 3000,
+          type: 'text',
+          width: '17em'
+        });
       }
     }
   };
@@ -214,6 +228,19 @@
               }
             }
           }
+        }
+      }
+      .btn {
+        width: 70%;
+        line-height: 40px;
+        display: block;
+        text-align: center;
+        background: #20a0ff;
+        color: #fff;
+        margin: 30px auto 30px auto;
+        &:active {
+          background: #1086de;
+          color: rgba(255,255,255,0.6);
         }
       }
       ul {

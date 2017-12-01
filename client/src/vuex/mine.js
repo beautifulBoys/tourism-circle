@@ -1,4 +1,5 @@
 import {mineAjax} from '../api/ajax_router.js';
+import Cookies from 'js-cookie';
 export default {
   namespaced: true,
   state: {
@@ -25,6 +26,13 @@ export default {
       } else {
         error(result.message);
       }
+    },
+    async logoutEvent ({ commit, state }) {
+      Cookies.remove('userId');
+      Cookies.remove('username');
+      Cookies.remove('passport');
+      localStorage.removeItem('user');
+      window.loginStatus = false;
     }
   }
 };

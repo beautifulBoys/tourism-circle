@@ -21,11 +21,16 @@ export default {
   },
   actions: {
     setUserInfo ({state, commit}) {
-      let obj = {
-        userId: Cookie.get('userId'),
-        username: Cookie.get('username'),
-        passport: Cookie.get('passport')
-      };
+      let obj;
+      if (Cookie.get('userId') && Cookie.get('username') && Cookie.get('passport')) {
+        obj = {
+          userId: Cookie.get('userId'),
+          username: Cookie.get('username'),
+          passport: Cookie.get('passport')
+        };
+      } else {
+        obj = JSON.parse(localStorage.getItem('user'));
+      }
       console.log('obj', obj);
       commit('setUserInfo', obj, {root: true});
     },
@@ -39,6 +44,7 @@ export default {
         Cookie.set('passport', result.data.passport, { expires: 1 });
         Cookie.set('userId', result.data.userId, { expires: 1 });
         Cookie.set('username', result.data.username, { expires: 1 });
+        localStorage.setItem('user', result.data.toString());
         window.loginStatus = true;
         console.log(result.message);
         success(result.message, result);
