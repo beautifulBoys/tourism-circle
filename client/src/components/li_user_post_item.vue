@@ -1,6 +1,6 @@
 <template>
-  <li class="li" @click="toContentEvent()">
-    <div class="head">
+  <li class="li">
+    <div class="head" @click="$router.push({path: '/user/' + data.userId})">
       <div class="left">
         <img :src="data.avatar"/>
       </div>
@@ -9,7 +9,7 @@
         <span class="desc">{{data.postTime}}</span>
       </div>
     </div>
-    <div class="imgList">
+    <div class="imgList" @click="$router.push({path: '/content/' + data.id})">
       <ul>
         <li v-for="imgInfo in data.urls">
           <div class="img-box">
@@ -30,9 +30,6 @@ export default {
     };
   },
   methods: {
-    toContentEvent () {
-      this.$router.push({path: '/content'});
-    }
   }
 };
 </script>

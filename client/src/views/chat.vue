@@ -35,7 +35,7 @@
       </div>
     </div>
   </div>
-  <div class="footer">
+  <div class="footer border-1px-top">
     <div class="main">
 
       <input type="text" class="input" placeholder="回车发送消息" v-model="inputValue" @keyup.enter="sendEvent" v-show="connectState" />
@@ -47,7 +47,7 @@
   <div class="chat-list" :class="{move: userListStatus}">
     <div class="title">热聊列表</div>
     <div class="list-box">
-      <div class="cell-box" :class="{noread: item.noReadMessageNum}" v-for="(item, key) in hotChatObj" @click="choiceUserChatEvent(key)">
+      <div class="cell-box border-1px-bottom" :class="{noread: item.noReadMessageNum}" v-for="(item, key) in hotChatObj" @click="choiceUserChatEvent(key)">
         <div class="icon">
           <img :src="item.userInfo.avatar"/>
         </div>
@@ -131,6 +131,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import '../lib/css/1px.less';
 .chat {
     font-family: "Microsoft YaHei";
     width: 100%;
@@ -177,7 +178,7 @@ export default {
           display: flex;
           padding: 7px 15px;
           box-sizing: border-box;
-          border-bottom: 1px solid #eee;
+          .border-1px-bottom(#ccc);
           &:active {
             background: #f6f6f6;
           }
@@ -354,7 +355,7 @@ export default {
         width: 100%;
         height: 55px;
         background: #fff;
-        border-top: 1px solid #dedede;
+        .border-1px-top(#ccc);
         padding: 8px 10px;
         box-sizing: border-box;
         .main {
@@ -365,7 +366,7 @@ export default {
                 flex: 1;
                 height: 39px;
                 outline: none;
-                border: 1px solid #ddd;
+                border: 1px solid #ccc;
                 border-right: none;
                 background: #efefef;
                 padding: 0;

@@ -20,15 +20,32 @@ let ajaxConfig = {
 
 var _ajax = axios.create(ajaxConfig);
 
-_ajax.interceptors.response.use((response) => {
+_ajax.interceptors.response.use(response => {
   if (response.status === 200) {
       return response.data;
   } else {
     console.log('请求出错啦，status：' + response.status);
     throw new Error('Internal Server Error');
   }
-}, (error) => {
+}, error => {
   if (error.message) console.log(error.message);
+  throw error;
+});
+
+
+// 加载等待 - 添加等待
+_ajax.interceptors.request.use(config => {
+  Vue.$vux.loading.show();
+  return config;
+}, error => {
+  throw error;
+});
+// 加载等待 - 移除等待
+_ajax.interceptors.response.use(response => {
+  Vue.$vux.loading.hide();
+  return response;
+}, error => {
+  Vue.$vux.loading.hide();
   throw error;
 });
 

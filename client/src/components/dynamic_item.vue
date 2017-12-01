@@ -8,7 +8,7 @@
         <span class="name">{{data.userInfo.username}}</span>
         <span class="desc">{{data.userInfo.desc || '这个人很懒，还没有填写'}}</span>
       </div>
-      <div class="right"></div>
+      <div class="right" @click="shareEvent"></div>
     </div>
     <div class="imgList" @click="toContentEvent()">
       <ul :style="{'width': data.urls.length * 195 + 'px'}">
@@ -18,7 +18,7 @@
       </ul>
     </div>
     <div class="footer">
-      <div class="info" @click="toContentEvent()">
+      <div class="info border-1px-bottom" @click="toContentEvent()">
         <span class="title">{{data.title}}</span>
         <span class="date"><span class="tag">● </span> {{data.postTime}}</span>
       </div>
@@ -58,13 +58,16 @@ export default {
         this.toast(result.message);
       } else this.toast(result.message);
     },
+    shareEvent () {
+      this.toast('该图标存在只为美观，不做此功能');
+    },
     toast (text) {
       this.$vux.toast.show({
         text,
         position: 'middle',
         time: 3000,
         type: 'text',
-        width: '15em'
+        width: '17em'
       });
     }
   }
@@ -72,6 +75,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import '../lib/css/1px.less';
 .li {
   padding: 0;
   margin: 0 0 10px 0;
@@ -144,7 +148,7 @@ export default {
     padding: 10px;
     box-sizing: border-box;
     .info {
-      border-bottom: 1px solid #eee;
+      .border-1px-bottom(#ccc);
       padding-bottom: 10px;
       .title {
         width: 100%;

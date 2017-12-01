@@ -28,7 +28,7 @@
       <span class="title">{{postInfo.title}}</span>
       <span class="date"><span class="tag">● </span> {{postInfo.postTime}}</span>
     </div>
-    <div class="content-text">{{postInfo.content}}</div>
+    <div class="content-text border-1px-bottom">{{postInfo.content}}</div>
     <div class="control">
       <div class="left">
         <img v-for="(item, index) in postInfo.starList" :src="item.avatar" :class="{se: index !== 0}" />
@@ -49,7 +49,7 @@
       <div class="left">
         <img class="user-icon" :src="item.userInfo.avatar" />
       </div>
-      <div class="right">
+      <div class="right border-1px-bottom">
         <div class="line1">{{item.userInfo.username}}
           <!-- <div class="zan-box" @click="starEvent(item)">
             <span class="zan after"></span>
@@ -161,6 +161,7 @@ export default {
 
 <style lang="less" scoped>
 @import "../lib/swiper.css";
+@import "../lib/css/1px.less";
 .content {
     width: 100%;
     height: 100%;
@@ -253,7 +254,7 @@ export default {
             font-size: 14px;
             line-height: 22px;
             padding: 10px 0;
-            border-bottom: 1px solid #eee;
+            .border-1px-bottom(#ccc);
         }
         .control {
             height: 30px;
@@ -336,7 +337,7 @@ export default {
             }
             .right {
                 flex: 1;
-                border-bottom: 1px solid #eee;
+                .border-1px-bottom(#ccc);
                 .line1 {
                     line-height: 22px;
                     font-size: 12px;

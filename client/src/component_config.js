@@ -9,7 +9,7 @@ import liUserEmpty from './components/li_user_empty.vue';
 import liImgBox from './components/li_img_box.vue';
 import liEditor from './components/li_editor.vue';
 
-import { ToastPlugin, DatetimePlugin } from 'vux';
+import { ToastPlugin, DatetimePlugin, LoadingPlugin } from 'vux';
 
 export default () => {
   Vue.component('li-header', liHeader);
@@ -24,4 +24,5 @@ export default () => {
 
   Vue.use(ToastPlugin);
   Vue.use(DatetimePlugin);
+  Vue.use(LoadingPlugin);
 };
