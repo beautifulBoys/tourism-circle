@@ -7,6 +7,7 @@ import liUserPostItem from './components/li_user_post_item.vue';
 import liListEmpty from './components/li_list_empty.vue';
 import liUserEmpty from './components/li_user_empty.vue';
 import liImgBox from './components/li_img_box.vue';
+import liEditor from './components/li_editor.vue';
 
 import { ToastPlugin, DatetimePlugin } from 'vux';
 
@@ -19,6 +20,7 @@ export default () => {
   Vue.component('li-list-empty', liListEmpty);
   Vue.component('li-user-empty', liUserEmpty);
   Vue.component('li-img-box', liImgBox);
+  Vue.component('li-editor', liEditor);
 
   Vue.use(ToastPlugin);
   Vue.use(DatetimePlugin);

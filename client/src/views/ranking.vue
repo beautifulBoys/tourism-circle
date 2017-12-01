@@ -4,6 +4,7 @@
       @headerLeftEvent="configEvent(true)"
       @headerRightEvent="configEvent"
       :config="headerConfig"
+      :show="true"
     ></li-header>
     <div class="page-main">
       <li-tab :list="list">
@@ -34,8 +35,7 @@ const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpe
       return {
         headerConfig: {
           left: '返回',
-          title: '排行榜',
-          right: '设置'
+          title: '排行榜'
         }
       };
     },

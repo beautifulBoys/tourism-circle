@@ -1,16 +1,16 @@
 <template>
   <li class="li">
     <div class="head">
-      <div class="left" @click="toContentEvent()">
+      <div class="left" @click="toUserPageEvent()">
         <img :src="data.userInfo.avatar"/>
       </div>
-      <div class="center" @click="toContentEvent()">
+      <div class="center" @click="toUserPageEvent()">
         <span class="name">{{data.userInfo.username}}</span>
         <span class="desc">{{data.userInfo.desc || '这个人很懒，还没有填写'}}</span>
       </div>
       <div class="right"></div>
     </div>
-    <div class="imgList">
+    <div class="imgList" @click="toContentEvent()">
       <ul :style="{'width': data.urls.length * 195 + 'px'}">
         <li v-for="imgInfo in data.urls">
           <img :src="imgInfo.url"/>
@@ -18,7 +18,7 @@
       </ul>
     </div>
     <div class="footer">
-      <div class="info">
+      <div class="info" @click="toContentEvent()">
         <span class="title">{{data.title}}</span>
         <span class="date"><span class="tag">● </span> {{data.postTime}}</span>
       </div>
@@ -28,14 +28,15 @@
           <span class="kan">{{data.starList.length}}人喜欢</span>
         </div>
         <div class="right">
-          <span class="star"></span>
-          <span class="down"></span>
+          <span class="star" :class="{active: data.isStared}" @click="starEvent"></span>
+          <span class="down" @click="$router.push({path: '/content/' + data.id, query: {sign: 1}})"></span>
         </div>
       </div>
     </div>
   </li>
 </template>
 <script>
+import {starAjax} from '../api/ajax_router.js';
 export default {
   props: ['data'],
   data () {
@@ -44,7 +45,27 @@ export default {
   },
   methods: {
     toContentEvent () {
-      this.$router.push({path: '/content'});
+      this.$router.push({path: '/content/' + this.data.id});
+    },
+    toUserPageEvent () {
+      this.$router.push({path: '/user/' + this.data.userId});
+    },
+    async starEvent () {
+      let result = await starAjax({id: this.data.id});
+      if (result.code === 200) {
+        this.data.isStared = (result.data.status === 'star');
+        this.data.starList = result.data.list;
+        this.toast(result.message);
+      } else this.toast(result.message);
+    },
+    toast (text) {
+      this.$vux.toast.show({
+        text,
+        position: 'middle',
+        time: 3000,
+        type: 'text',
+        width: '15em'
+      });
     }
   }
 };
@@ -172,14 +193,18 @@ export default {
           width: 35px;
           height: 30px;
           display: inline-block;
-          background: url("../images/svg/travel_star1.svg") no-repeat center center;
+          background: url("../images/svg/travel_star.svg") no-repeat center center;
           background-size: 20px;
+          &.active {
+            background: url("../images/svg/travel_star1.svg") no-repeat center center;
+            background-size: 20px;
+          }
         }
         .down {
           width: 35px;
           height: 30px;
           display: inline-block;
-          background: url("../images/svg/travel_msg1.svg") no-repeat center center;
+          background: url("../images/svg/travel_msg.svg") no-repeat center center;
           background-size: 20px;
         }
       }

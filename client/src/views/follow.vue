@@ -4,6 +4,7 @@
       @headerLeftEvent="configEvent(true)"
       @headerRightEvent="configEvent"
       :config="headerConfig"
+      :show="true"
     ></li-header>
     <div class="page-main">
         <li-user-empty :show="!list.length">没有关注你的人</li-user-empty>
@@ -30,8 +31,7 @@ const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpe
       return {
         headerConfig: {
           left: '返回',
-          title: '我的粉丝',
-          right: '设置'
+          title: '我的粉丝'
         }
       };
     },

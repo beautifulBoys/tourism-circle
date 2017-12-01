@@ -8,6 +8,13 @@ import componentConfig from './component_config.js';
 
 Vue.config.productionTip = false;
 componentConfig();
+
+Vue.directive('focus', {
+  inserted: el => {
+    el.focus();
+  }
+});
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -4,6 +4,7 @@
       @headerLeftEvent="configEvent(true)"
       @headerRightEvent="configEvent"
       :config="headerConfig"
+      :show="true"
     ></li-header>
     <div class="page-main">
         <div class="cell-box" v-for="item in list" @click="userMainPageEvent(item)">
@@ -35,8 +36,7 @@ const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpe
       return {
         headerConfig: {
           left: '返回',
-          title: '所有圈友',
-          right: '设置'
+          title: '所有用户'
         }
       };
     },

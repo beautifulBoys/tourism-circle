@@ -4,6 +4,7 @@
       @headerLeftEvent="configEvent(true)"
       @headerRightEvent="configEvent"
       :config="headerConfig"
+      :show="true"
     ></li-header>
     <div class="page-main">
 

@@ -1,37 +1,42 @@
 <template>
-<div class="content">
-  <div class="header">
+<div class="content" ref="content">
+  <li-header
+    @headerLeftEvent="configEvent(true)"
+    @headerRightEvent="configEvent"
+    :config="headerConfig"
+    :show="headShow"
+  ></li-header>
 
+  <div class="user-info">
 
     <div class="swiper-container" ref="a">
       <div class="swiper-wrapper">
-        <div class="swiper-slide" v-for="item in pictures"><img :src="item"/></div>
+        <div class="swiper-slide" v-for="item in postInfo.urls"><img :src="item.url"/></div>
       </div>
       <div class="swiper-pagination"></div>
     </div>
 
-
-    <div class="user">
+    <div class="user" @click="$router.push({path: '/user/' + postUserInfo.id})">
       <div class="icon">
-        <img class="user-icon" src="https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(1).jpg" />
+        <img class="user-icon" :src="postUserInfo.avatar"/>
       </div>
-      <div class="text">旅行的意义</div>
+      <div class="text">{{postUserInfo.username}}</div>
     </div>
   </div>
   <div class="body1">
     <div class="info">
-      <span class="title">{{contentInfo.title}}</span>
-      <span class="date"><span class="tag">● </span> {{contentInfo.date}}</span>
+      <span class="title">{{postInfo.title}}</span>
+      <span class="date"><span class="tag">● </span> {{postInfo.postTime}}</span>
     </div>
-    <div class="content-text">{{contentInfo.content}}</div>
+    <div class="content-text">{{postInfo.content}}</div>
     <div class="control">
       <div class="left">
-        <img v-for="(item, index) in browseList" :src="item.icon" :class="{se: index !== 0}" />
-        <span class="kan">{{browseList.length}}人浏览</span>
+        <img v-for="(item, index) in postInfo.starList" :src="item.avatar" :class="{se: index !== 0}" />
+        <span class="kan">{{postInfo.starList.length}}人喜欢</span>
       </div>
       <div class="right">
-        <span class="star"></span>
-        <span class="down"></span>
+        <span class="star" :class="{active: postInfo.isStared}" @click="starEvent"></span>
+        <span class="down" @click="editorStatus = true"></span>
       </div>
     </div>
   </div>
@@ -39,51 +44,92 @@
 
   </div>
   <div class="comment">
-    <div class="row" v-for="item in commentList">
+    <div class="no-comment" v-show="!postInfo.commentList.length">还没有任何评论~</div>
+    <div class="row" v-for="item in postInfo.commentList">
       <div class="left">
-        <img class="user-icon" :src="item.user.icon" />
+        <img class="user-icon" :src="item.userInfo.avatar" />
       </div>
       <div class="right">
-        <div class="line1">{{item.user.name}}
-          <div class="zan-box">
+        <div class="line1">{{item.userInfo.username}}
+          <!-- <div class="zan-box" @click="starEvent(item)">
             <span class="zan after"></span>
             <span class="zan-num">{{item.comment.starNum}}</span>
-          </div>
+          </div> -->
         </div>
         <div class="line2">{{item.comment.content}}</div>
       </div>
     </div>
   </div>
+  <li-screen :status="editorStatus" @close="editorStatus = false"></li-screen>
+  <li-editor ref="editor" :show="editorStatus" @send="editorEvent"></li-editor>
 
 </div>
 </template>
 <script>
-import dataJson from './content.json';
 import Swiper from 'swiper';
+import {postInfoAjax, commentAjax, starAjax} from '../api/ajax_router.js';
 export default {
   data () {
     return {
-      pictures: [],
-      contentInfo: {
-        title: '',
-        date: '',
-        content: ''
+      id: 0,
+      headerConfig: {
+        left: '返回',
+        title: ''
       },
-      browseList: [],
-      commentList: []
+      headShow: false,
+      postInfo: {
+        starList: [],
+        commentList: []
+      },
+      postUserInfo: {
+        username: '',
+        avatar: ''
+      },
+      editorStatus: false
     };
   },
   mounted () {
-    this.ajaxEvent();
-    this.pictures = dataJson.pictures;
-    this.contentInfo = dataJson.contentInfo;
-    this.browseList = dataJson.browseList;
-    this.commentList = dataJson.commentList;
-    setTimeout(() => {
-      this.swiperInit();
-    });
+    this.$refs.content.onscroll = () => {
+      let n = this.$refs.content.scrollTop / 92;
+      this.headShow = (n > 2);
+    };
+    if (this.$route.query.sign) this.editorStatus = true;
+    if (this.$route.params.id) {
+      this.id = this.$route.params.id - 0;
+      this.ajaxFunc();
+    } else this.toast('非法操作，请返回');
   },
   methods: {
+    async starEvent () {
+      let result = await starAjax({id: this.id});
+      if (result.code === 200) {
+        this.postInfo.isStared = (result.data.status === 'star');
+        this.postInfo.starList = result.data.list;
+        this.toast(result.message);
+      } else this.toast(result.message);
+    },
+    async ajaxFunc () {
+      let result = await postInfoAjax({id: this.id});
+      if (result.code === 200) {
+        this.postInfo = result.data;
+        this.headerConfig.title = result.data.title;
+        this.postUserInfo = result.data.userInfo;
+        setTimeout(() => {
+          this.swiperInit();
+        });
+      } else {
+        this.toast(result.message);
+      }
+    },
+    async editorEvent (value) {
+      let result = await commentAjax({id: this.id, value});
+      if (result.code === 200) {
+        this.toast('评论成功');
+        this.postInfo.commentList.push(result.data);
+        this.$refs.editor.clear();
+        this.editorStatus = false;
+      } else this.toast(result.message);
+    },
     swiperInit () {
       /* eslint-disable no-new */
       new Swiper(this.$refs.a, {
@@ -93,10 +139,21 @@ export default {
         autoplayDisableOnInteraction: false
       });
     },
-    ajaxEvent () {
+    // async starEvent (item) {
+    //   this.starPostCommentAjax({postId: this.id, commentId: item.id});
+    // },
+    toast (text) {
+      this.$vux.toast.show({
+        text,
+        position: 'middle',
+        time: 3000,
+        type: 'text',
+        width: '15em'
+      });
     },
-    leftEvent () {
-      this.$emit('sidebarMenu');
+    configEvent (status) {
+      if (status) this.$router.go(-1);
+      else console.log('好友列表触发事件');
     }
   }
 };
@@ -110,6 +167,17 @@ export default {
     background: #eee;
     overflow-y: scroll;
     .header {
+        width: 100%;
+        height: 50px;
+        text-align: center;
+        line-height: 50px;
+        color: #fff;
+        position: fixed;
+        top: 0;
+        left: 0;
+        color: #fff;
+    }
+    .user-info {
         width: 100%;
         height: 280px;
         position: relative;
@@ -215,18 +283,22 @@ export default {
                 float: right;
                 text-align: right;
                 .star {
-                    width: 35px;
-                    height: 30px;
-                    display: inline-block;
+                  width: 35px;
+                  height: 30px;
+                  display: inline-block;
+                  background: url("../images/svg/travel_star.svg") no-repeat center center;
+                  background-size: 20px;
+                  &.active {
                     background: url("../images/svg/travel_star1.svg") no-repeat center center;
                     background-size: 20px;
+                  }
                 }
                 .down {
-                    width: 35px;
-                    height: 30px;
-                    display: inline-block;
-                    background: url("../images/svg/travel_msg1.svg") no-repeat center center;
-                    background-size: 20px;
+                  width: 35px;
+                  height: 30px;
+                  display: inline-block;
+                  background: url("../images/svg/travel_msg.svg") no-repeat center center;
+                  background-size: 20px;
                 }
             }
         }
@@ -243,12 +315,18 @@ export default {
         padding: 10px 15px;
         margin-top: 10px;
         box-sizing: border-box;
+        .no-comment {
+          font-size: 14px;
+          text-align: center;
+          line-height: 40px;
+          color: #444;
+        }
         .row {
             display: flex;
             margin-top: 10px;
             .left {
-                width: 22px;
-                height: 22px;
+                width: 25px;
+                height: 25px;
                 margin-right: 10px;
                 .user-icon {
                     width: 100%;

@@ -8,7 +8,9 @@ import {
 import {
   postFunc,
   myPostedFunc,
-  postingFunc
+  postingFunc,
+  starFunc, 
+  pinglunFunc
 } from '../controller/posting.js';
 
 import {
@@ -37,7 +39,8 @@ import {
 
 import {
   userMainInfoFunc,
-  mineFunc
+  mineFunc,
+  postInfoFunc
 } from '../controller/client_other.js';
 
 import {
@@ -66,6 +69,10 @@ router.post('/toFollow', toFollowFunc);
 router.post('/deleteFollowing', deleteFollowingFunc);
 router.post('/posting', postingFunc);
 router.post('/gallery', galleryFunc);
+router.post('/postInfo', postInfoFunc);
+router.post('/pinglun', pinglunFunc);
+router.post('/star', starFunc);
+
 
 
 export default router;

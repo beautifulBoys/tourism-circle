@@ -149,7 +149,17 @@ export const starFunc = async (req, res) => {
   }
   try {
     await Post.update({id: req.body.id}, {starList}, {multi: false}, () => {});
-    res.send({code: 200, message: statusText, data: status});
+    let newstarlist = [];
+    for (let i = 0; i < starList.length; i++) {
+      let user = await User.findOne({id: starList[i] - 0});
+      newstarlist.push({
+        avatar: user.avatar
+      });
+    }
+    res.send({code: 200, message: statusText, data: {
+      status,
+      list: newstarlist
+    }});
   } catch (err) {
     res.send({code: 300, message: '操作失败', data: err});
   }
@@ -183,6 +193,10 @@ export const pinglunFunc = async (req, res) => {
     user: {
       url: user.avatar,
       name: user.username
+    },
+    userInfo: {
+      avatar: user.avatar,
+      username: user.username
     }
   };
   

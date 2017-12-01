@@ -67,3 +67,53 @@ export const mineFunc = async (req, res) => {
     res.send({code: 300, message: '获取个人主页数据失败', data: err});
   }
 };
+
+export const postInfoFunc = async (req, res) => {
+  let postId = req.body.id - 0;
+  let userId = req.headers.userid - 0;
+  try {
+    let post = await Post.findOne({id: postId});
+    let user = await User.findOne({id: post.userId});
+    console.log(post);
+    let starList = [];
+    for (let i = 0; i < post.starList.length; i++) {
+      let starUser = await User.findOne({id: post.starList[i] - 0});
+      starList.push({
+        avatar: starUser.avatar
+      });
+    }
+    
+    let commentList = [];
+    for (let i = 0; i < post.commentList.length; i++) {
+      let commentUser = await User.findOne({id: post.commentList[i].userId - 0});
+      commentList.push({
+        userInfo: {
+          avatar: commentUser.avatar,
+          username: commentUser.username,
+          id: commentUser.id
+        },
+        comment: post.commentList[i].comment
+      });
+    }
+    let isStared = (post.starList.indexOf(userId) !== -1);
+    let data = {
+      userInfo: {
+        avatar: user.avatar,
+        username: user.username,
+        id: user.id
+      },
+      title: post.title,
+      postTime: util.formatCSTDate(post.postTime),
+      content: post.content,
+      starList: starList,
+      commentList: commentList,
+      isStared,
+      urls: post.urls
+    };
+
+    res.send({code: 200, message: '获取分享详情数据成功', data});
+  } catch (err) {
+    res.send({code: 300, message: '获取分享详情数据失败', data: err});
+  }
+};
+

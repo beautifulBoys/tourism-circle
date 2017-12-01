@@ -4,6 +4,7 @@
       @headerLeftEvent="configEvent(true)"
       @headerRightEvent="configEvent"
       :config="headerConfig"
+      :show="true"
     ></li-header>
     <div class="page-main">
       <li-list-empty
@@ -26,8 +27,7 @@ export default {
     return {
       headerConfig: {
         left: '返回',
-        title: '我评论的',
-        right: '设置'
+        title: '我评论的'
       }
     };
   },

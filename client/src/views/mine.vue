@@ -67,7 +67,7 @@
             title: '我的圈子',
             arr: [
               [
-                {icon: base64png.allfriend, text: '所有圈友', path: '/allfriend'},
+                {icon: base64png.allfriend, text: '所有用户', path: '/allfriend'},
                 {icon: base64png.friend, text: '我的圈友', path: '/friend'},
                 {icon: base64png.empty, text: '全站聊天室', path: '/websit_chat'}
               ]

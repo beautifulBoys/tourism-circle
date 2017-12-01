@@ -33,3 +33,9 @@ export const deleteFollowingAjax = data => ajax.post('/deleteFollowing', data);
 export const postingAjax = data => ajax.post('/posting', data);
 // 获取图库数据
 export const galleryAjax = data => ajax.post('/gallery', data);
+// 获取图库数据
+export const postInfoAjax = data => ajax.post('/postInfo', data);
+// 评论分享
+export const commentAjax = data => ajax.post('/pinglun', data);
+// 喜欢分享
+export const starAjax = data => ajax.post('/star', data);

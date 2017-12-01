@@ -31,7 +31,7 @@ export default new Router({
       component: Dynamic
     },
     {
-      path: '/content',
+      path: '/content/:id',
       component: Content
     },
     {

@@ -1,7 +1,12 @@
 <template>
 <div class="user-main" ref="user_main">
   <div class="top">
-    <li-header class="header" @headerLeftEvent="configEvent(true)" @headerRightEvent="configEvent" :config="headerConfig" :class="{opacity: opacity}"></li-header>
+    <li-header class="header"
+      @headerLeftEvent="configEvent(true)"
+      @headerRightEvent="configEvent"
+      :show="headShow"
+      :config="headerConfig"
+    ></li-header>
 
     <div class="user">
       <img :src="userInfo.avatar" />
@@ -37,7 +42,7 @@ export default {
   data () {
     return {
       userId: 0,
-      opacity: false,
+      headShow: false,
       webMailStatus: false
     };
   },
@@ -61,7 +66,7 @@ export default {
     });
     this.$refs.user_main.onscroll = () => {
       let n = this.$refs.user_main.scrollTop / 92;
-      this.opacity = (n > 0.95);
+      this.headShow = (n > 0.95);
     };
   },
   methods: {
@@ -192,17 +197,7 @@ export default {
             position: fixed;
             top: 0;
             left: 0;
-            background: #20a0ff;
             color: #fff;
-            opacity: 0;
-            transition: opacity 0.5s;
-            &.opacity {
-                opacity: 1;
-                position: fixed;
-                top: 0;
-                left: 0;
-                z-index: 10;
-            }
         }
     }
     .info {

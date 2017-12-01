@@ -1,14 +1,14 @@
 <template>
-<div class="header">
+<div class="header" :class="{bg: show}">
   <div class="left" @click="leftHandleEvent"><img v-show="config.left" :src="backData"/></div>
-  <div class="center">{{config.title}}</div>
+  <div class="center"><span v-show="show">{{config.title}}</span></div>
   <div class="right" @click="rightHandleEvent"><img v-show="config.right" :src="listData"/></div>
 </div>
 </template>
 <script>
 import base64png from '../images/base64png.json';
 export default {
-  props: ['config'],
+  props: ['config', 'show'],
   data () {
     return {
       backData: base64png.back,
@@ -27,24 +27,18 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.absoluteCenter {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-}
 .header {
     font-family: "Microsoft YaHei";
     width: 100%;
     height: 100%;
     line-height: 50px;
-    background: #20a0ff;
     color: #fff;
-    z-index: 10;
+    z-index: 20;
     text-align: center;
     display: flex;
+    &.bg {
+      background: #20a0ff;
+    }
     .left, .right {
       width: 50px;
       padding: 13px;
@@ -59,36 +53,11 @@ export default {
         flex: 1;
         height: 50px;
         font-size: 18px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1; // 超出行数
+        overflow: hidden;
     }
 }
-@keyframes waitAn {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-@keyframes load {
-    0% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-        box-shadow: -0.11em -0.83em 0 -0.4em #128d91, -0.11em -0.83em 0 -0.42em #128d91, -0.11em -0.83em 0 -0.44em #128d91, -0.11em -0.83em 0 -0.46em #128d91, -0.11em -0.83em 0 -0.477em #128d91;
-    }
-    5%,
-    95% {
-        box-shadow: -0.11em -0.83em 0 -0.4em #128d91, -0.11em -0.83em 0 -0.42em #128d91, -0.11em -0.83em 0 -0.44em #128d91, -0.11em -0.83em 0 -0.46em #128d91, -0.11em -0.83em 0 -0.477em #128d91;
-    }
-    30% {
-        box-shadow: -0.11em -0.83em 0 -0.4em #128d91, -0.51em -0.66em 0 -0.42em #128d91, -0.75em -0.36em 0 -0.44em #128d91, -0.83em -0.03em 0 -0.46em #128d91, -0.81em 0.21em 0 -0.477em #128d91;
-    }
-    55% {
-        box-shadow: -0.11em -0.83em 0 -0.4em #128d91, -0.29em -0.78em 0 -0.42em #128d91, -0.43em -0.72em 0 -0.44em #128d91, -0.52em -0.65em 0 -0.46em #128d91, -0.57em -0.61em 0 -0.477em #128d91;
-    }
-    100% {
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-        box-shadow: -0.11em -0.83em 0 -0.4em #128d91, -0.11em -0.83em 0 -0.42em #128d91, -0.11em -0.83em 0 -0.44em #128d91, -0.11em -0.83em 0 -0.46em #128d91, -0.11em -0.83em 0 -0.477em #128d91;
-    }
-}
+
 </style>

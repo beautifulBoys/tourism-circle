@@ -2,6 +2,7 @@
   <div class="travel">
     <li-header class="header"
       :config="headerConfig"
+      :show="true"
     ></li-header>
     <div class="main" style="height: calc(100% - 50px)">
       <ul>

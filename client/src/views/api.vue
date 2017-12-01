@@ -4,9 +4,10 @@
       @headerLeftEvent="configEvent(true)"
       @headerRightEvent="configEvent"
       :config="headerConfig"
+      :show="true"
     ></li-header>
     <div class="page-main">
-      
+
     </div>
   </div>
 </template>
@@ -17,8 +18,7 @@
       return {
         headerConfig: {
           left: '返回',
-          title: '接口统计',
-          right: '设置'
+          title: '接口统计'
         }
       };
     },
