@@ -39,3 +39,5 @@ export const postInfoAjax = data => ajax.post('/postInfo', data);
 export const commentAjax = data => ajax.post('/pinglun', data);
 // 喜欢分享
 export const starAjax = data => ajax.post('/star', data);
+// api 统计
+export const apiAjax = data => ajax.post('/api', data);

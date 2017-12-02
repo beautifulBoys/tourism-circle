@@ -3,6 +3,7 @@ import Post from '../model/post.js';
 import Friend from '../model/friend.js';
 import Following from '../model/following.js';
 import Follow from '../model/follow.js';
+import Api from '../model/api.js';
 import util from '../lib/formDate.js';
 
 export const userMainInfoFunc = async (req, res) => {
@@ -117,3 +118,36 @@ export const postInfoFunc = async (req, res) => {
   }
 };
 
+// 统一身份验证
+export const authenticationFunc = async (req, res, next) => {
+  if (req.path === '/login') {
+    next();
+    return;
+  }
+  let passport = req.headers.passport;
+  let userId = req.headers.userid - 0;
+  try {
+    let result = await User.findOne({id: userId});
+    if (result && result.passport && passport === result.passport) {
+      next();
+    } else {
+      res.send({code: 400, message: '身份验证失败', data: {}});
+      return;
+    }
+  } catch (err) {
+    res.send({code: 400, message: '此账号验证异常，请重新登录', data: {}});
+  }
+};
+
+export const apiFunc = async (req, res, next) => {
+  try {
+    let apis = await Api.find({});
+    let info = {};
+    for (let i = 0; i < apis.length; i++) {
+      info[apis[i].path] = apis[i].num;
+    }
+    res.send({code: 200, message: '获取数据成功', data: info});
+  } catch (err) {
+    res.send({code: 300, message: '获取数据失败', data: {}});
+  }
+};

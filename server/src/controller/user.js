@@ -15,71 +15,80 @@ function passportFunc (password) {
 
 export const loginFunc = async (req, res) => {
   if (req.body.username && req.body.password) {
-    let result = await User.findOne({username: req.body.username});
-    let passport = passportFunc(req.body.password);
-    let username = req.body.username;
-    if (result) {
-      if (result.password === req.body.password) {
-        User.update({_id: result._id}, {passport: passport}, {multi: false}, () => {});
-        res.send({code: 200, message: '你好：' + username + '，欢迎回来', data: {passport, userId: result.id, username}});
+    try {
+      let result = await User.findOne({username: req.body.username});
+      let passport = passportFunc(req.body.password);
+      let username = req.body.username;
+      if (result) {
+        if (result.password === req.body.password) {
+          await User.update({_id: result._id}, {passport: passport}, {multi: false}, () => {});
+          res.send({code: 200, message: '你好：' + username + '，欢迎回来', data: {passport, userId: result.id, username}});
+        } else {
+          res.send({code: 300, message: '用户名或密码输入错误', data: {}});
+        }
       } else {
-        res.send({code: 300, message: '用户名或密码输入错误', data: {}});
+        let obj = await Id.findOne({type: 'userId'});
+        if (obj) await Id.update({_id: obj._id}, {value: obj.value + 1}, {multi: false}, () => {});
+        else await Id.create({type: 'userId'});
+        obj = await Id.findOne({type: 'userId'});
+        let userId = obj.value + 1;
+        // 创建 user 表
+        await User.create({
+          id: userId,
+          username: req.body.username,
+          password: req.body.password,
+          passport: passport
+        }, (err, docs) => {
+          if (err) console.log('create user 出错了', err);
+        });
+  
+        // 同步创建 following 表
+        await Following.create({
+          id: userId,
+          userId: userId
+        }, (err, docs) => {
+          if (err) console.log('create following 出错了', err);
+        });
+        // 同步创建 follow 表
+        await Follow.create({
+          id: userId,
+          userId: userId
+        }, (err, docs) => {
+          if (err) console.log('create follow 出错了', err);
+        });
+        // 同步创建 friend 表
+        await Friend.create({
+          id: userId,
+          userId: userId
+        }, (err, docs) => {
+          if (err) console.log('create friend 出错了', err);
+        });
+        // 同步创建 star 表
+        await Star.create({
+          id: userId,
+          userId: userId
+        }, (err, docs) => {
+          if (err) console.log('create star 出错了', err);
+        });
+        // 同步创建 comment 表
+        await Comment.create({
+          id: userId,
+          userId: userId
+        }, (err, docs) => {
+          if (err) console.log('create comment 出错了', err);
+        });
+  
+  
+        res.send({code: 200, message: '你好：' + username + '，已自动为您注册账号', data: {
+          passport, 
+          userId: obj.value + 1, 
+          username
+        }});
       }
-    } else {
-      let obj = await Id.findOne({type: 'userId'});
-      if (obj) await Id.update({_id: obj._id}, {value: obj.value + 1}, {multi: false}, () => {});
-      else await Id.create({type: 'userId'});
-      obj = await Id.findOne({type: 'userId'});
-      let userId = obj.value + 1;
-      // 创建 user 表
-      await User.create({
-        id: userId,
-        username: req.body.username,
-        password: req.body.password,
-        passport: passport
-      }, (err, docs) => {
-        if (err) console.log('create user 出错了', err);
-      });
-
-      // 同步创建 following 表
-      await Following.create({
-        id: userId,
-        userId: userId
-      }, (err, docs) => {
-        if (err) console.log('create following 出错了', err);
-      });
-      // 同步创建 follow 表
-      await Follow.create({
-        id: userId,
-        userId: userId
-      }, (err, docs) => {
-        if (err) console.log('create follow 出错了', err);
-      });
-      // 同步创建 friend 表
-      await Friend.create({
-        id: userId,
-        userId: userId
-      }, (err, docs) => {
-        if (err) console.log('create friend 出错了', err);
-      });
-      // 同步创建 star 表
-      await Star.create({
-        id: userId,
-        userId: userId
-      }, (err, docs) => {
-        if (err) console.log('create star 出错了', err);
-      });
-      // 同步创建 comment 表
-      await Comment.create({
-        id: userId,
-        userId: userId
-      }, (err, docs) => {
-        if (err) console.log('create comment 出错了', err);
-      });
-
-
-      res.send({code: 200, message: '你好：' + username + '，已自动为您注册账号', data: {passport, userId: obj.value + 1, username}});
+    } catch (err) {
+      res.send({code: 300, message: '登录故障，请联系管理员', data: {}});
     }
+    
   } else {
     res.send({code: 300, message: '用户名和密码请输入完整', data: {}});
   }

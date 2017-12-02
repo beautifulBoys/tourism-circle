@@ -1,5 +1,6 @@
 
 import express from 'express';
+import Api from '../model/api.js';
 import {
   loginFunc,
   getAllUserFunc
@@ -40,7 +41,9 @@ import {
 import {
   userMainInfoFunc,
   mineFunc,
-  postInfoFunc
+  postInfoFunc,
+  authenticationFunc,
+  apiFunc
 } from '../controller/client_other.js';
 
 import {
@@ -51,6 +54,18 @@ import {
 } from '../controller/message.js';
 
 var router = express.Router();
+
+router.use(async (req, res, next) => {
+  let path = req.path;
+  let result = await Api.findOne({path});
+  if (result) await Api.update({path}, {$inc: {num: 1}}, {multi: false}, () => {});
+  else {
+    await Api.create({path}, (err, docs) => {
+      if (err) console.log('create user 出错了', err);
+    });
+  }
+  authenticationFunc(req, res, next);
+});
 
 router.post('/login', loginFunc);
 router.get('/post', postFunc);
@@ -72,6 +87,7 @@ router.post('/gallery', galleryFunc);
 router.post('/postInfo', postInfoFunc);
 router.post('/pinglun', pinglunFunc);
 router.post('/star', starFunc);
+router.post('/api', apiFunc);
 
 
 

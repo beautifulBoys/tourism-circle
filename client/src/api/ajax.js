@@ -5,6 +5,14 @@ import axios from 'axios';
 import Vue from 'vue';
 import Cookie from 'js-cookie';
 
+function deleteUserInfoFunc () {
+  Cookie.remove('userId');
+  Cookie.remove('username');
+  Cookie.remove('passport');
+  localStorage.removeItem('user');
+  window.loginStatus = false;
+}
+
 let ajaxConfig = {
   baseURL: '/api/client/',
   transformResponse: [function (data) {
@@ -22,7 +30,19 @@ var _ajax = axios.create(ajaxConfig);
 
 _ajax.interceptors.response.use(response => {
   if (response.status === 200) {
+    if (response.data.code && (response.data.code - 0 !== 400)) {
       return response.data;
+    } else { // 身份验证不通过
+      Vue.$vux.toast.show({
+        text: response.data.message,
+        position: 'middle',
+        time: 3000,
+        type: 'text',
+        width: '15em'
+      });
+      deleteUserInfoFunc();
+      return response.data;
+    }
   } else {
     console.log('请求出错啦，status：' + response.status);
     throw new Error('Internal Server Error');
