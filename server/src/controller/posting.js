@@ -79,16 +79,14 @@ export const postFunc = async (req, res) => {
     .sort({'_id': -1});
   } else {
     let list_a = await Post.find({});
+    let start = pageConfig.page * pageConfig.num;
+    let end = start + pageConfig.num;
     if (type === 'mostest') {
-      list_a = list_a.sort((b, a) => {
-        return a.commentList.length - b.commentList.length;
-      });
-      arr = list_a.slice(pageConfig.page * pageConfig.num, pageConfig.num);
+      list_a = list_a.sort((b, a) => (a.commentList.length - b.commentList.length));
+      arr = list_a.slice(start, end);
     } else if (type === 'hotest') {
-      list_a = list_a.sort((b, a) => {
-        return a.starList.length - b.starList.length;
-      });
-      arr = list_a.slice(pageConfig.page * pageConfig.num, pageConfig.num);
+      list_a = list_a.sort((b, a) => (a.starList.length - b.starList.length));
+      arr = list_a.slice(start, end);
     }
   }
 
@@ -241,12 +239,18 @@ export const pinglunFunc = async (req, res) => {
 };
 export const myPostedFunc = async (req, res) => {
   let userId = req.headers.userid - 0;
+  let pageConfig = {
+    num: req.body.num - 0, // 每页数量
+    page: req.body.page - 0 // 当前页数
+  };
+  let start = pageConfig.page * pageConfig.num;
+  let end = start + pageConfig.num;
   let list = [];
-
-
+  
   try {
 
     let arr = await Post.find({userId});
+    arr = arr.slice(start, end);
     for (let i = 0; i < arr.length; i++) {
       if (arr[i].status === 2) continue; // 逻辑删除的不做显示
       let user = await User.findOne({id: arr[i].userId});

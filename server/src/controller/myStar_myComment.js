@@ -6,6 +6,12 @@ import Post from '../model/post.js';
 
 export const myStarFunc = async (req, res) => {
   let userId = req.headers.userid - 0;
+  let pageConfig = {
+    num: req.body.num - 0, // 每页数量
+    page: req.body.page - 0 // 当前页数
+  };
+  let start = pageConfig.page * pageConfig.num;
+  let end = start + pageConfig.num;
   let arr = [];
 
 
@@ -16,6 +22,7 @@ export const myStarFunc = async (req, res) => {
       res.send({code: 300, message: '你还没有喜欢过别人的分享', data: {}});
       return;
     }
+    list = list.slice(start, end);
     for (let i = 0; i < list.length; i++) {
       let post = await Post.findOne({id: list[i] - 0});
       let isStared = (post.starList.indexOf(userId) === -1 ? false : true);
@@ -65,15 +72,20 @@ export const myStarFunc = async (req, res) => {
 
 export const myCommentsFunc = async (req, res) => {
   let userId = req.headers.userid - 0;
+  let pageConfig = {
+    num: req.body.num - 0, // 每页数量
+    page: req.body.page - 0 // 当前页数
+  };
+  let start = pageConfig.page * pageConfig.num;
+  let end = start + pageConfig.num;
   let arr = [];
-
   try {
-
     let {list} = await Comment.findOne({id: userId});
     if (!list) {
       res.send({code: 300, message: '你还没有评论过别人的分享', data: {}});
       return;
     }
+    list = list.slice(start, end);
     for (let i = 0; i < list.length; i++) {
       let post = await Post.findOne({id: list[i] - 0});
       let isStared = (post.starList.indexOf(userId) === -1 ? false : true);

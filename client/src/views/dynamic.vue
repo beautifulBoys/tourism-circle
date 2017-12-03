@@ -11,13 +11,11 @@
               lock-x use-pullup use-pulldown height="100%" ref="scroller"
               @on-pulldown-loading="refresh"
               @on-pullup-loading="loadMore"
-              :pulldown-config="pullDC" :pullup-config="pullUC"
-            >
+              :pulldown-config="pullDC" :pullup-config="pullUC">
               <ul>
                 <li-dynamic-item v-for="(item, index) in list" :key="index" :data="item"></li-dynamic-item>
               </ul>
             </scroller>
-
     </div>
 
     <li-screen :status="wayStatus" @close="closeWayChioceEvent"></li-screen>
@@ -52,12 +50,6 @@
           title: '旅游圈',
           right: '切换'
         },
-        wayList: [
-          {id: 'newest', text: '最新动态'},
-          {id: 'hotest', text: '最热动态'},
-          {id: 'mostest', text: '最多评论'}
-        ],
-        wayIndex: 'newest',
         wayStatus: false,
         pullDC: {
           content: '下拉刷新',
@@ -70,7 +62,7 @@
         },
         pullUC: {
           content: '上拉加载更多',
-          pullUpHeight: 150,
+          pullUpHeight: 120,
           height: 60,
           autoRefresh: false,
           downContent: '松手加载更多',
@@ -88,6 +80,8 @@
     },
     computed: {
       ...mapState({
+        wayList: state => state.wayList,
+        wayIndex: state => state.wayIndex
       }),
       ...mapGetters([])
     },
@@ -95,13 +89,14 @@
       this.refresh();
     },
     methods: {
-      ...mapMutations([]),
+      ...mapMutations(['changeWayIndex']),
       ...mapActions([]),
       loadMore () {
         this.getDataEvent(this.wayIndex, this.pageConfig.num, this.pageConfig.page, (result) => {
           if (result.code === 200) {
             this.list = this.list.concat(result.data.list);
             this.$refs.scroller.donePulldown();
+            this.$refs.scroller.donePullup();
             if (result.data.list.length < this.pageConfig.num) { // 没有下一页数据了
               this.$refs.scroller.disablePullup();
               return;
@@ -111,9 +106,6 @@
             this.toast(result.message);
           }
         });
-        setTimeout(() => {
-          this.$refs.scroller.donePullup();
-        }, 2000);
       },
       refresh () {
         if (this.refreshAjaxStatus) return; // 解决连续刷新的问题
@@ -121,7 +113,7 @@
         this.getDataEvent(this.wayIndex, this.pageConfig.num, 0, (result) => {
           if (result.code === 200) {
             this.list = result.data.list;
-            this.pageConfig.page = 0;
+            this.pageConfig.page = 1;
             this.$refs.scroller.donePulldown();
             this.$refs.scroller.donePullup();
             if (result.data.list.length === this.pageConfig.num) this.$refs.scroller.enablePullup();
@@ -145,8 +137,8 @@
         });
       },
       wayEvent (item) {
-        this.wayIndex = item.id;
         this.wayStatus = false;
+        this.changeWayIndex(item);
         this.list = [];
         this.refresh();
       },

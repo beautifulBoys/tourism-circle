@@ -123,8 +123,15 @@ export const userInfoUpdateFunc = async (req, res) => {
 };
 
 export const getAllUserFunc = async (req, res) => {
+  let pageConfig = {
+    num: req.body.num - 0, // 每页数量
+    page: req.body.page - 0 // 当前页数
+  };
+  let start = pageConfig.page * pageConfig.num;
+  let end = start + pageConfig.num;
   try {
     let result = await User.find({});
+    result = result.slice(start, end);
     let arr = [];
     for (let i = 0; i < result.length; i++) {
       if (!result[i].status) continue;
