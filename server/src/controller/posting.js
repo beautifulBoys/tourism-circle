@@ -64,9 +64,34 @@ async function changeList (arr) {
 
 export const postFunc = async (req, res) => {
   let userId = req.headers.userid - 0;
-
+  let pageConfig = {
+    num: req.query.num - 0, // 每页数量
+    page: req.query.page - 0 // 当前页数
+  };
   let type = req.query.type ? req.query.type : 'newest';
-  let arr = await Post.find({status: 0}).sort({postTime: -1});
+  let sortString = 0;
+  // let arr = await Post.find({status: 0}).sort({postTime: -1});
+  let arr = [];
+  if (type === 'newest') {
+    arr = await Post.find({status: 0})
+    .skip(pageConfig.page * pageConfig.num)
+    .limit(pageConfig.num)
+    .sort({'_id': -1});
+  } else {
+    let list_a = await Post.find({});
+    if (type === 'mostest') {
+      list_a = list_a.sort((b, a) => {
+        return a.commentList.length - b.commentList.length;
+      });
+      arr = list_a.slice(pageConfig.page * pageConfig.num, pageConfig.num);
+    } else if (type === 'hotest') {
+      list_a = list_a.sort((b, a) => {
+        return a.starList.length - b.starList.length;
+      });
+      arr = list_a.slice(pageConfig.page * pageConfig.num, pageConfig.num);
+    }
+  }
+
   let list = [];
   for (let i = 0; i < arr.length; i++) {
     let user = await User.findOne({id: arr[i].userId});

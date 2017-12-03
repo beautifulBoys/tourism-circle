@@ -9,7 +9,7 @@
     <div class="page-main">
       <ul>
         <li v-for="(item, key) in info">
-          <div class="item">
+          <div class="item bg1">
             <div class="title">{{item.text}}</div>
             <div class="value">
               <countup :end-val="item.value" :duration="2" :start="true"></countup><span style="font-size: 14px"> 次</span>
@@ -161,18 +161,18 @@ import {apiAjax} from '../api/ajax_router.js';
           .item {
             width: 100%;
             height: 100%;
-            background:linear-gradient(-30deg, #5cb9ff, #46adfa, #20a0ff, #46adfa, #5cb9ff);
-            background:-webkit-linear-gradient(-30deg, #5cb9ff, #46adfa, #20a0ff, #46adfa, #5cb9ff);
-            background:-o-linear-gradient(-30deg, #5cb9ff, #46adfa, #20a0ff, #46adfa, #5cb9ff);
-            background:-moz-linear-gradient(-30deg, #5cb9ff, #46adfa, #20a0ff, #46adfa, #5cb9ff);
-
+            background: url(../images/api/a.png) no-repeat right center;
+            background-size: 100% 100%;
             border-radius: 5px;
-            box-shadow: 2px 2px 10px rgba(100, 184, 246, 0.7);
+            box-shadow: 2px 2px 10px rgba(255, 142, 153, 0.8);
             font-size: 16px;
             overflow: hidden;
             box-sizing: border-box;
             color: #fff;
             padding: 8px 5px;
+            &:active {
+              opacity: 0.8;
+            }
             .title {
               text-align: center;
               line-height: 30px;
