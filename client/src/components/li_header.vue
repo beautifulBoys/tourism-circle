@@ -2,18 +2,23 @@
 <div class="header" :class="{bg: show}">
   <div class="left" @click="leftHandleEvent"><img v-show="config.left" :src="backData"/></div>
   <div class="center"><span v-show="show">{{config.title}}</span></div>
-  <div class="right" @click="rightHandleEvent"><img v-show="config.right" :src="listData"/></div>
+  <div class="right" @click="rightHandleEvent">
+    <img v-show="config.right" :src="rightIcon"/>
+  </div>
 </div>
 </template>
 <script>
 import base64png from '../images/base64png.json';
 export default {
-  props: ['config', 'show'],
+  props: ['config', 'show', 'rIcon'],
   data () {
     return {
       backData: base64png.back,
-      listData: base64png.list
+      rightIcon: base64png.list
     };
+  },
+  mounted () {
+    if (this.rIcon) this.rightIcon = base64png[this.rIcon];
   },
   methods: {
     leftHandleEvent () {

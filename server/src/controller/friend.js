@@ -135,7 +135,6 @@ export const myFriendFunc = async (req, res) => {
   let list = [];
   try {
     let user = await Friend.findOne({userId: userId});
-    console.log(user);
     for (let i = 0; i < user.list.length; i++) {
       let friend = await User.findOne({id: user.list[i] - 0});
       

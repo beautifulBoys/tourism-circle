@@ -71,7 +71,7 @@
           clsPrefix: 'pullup-'
         },
         pageConfig: {
-          num: 3,
+          num: 10,
           page: 0
         },
         list: [],

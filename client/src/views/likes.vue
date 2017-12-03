@@ -51,7 +51,7 @@ export default {
         clsPrefix: 'pullup-'
       },
       pageConfig: {
-        num: 5,
+        num: 10,
         page: 0
       },
       list: []
