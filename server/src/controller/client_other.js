@@ -75,7 +75,6 @@ export const postInfoFunc = async (req, res) => {
   try {
     let post = await Post.findOne({id: postId});
     let user = await User.findOne({id: post.userId});
-    console.log(post);
     let starList = [];
     for (let i = 0; i < post.starList.length; i++) {
       let starUser = await User.findOne({id: post.starList[i] - 0});
