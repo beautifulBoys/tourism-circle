@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  props: ['show', 'title'],
+  props: ['show'],
   data () {
     return {
       inputVal: '',

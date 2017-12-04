@@ -35,54 +35,79 @@ import {apiAjax} from '../api/ajax_router.js';
           title: '接口统计'
         },
         info: {
+          allapi: {
+            text: '接口请求总数',
+            path: '/allapi',
+            value: 0
+          },
           user: {
-            text: '全部用户',
+            text: '所有用户接口',
             path: '/allUser',
             value: 0
           },
-          allapi: {
-            text: '全部接口',
-            path: '/que',
-            value: 0
-          },
           addFriend: {
-            text: '添加好友',
+            text: '添加好友接口',
             path: '/addFriend',
             value: 0
           },
           webMail: {
-            text: '站 内 信',
+            text: '发送站内信接口',
             path: '/sendWebMail',
             value: 0
           },
           posting: {
-            text: '发表分享',
+            text: '发表分享接口',
             path: '/posting',
             value: 0
           },
           login: {
-            text: '登 录',
+            text: '登录接口',
             path: '/login',
             value: 0
           },
           userMain: {
-            text: '查看圈友',
+            text: '查看用户主页接口',
             path: '/userMainInfo',
             value: 0
           },
           toFollow: {
-            text: '关 注',
+            text: '关注接口',
             path: '/toFollow',
             value: 0
           },
           comment: {
-            text: '评 论',
+            text: '评论接口',
             path: '/pinglun',
             value: 0
           },
           star: {
-            text: '喜 欢',
+            text: '喜欢分享接口',
             path: '/star',
+            value: 0
+          },
+          ranking: {
+            text: '排行榜接口',
+            path: '/ranking',
+            value: 0
+          },
+          myFollowing: {
+            text: '我的关注接口',
+            path: '/myFollowing',
+            value: 0
+          },
+          follows: {
+            text: '我的粉丝接口',
+            path: '/follows',
+            value: 0
+          },
+          myPosted: {
+            text: '我的分享接口',
+            path: '/myPosted',
+            value: 0
+          },
+          myFriend: {
+            text: '我的圈友接口',
+            path: '/myFriend',
             value: 0
           }
         },
@@ -93,11 +118,16 @@ import {apiAjax} from '../api/ajax_router.js';
       let result = await apiAjax();
       if (result.code === 200) {
         console.log(result.data);
-        for (let k in this.info) {
-          for (let i in result.data) {
+        let allapicount = 0;
+
+        for (let i in result.data) {
+          allapicount += result.data[i];
+          for (let k in this.info) {
             if (this.info[k].path === i) this.info[k].value = result.data[i];
           }
         }
+        this.info.allapi.value = allapicount;
+
         // this.info.user.value = result.data.user;
         // this.info.allapi.value = result.data.allapi;
         // this.info.addFriend.value = result.data.addFriend;

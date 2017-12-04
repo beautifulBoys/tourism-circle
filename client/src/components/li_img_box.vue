@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import {list} from './a.json';
 import {galleryAjax} from '../api/ajax_router.js';
 export default {
   props: ['show'],
@@ -27,17 +26,19 @@ export default {
     };
   },
   mounted () {
-    for (let i = 0; i < list.length; i++) {
-      list[i].checked = false;
-    }
-    this.list = list;
     this.getDataEvent();
   },
   methods: {
     async getDataEvent () {
       let result = await galleryAjax();
-      if (result.code === 200) this.list = result.data.list;
+      if (result.code === 200) this.list = this.changeList(result.data.list);
       else this.toast(result.message);
+    },
+    changeList (list) {
+      for (let i = 0; i < list.length; i++) {
+        list[i].checked = false;
+      }
+      return list;
     },
     sendThisPageEvent () {
       let arr = this.list.filter(item => {
@@ -56,8 +57,8 @@ export default {
     },
     checkEvent (item) {
       let n = 0;
-      for (let i = 0; i < list.length; i++) {
-        if (list[i].checked) n++;
+      for (let i = 0; i < this.list.length; i++) {
+        if (this.list[i].checked) n++;
       }
       if (n < this.imgMostNum) item.checked = !item.checked;
       else {

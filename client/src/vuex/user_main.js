@@ -1,4 +1,4 @@
-import {userMainPageInfoAjax, sendWebMailAjax, toFollowAjax, deleteFollowingAjax} from '../api/ajax_router.js';
+import {userMainPageInfoAjax, addFriendAjax, sendWebMailAjax, toFollowAjax, deleteFollowingAjax} from '../api/ajax_router.js';
 export default {
   namespaced: true,
   state: {
@@ -58,6 +58,14 @@ export default {
       if (result.code === 200) {
         cbb(result.message);
         commit('changeIsFollowing', false);
+      } else {
+        cbb(result.message);
+      }
+    },
+    async addFriendEvent ({ commit, state }, {to, remark, cbb}) {
+      let result = await addFriendAjax({to, remark});
+      if (result.code === 200) {
+        cbb(result.message);
       } else {
         cbb(result.message);
       }

@@ -59,7 +59,8 @@
             arr: [
               [
                 {icon: base64png.ranking, text: '排行榜', path: '/ranking'},
-                {icon: base64png.data, text: '接口统计', path: '/api'},
+                // {icon: base64png.data, text: '数据统计', path: '/data'},
+                {icon: base64png.api, text: '接口统计', path: '/api'},
                 {icon: base64png.empty, text: '规划中', path: ''}
               ]
             ]

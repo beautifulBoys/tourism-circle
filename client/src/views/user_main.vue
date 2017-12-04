@@ -31,7 +31,10 @@
       <li-user-post-item v-for="(item, index) in postList" :key="index" :data="item"></li-user-post-item>
     </ul>
   </div>
-  <li-screen :status="webMailStatus" @close="webMailStatus = false"></li-screen>
+  <li-screen :status="addFriendStatus" @close="addFriendStatus = false"></li-screen>
+  <li-editor :show="addFriendStatus" @send="sendAddfrendEvent"></li-editor>
+
+    <li-screen :status="webMailStatus" @close="webMailStatus = false"></li-screen>
   <li-web-mail ref="web_mail" :name="userInfo.username" :show="webMailStatus" @send="webMailThisPageEvent"></li-web-mail>
 </div>
 </template>
@@ -43,7 +46,9 @@ export default {
     return {
       userId: 0,
       headShow: false,
-      webMailStatus: false
+      webMailStatus: false,
+      addFriendStatus: false,
+      remark: ''
     };
   },
   computed: {
@@ -71,7 +76,7 @@ export default {
   },
   methods: {
     ...mapMutations([]),
-    ...mapActions(['getDataEvent', 'toFollowEvent', 'webMailEvent', 'deleteFollowingEvent']),
+    ...mapActions(['getDataEvent', 'addFriendEvent', 'toFollowEvent', 'webMailEvent', 'deleteFollowingEvent']),
     webMailThisPageEvent (obj) {
       let me = this;
       this.webMailEvent({
@@ -99,11 +104,29 @@ export default {
         }
       });
     },
+    sendAddfrendEvent (str) {
+      let me = this;
+      this.remark = str;
+      this.addFriendEvent({
+        to: this.userId,
+        remark: str,
+        cbb (text) {
+          me.addFriendStatus = false;
+          me.$vux.toast.show({
+            text,
+            position: 'middle',
+            time: 3000,
+            type: 'text',
+            width: '16em'
+          });
+        }
+      });
+    },
     messageOrFriendEvent () {
       if (this.isFriend) {
-        this.$router.push({
-          path: '/chat'
-        });
+        this.$router.push({path: '/contact'});
+      } else {
+        this.addFriendStatus = true;
       }
     },
     followEvent () {

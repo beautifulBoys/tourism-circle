@@ -146,8 +146,7 @@
         this.wayStatus = false;
       },
       configEvent (status) {
-        if (status) this.$router.go(-1);
-        else this.wayStatus = true;
+        if (!status) this.wayStatus = true;
       },
       toContentEvent () {
         this.$router.push({path: '/content'});

@@ -19,7 +19,8 @@ import {
 } from '../controller/gallery.js';
 
 import { 
-  myFriendFunc
+  myFriendFunc,
+  addFriendFunc
 } from '../controller/friend.js';
 
 import {
@@ -88,7 +89,7 @@ router.post('/postInfo', postInfoFunc);
 router.post('/pinglun', pinglunFunc);
 router.post('/star', starFunc);
 router.post('/api', apiFunc);
-
+router.post('/addFriend', addFriendFunc);
 
 
 export default router;

@@ -41,3 +41,5 @@ export const commentAjax = data => ajax.post('/pinglun', data);
 export const starAjax = data => ajax.post('/star', data);
 // api 统计
 export const apiAjax = data => ajax.post('/api', data);
+// 添加好友
+export const addFriendAjax = data => ajax.post('/addFriend', data);

@@ -42,7 +42,12 @@
       <div class="cell click border-1px-bottom" @click="imgBoxShow = true">
         添加图片<span class="text" v-show="postImgList.length">已添加 {{postImgList.length}} 张图片</span>
       </div>
-      <div class="cell">
+
+      <div class="cell border-1px-bottom">
+        <span style="margin: 0 15px;color: #666;">推荐指数</span><rater v-model="rate" star="☻" active-color="#FF9900" :margin="5"></rater>
+      </div>
+
+      <div class="cell border-1px-bottom">
         <textarea class="textarea" v-model="content" placeholder="请输入旅游趣事或心得~"></textarea>
       </div>
       <div class="submit" @click="submitEvent">发布分享</div>
@@ -54,13 +59,14 @@
 </template>
 
 <script>
-import { XAddress, Datetime, ChinaAddressV4Data } from 'vux';
+import { XAddress, Rater, Datetime, ChinaAddressV4Data } from 'vux';
 import { createNamespacedHelpers } from 'vuex';
 const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('box2/post');
 export default {
   components: {
     XAddress,
-    Datetime
+    Datetime,
+    Rater
   },
   data () {
     return {
@@ -75,6 +81,7 @@ export default {
       time_value: '',
       time: [],
       content: '',
+      rate: 0,
       postImgList: [],
       city_value: [],
       showAddress: false,
@@ -143,7 +150,8 @@ export default {
           city: this.city,
           time: this.time,
           tagList: this.tagList,
-          urls: this.postImgList
+          urls: this.postImgList,
+          tate: this.rate
         },
         success (text) {
           me.toast(text);

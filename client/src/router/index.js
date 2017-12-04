@@ -29,6 +29,7 @@ const Ranking = () => import('@/views/ranking.vue');
 const Posted = () => import('@/views/posted.vue');
 const Comment = () => import('@/views/comment.vue');
 const Api = () => import('@/views/api.vue');
+const Data = () => import('@/views/data.vue');
 const Likes = () => import('@/views/likes.vue');
 const AllFriend = () => import('@/views/allfriend.vue');
 const Friend = () => import('@/views/friend.vue');
@@ -78,6 +79,7 @@ export default new Router({
         {path: '/posted', component: Posted},
         {path: '/comment', component: Comment},
         {path: '/api', component: Api},
+        {path: '/data', component: Data},
         {path: '/likes', component: Likes},
         {path: '/allfriend', component: AllFriend},
         {path: '/friend', component: Friend},

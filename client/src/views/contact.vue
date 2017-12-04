@@ -24,11 +24,11 @@
       <div class="sign-box" v-show="signStatus" @click="closeSignEvent">
         <div class="sign" @click="(e) => {if (e && e.stopPropagation) e.stopPropagation()}">
           <div class="title">说 明</div>
-          <p>首先这个应用和微信是不一样的。此应用定位为在线分享旅程的社区-旅游圈。
-            不是聊天工具，所以在线聊天此处设计为登陆账号不自动做在线处理，
-            聊天工具只是附带的一个圈友分享互动的辅助功能，所以需要点击右下角的连接按钮上线，
-            才可以正常聊天。</p>
-          <p>个人中心里面有一个全站聊天室，它是在登录账号时同步在线的一个全站所有用户都在的群组聊天室。</p>
+          <p>此应用定位是在线分享旅程的社区，在线聊天只是附带的一个圈友分享互动的辅助功能，
+            与微信是不一样的。因此在线聊天设计为登陆账号时不自动上线，需要手动点击右下角
+            的连接按钮至上线成功，才可以正常聊天。</p>
+          <p>PS：个人中心里面有一个全站聊天室，它是在登录账号时同步在线的一个全站所有用户
+            都在的群组聊天室。</p>
         </div>
       </div>
     </transition>
@@ -94,8 +94,7 @@ const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpe
         });
       },
       configEvent (status) {
-        if (status) this.$router.go(-1);
-        else this.signStatus = true;
+        if (!status) this.signStatus = true;
       },
       roomEvent (item) {
         if (!this.connect) {
