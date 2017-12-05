@@ -68,19 +68,20 @@ export const postFunc = async (req, res) => {
     num: req.query.num - 0, // 每页数量
     page: req.query.page - 0 // 当前页数
   };
+  let start = pageConfig.page * pageConfig.num;
+  let end = start + pageConfig.num;
+  console.log(pageConfig);
   let type = req.query.type ? req.query.type : 'newest';
   let sortString = 0;
   // let arr = await Post.find({status: 0}).sort({postTime: -1});
   let arr = [];
   if (type === 'newest') {
     arr = await Post.find({status: 0})
-    .skip(pageConfig.page * pageConfig.num)
+    .skip(start)
     .limit(pageConfig.num)
     .sort({'_id': -1});
   } else {
     let list_a = await Post.find({});
-    let start = pageConfig.page * pageConfig.num;
-    let end = start + pageConfig.num;
     if (type === 'mostest') {
       list_a = list_a.sort((b, a) => (a.commentList.length - b.commentList.length));
       arr = list_a.slice(start, end);

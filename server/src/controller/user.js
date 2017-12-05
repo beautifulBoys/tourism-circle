@@ -132,6 +132,7 @@ export const getAllUserFunc = async (req, res) => {
   let end = start + pageConfig.num;
   try {
     let result = await User.find({});
+    let total = result.length;
     result = result.slice(start, end);
     let arr = [];
     for (let i = 0; i < result.length; i++) {
@@ -150,7 +151,7 @@ export const getAllUserFunc = async (req, res) => {
       else item.sex = '未设置';
       arr.push(item);
     }
-    res.send({code: 200, message: '获取用户列表成功', data: {list: arr}});
+    res.send({code: 200, message: '获取用户列表成功', data: {list: arr, total}});
   } catch (err) {
     res.send({code: 300, message: '获取用户列表失败', data: err});
   }

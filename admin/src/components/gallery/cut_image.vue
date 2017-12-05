@@ -50,6 +50,10 @@ console.log(cropper);
       },
       addPostImgEvent () {
           let data = this.imgObj.cropper('getCroppedCanvas').toDataURL('image/png');
+          if (data.length > 5000) {
+            this.$message({ type: 'success', message: '图片过大，请重新裁剪（10 KB 以内）' });
+            return;
+          }
           this.$emit('getData', data);
       },
       getFileUrl (target) {

@@ -8,14 +8,25 @@ export default {
     mailContent: ''
   },
   mutations: {
-    changeList (state, list) {
-      state.list = list;
+    changeList (state, data) {
+      state.list = data.list;
+    },
+    changePage (state, n) {
+      state.pageConfig.page = n;
     }
   },
   actions: {
-    async getDataEvent ({ commit, state }) {
-      let result = await myFriendAjax();
-      commit('changeList', result.data.list);
+    async getDataEvent ({ commit, state }, {cbb}) {
+      try {
+        let result = await myFriendAjax(state.pageConfig);
+        if (result.code === 200) {
+          commit('changeList', result.data);
+        } else {
+          cbb(result.message);
+        }
+      } catch (err) {
+        console.log(err);
+      }
     },
     async deleteFriendEvent ({ commit, state }, {success, error, id}) {
       let result = await deleteFriendAjax({id});

@@ -7,18 +7,31 @@ export default {
     list: [],
     formData: {
       mailContent: ''
+    },
+    pageConfig: {
+      page: 0,
+      num: 10,
+      total: 0
     }
   },
   mutations: {
-    changeList (state, list) {
-      state.list = list;
+    changeList (state, data) {
+      state.list = data.list;
+      state.pageConfig.total = data.total;
+    },
+    changePage (state, n) {
+      state.pageConfig.page = n;
     }
   },
   actions: {
-    async getDataEvent ({ commit, state }) {
+    async getDataEvent ({ commit, state }, {cbb}) {
       try {
-        let result = await allUserListAjax();
-        commit('changeList', result.data.list);
+        let result = await allUserListAjax(state.pageConfig);
+        if (result.code === 200) {
+          commit('changeList', result.data);
+        } else {
+          cbb(result.message);
+        }
       } catch (err) {
         console.log(err);
       }

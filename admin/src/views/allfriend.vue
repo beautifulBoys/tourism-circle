@@ -27,7 +27,6 @@
     </el-table>
 
 
-
     <el-dialog title="站内信" :visible.sync="dialogMailShow" size="tiny">
       <el-form :model="formData">
         <el-input type="textarea" :autosize="{minRows: 3}" placeholder="请输入内容" v-model="formData.mailContent"></el-input>
@@ -39,6 +38,16 @@
     </el-dialog>
 
   </div>
+
+  <div class="pagination-box">
+    <el-pagination
+      layout="prev, pager, next"
+      :page-size="pageConfig.num"
+      :total="pageConfig.total"
+      @current-change="pageChangeEvent"
+    ></el-pagination>
+  </div>
+
 </div>
 </template>
 <script>
@@ -55,19 +64,28 @@ export default {
   computed: {
     ...mapState({
       list: state => state.list,
-      formData: state => state.formData
+      formData: state => state.formData,
+      pageConfig: state => state.pageConfig
     }),
     ...mapGetters([])
   },
   mounted () {
-    this.getDataEvent();
-    // this.ajax.bind().then(res => {
-    //   console.log(res);
-    // });
+    this.getDataFunc();
   },
   methods: {
-    ...mapMutations([]),
+    ...mapMutations(['changePage']),
     ...mapActions(['getDataEvent', 'sendMessageEvent', 'sendWebMailEvent', 'followEvent']),
+    pageChangeEvent (n) {
+      this.changePage(n - 1);
+      this.getDataFunc();
+    },
+    getDataFunc () {
+      this.getDataEvent({
+        cbb (text) {
+          this.$message({type: 'error', message: text});
+        }
+      });
+    },
     sendMessage (id, value) {
       let me = this;
       this.sendMessageEvent({
@@ -169,9 +187,14 @@ export default {
           margin-bottom: 0;
           width: 50%;
         }
+    }
 
-
-
+    .pagination-box {
+      width: 100%;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 }
 </style>

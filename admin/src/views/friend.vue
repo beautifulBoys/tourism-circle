@@ -48,11 +48,18 @@ export default {
     ...mapGetters([])
   },
   mounted () {
-    this.getDataEvent();
+    this.getDataFunc();
   },
   methods: {
     ...mapMutations([]),
     ...mapActions(['getDataEvent', 'deleteFriendEvent']),
+    getDataFunc () {
+      this.getDataEvent({
+        cbb (text) {
+          this.$message({type: 'error', message: text});
+        }
+      });
+    },
     sendMessageEvent (index, row) {
       console.log(index, row);
       this.dialogMessageShow = true;
@@ -111,6 +118,14 @@ export default {
           margin-bottom: 0;
           width: 50%;
         }
+    }
+
+    .pagination-box {
+      width: 100%;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 }
 </style>
