@@ -100,6 +100,7 @@ export const getUserInfoFunc = async (req, res) => {
     let obj = {};
     if (data) {
       obj.username = data.username;
+      obj.userId = data.id;
       obj.email = data.email;
       obj.address = data.address;
       obj.desc = data.desc;

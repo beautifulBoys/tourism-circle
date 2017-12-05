@@ -88,15 +88,10 @@ export default {
   mounted () {
     this.saveScrollFunc(this.scroll);
     this.userInfoInit();
-
-    // this.connectEvent();
   },
-  // updated () {
-  //   this.scroll();
-  // },
   methods: {
     ...mapMutations(['changeChatUserIndex', 'saveScrollFunc']),
-    ...mapActions(['getDataEvent', 'sendMessageEvent', 'connectEvent', 'userInfoInit']),
+    ...mapActions(['getDataEvent', 'sendMessageEvent', 'userInfoInit']),
     choiceUserChatEvent (key) {
       this.userListStatus = false;
       this.changeChatUserIndex(key);

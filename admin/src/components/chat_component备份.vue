@@ -2,21 +2,21 @@
   <div class="chat-main">
     <div class="chat-left-box">
       <ul>
-        <li :class="{active: key - 0 === hotChatObjIndex, message: user.noReadMessageNum}" v-for="(user, key) in hotChatObj" @click="changeHotChatObjIndex(key)">
+        <li :class="{active: index === dialogIndex}" v-for="(user, index) in list" @click="friendEvent(index)">
           <div class="user-left">
-            <img :src="user.userInfo.avatar" />
+            <img :src="user.userInfo.url" />
           </div>
           <div class="user-right">
-            <div class="name">{{user.userInfo.username}}</div>
-            <div class="dialog">{{'没有发送过消息'}}</div>
+            <div class="name">{{user.userInfo.name}}</div>
+            <div class="dialog">{{user.message[user.message.length - 1].msg}}</div>
           </div>
         </li>
       </ul>
     </div>
     <div class="chat-right-box">
       <div class="content" ref="scroll">
-        <div class="height-hook">
-          <div v-for="item in hotChatObj[hotChatObjIndex].list">
+        <div class="height-hook" v-if="dialogIndex !== -1">
+          <div v-for="item in list[dialogIndex].message">
             <div class="item-box left-hook" v-if="item.type === 1">
               <div class="left">
                 <img :src="hotChatObj[hotChatObjIndex].userInfo.avatar" />
@@ -45,9 +45,10 @@
       </div>
       <div class="footer">
         <div class="main">
-          <input type="text" class="input" placeholder="回车发送消息" v-model="inputValue" @keyup.enter="sendEvent" v-show="connect" />
-          <input type="text" class="input" disabled v-show="!connect" />
-          <div class="send" :class="{logout: !connect}" @click="sendEvent">发送</div>
+          <el-form :model="formData">
+            <input type="text" class="input" v-model="inputValue" @keyup.enter="sendEvent"/>
+            <div class="send" :class="{logout: !connectState}" @click="sendEvent">发送</div>
+          </el-form>
         </div>
       </div>
     </div>
@@ -61,7 +62,9 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/chat
 export default {
   data () {
     return {
+      dialogIndex: -1,
       inputValue: '',
+      connectState: true,
       userListStatus: false
     };
   },
@@ -71,34 +74,17 @@ export default {
       hotChatObj: state => state.hotChatObj,
       hotChatObjIndex: state => state.hotChatObjIndex,
       meInfo: state => state.meInfo,
-      connect: state => state.connect,
       noReadUserNum: state => state.noReadUserNum
     })
   },
   mounted () {
     this.getDataEvent();
-    this.saveScrollFunc(this.scroll);
   },
   methods: {
-    ...mapMutations(['changeHotChatObjIndex', 'saveScrollFunc']),
-    ...mapActions(['getDataEvent', 'sendEvent', 'sendMessageEvent']),
-    sendEvent () {
-      let value = this.trim(this.inputValue);
-      this.inputValue = '';
-      if (!value) return;
-      this.sendMessageEvent({
-        type: 0,
-        message: value
-      });
-    },
-    trim (s) {
-      return s.replace(/(^\s*)|(\s*$)/g, '');
-    },
-    scroll () {
-      let me = this;
-      this.$nextTick(() => {
-        me.$refs.scroll.scrollTop = this.$refs.scroll.scrollHeight;
-      });
+    ...mapMutations([]),
+    ...mapActions(['getDataEvent', 'sendEvent']),
+    friendEvent (index) {
+      this.dialogIndex = index;
     }
   }
 };
@@ -119,8 +105,6 @@ export default {
         border-radius: 5px;
         margin: 0 8px 8px 0;
         overflow: hidden;
-        overflow-y: scroll;
-        table-layout: fixed;
         ul {
             list-style-type: none;
             padding: 0;
@@ -135,9 +119,6 @@ export default {
                 &.active,
                 &:hover {
                     background: #eee;
-                }
-                &.message {
-                  background: rgba(255, 152, 0, 0.5);
                 }
                 .user-left {
                     width: 30px;
@@ -183,63 +164,61 @@ export default {
             border: 1px solid #ddd;
             .item-box {
                 width: 100%;
-                margin-bottom: 20px;
-                display: flex;
+                margin-bottom: 10px;
                 .left {
+                    float: left;
                     width: 40px;
                     img {
                         height: 40px;
+                        border-radius: 3px;
                     }
                 }
                 .right {
+                    float: right;
                     width: 40px;
                     img {
                         height: 40px;
+                        border-radius: 3px;
                     }
                 }
                 .center {
-                    flex: 1;
+                    max-width: 65%;
                     .text {
                         position: relative;
-                        font-size: 16px;
-                        padding: 8px;
-                        border-radius: 5px;
-                        line-height: 24px;
-                        display: inline-block;
-                        white-space: pre-wrap;
-                        word-wrap: break-word;
-                        font-family: "微软雅黑";
-                        margin: 0;
+                        font-size: 13px;
+                        padding: 8px 10px 5px;
+                        border-radius: 3px;
+                        line-height: 20px;
                         .horn {
                             position: absolute;
                             top: 5px;
-                            font-size: 16px;
+                            font-size: 15px;
                         }
                     }
                 }
                 &.center-hook {
+                    text-align: center;
+                    padding: 20px 0;
                     .tip {
-                        text-align: center;
-                        padding: 5px 15px;
+                        padding: 3px 6px;
                         border-radius: 2px;
                         background: rgba(0, 0, 0, 0.2);
                         color: #fff;
                         font-size: 12px;
-                        margin: 0 auto;
+                        line-height: 12px;
                     }
                 }
             }
             .left-hook {
                 .center {
+                    float: left;
                     margin-left: 10px;
                     .text {
                         background: #fff;
                         color: #333;
-                        box-shadow: 0 0 1px rgba(0,0,0,0.2);
-                        font-family: "微软雅黑";
                         .horn {
                             color: #fff;
-                            left: -7px;
+                            left: -6px;
                         }
                     }
                     .user {
@@ -252,15 +231,14 @@ export default {
             }
             .right-hook {
                 .center {
+                    float: right;
                     margin-right: 10px;
                     .text {
                         background: #499eff;
                         color: #fff;
-                        float: right;
-                        font-family: "微软雅黑";
                         .horn {
                             color: #499eff;
-                            right: -7px;
+                            right: -6px;
                         }
                     }
                     .user {
@@ -316,9 +294,9 @@ export default {
             .main {
                 width: 100%;
                 height: 100%;
-                display: flex;
                 .input {
-                    flex: 1;
+                    float: left;
+                    width: 78%;
                     height: 34px;
                     outline: none;
                     border: 1px solid #ddd;
@@ -335,7 +313,8 @@ export default {
                     }
                 }
                 .send {
-                    width: 80px;
+                    float: right;
+                    width: 22%;
                     height: 34px;
                     outline: none;
                     background: #499eff;

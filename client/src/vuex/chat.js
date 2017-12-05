@@ -33,11 +33,11 @@ export default {
           avatar: 'https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/tourism-circle/robot.png',
           userId: 100
         },
-        noReadMessageNum: 0,
+        noReadMessageNum: 1,
         list: [
           {
             type: 1,
-            message: '你好，我是机器人小助手，请问有什么可以帮你的吗？'
+            message: '你好，我是机器人 “菲菲”，你想和我聊什么呀？(*╹▽╹*)'
           }
         ]
       }
@@ -148,7 +148,6 @@ export default {
       state.httpServer = io.connect('http://10.209.96.67:3003');
       state.httpServer.emit('online', {
         fromId: state.meInfo.userId - 0,
-        toId: state.hotChatObjIndex - 0,
         username: state.meInfo.username
       });
       state.httpServer.on('onlined', (obj) => { // {userId}

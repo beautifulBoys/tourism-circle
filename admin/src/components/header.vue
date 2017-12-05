@@ -78,11 +78,10 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/head
         // this.connectServer();
       }
       this.getMessageListEvent();
-      this.getUserInfo();
     },
     methods: {
       ...mapMutations(['messageBoxShowEvent', 'logout']),
-      ...mapActions(['webMailSendEvent', 'connectServer', 'AgreeOrRefuseEvent', 'getMessageListEvent', 'ignoreMessageEvent', 'getUserInfo']),
+      ...mapActions(['webMailSendEvent', 'connectServer', 'AgreeOrRefuseEvent', 'getMessageListEvent', 'ignoreMessageEvent']),
       chatRoomEvent () {
         this.$refs.chat_room_component.statusEvent(true);
       },

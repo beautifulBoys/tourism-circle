@@ -27,13 +27,25 @@ let ajaxConfigForm = {
   }
 };
 
+function deleteUserInfoFunc () {
+  Cookie.remove('userId');
+  Cookie.remove('username');
+  Cookie.remove('passport');
+  window.loginStatus = false;
+}
+
 var _ajax = axios.create(ajaxConfig);
 var _ajaxForm = axios.create(ajaxConfigForm);
 
 // 拦截response(有加载等待)
 _ajax.interceptors.response.use((response) => {
   if (response.status === 200) {
+    if (response.data.code && (response.data.code - 0 !== 400)) {
       return response.data;
+    } else {
+      deleteUserInfoFunc();
+      return response.data;
+    }
   } else {
     console.log('请求出错啦，status：' + response.status);
     throw new Error('Internal Server Error');

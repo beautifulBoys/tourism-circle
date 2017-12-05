@@ -1,7 +1,7 @@
 // import data from './data/chat_room.json';
 import io from 'socket.io-client';
 import Cookies from 'js-cookie';
-import {webMailSendAjax, messageBoxListAjax, ignoreMessageAjax, getUserInfoAjax, friendHandleAjax} from '../api/ajax_router.js';
+import {webMailSendAjax, messageBoxListAjax, ignoreMessageAjax, friendHandleAjax} from '../api/ajax_router.js';
 
 export default {
   namespaced: true,
@@ -74,14 +74,6 @@ export default {
           commit('changeMessageBoxList', result.data);
         } else if (result.code === 300) error(result.message);
         else console.log('出错了，检查下');
-      } catch (err) {
-        console.log(err);
-      }
-    },
-    async getUserInfo ({commit, rootState}) {
-      try {
-        let result = await getUserInfoAjax({userId: rootState.box.userInfo.userId});
-        commit('avatar', result.data.avatar);
       } catch (err) {
         console.log(err);
       }

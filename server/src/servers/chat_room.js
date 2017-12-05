@@ -43,21 +43,23 @@ module.exports = function () {
     socket.on('online', function (obj) {
       this.userId = obj.fromId - 0;
       socketList.push(socket);
-      console.log(obj.username + ' 加入，现在在线人数: ', socketList.length);
+      console.log(obj.username + '（' + obj.fromId + '）' + ' 加入，现在在线人数: ', socketList.length);
       this.emit('onlined', {userId: this.userId});
     });
 
     //监听用户退出
     socket.on('disconnect', function () { // {userId: 1004}
       socketList = socketList.filter((item) => {
+        if (item.userId - 0 === this.userId) console.log(item.userId + '退出');
         return (item.userId - 0 !== this.userId);
       });
-      console.log('有人退出，现在在线人数: ', socketList.length);
+      console.log('现在在线人数: ', socketList.length);
       this.broadcast.emit('logout', {userId: this.userId});
     });
 
     //监听用户发布聊天内容
     socket.on('message', function (obj) { // {fromId, toId, message}
+      console.log('收到 '+ obj.fromId + ' 发送给 ' + obj.toId + ' 的消息： ' + obj.message);
       let sign = true;
       let me = this;
       if (obj.toId - 0 === 100) {

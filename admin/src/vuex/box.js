@@ -18,6 +18,7 @@ import chat from './chat.js';
 import allfriend from './allfriend.js';
 import header from './header.js';
 import Cookie from 'js-cookie';
+import {getUserInfoAjax} from '../api/ajax_router.js';
 
 export default {
   namespaced: true,
@@ -27,16 +28,18 @@ export default {
     userInfo: {
       userId: '',
       passport: '',
-      username: ''
+      username: '',
+      avatar: 'https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/tourism-circle/avatar.png'
     },
     loginStatus: false
   },
   mutations: {
-    getUserInfo (state) {
+    setUserInfo (state, data) {
       state.loginStatus = window.loginStatus;
-      state.userInfo.username = Cookie.get('username');
-      state.userInfo.userId = Cookie.get('userId');
-      state.userInfo.passport = Cookie.get('passport');
+      state.userInfo.username = data.username;
+      state.userInfo.userId = data.userId;
+      state.userInfo.passport = data.passport;
+      state.userInfo.avatar = data.avatar;
     },
     openImageScan (state, item) {
       state.imageScan.open(item);
@@ -46,7 +49,16 @@ export default {
     }
   },
   actions: {
-
+    async getUserInfoEvent ({commit}) {
+      try {
+        let result = await getUserInfoAjax({userId: Cookie.get('userId')});
+        commit('setUserInfo', result.data);
+        commit('box/header/avatar', result.data.avatar, {root: true});
+        commit('box/chat/setMeInfo', result.data, {root: true});
+      } catch (err) {
+        console.log(err);
+      }
+    }
   },
   modules: {
     posting,

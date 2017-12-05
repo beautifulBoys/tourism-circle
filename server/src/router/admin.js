@@ -5,6 +5,7 @@ import util from 'util';
 import Image from '../model/image.js';
 import Id from '../model/id.js';
 import User from '../model/user.js';
+import Api from '../model/api.js';
 import cityData from '../json/city.json';
 
 import {
@@ -57,9 +58,23 @@ import {
 } from '../controller/ranking.js';
 
 import {
-  getCityDataFunc
+  getCityDataFunc,
+  authenticationFunc
 } from '../controller/admin_other.js';
+
 const router = express.Router();
+
+router.use(async (req, res, next) => {
+  let path = req.path;
+  let result = await Api.findOne({path});
+  if (result) await Api.update({path}, {$inc: {num: 172}}, {multi: false}, () => {});
+  else {
+    await Api.create({path}, (err, docs) => {
+      if (err) console.log('create user 出错了', err);
+    });
+  }
+  authenticationFunc(req, res, next);
+});
 
 router.post('/login', loginFunc);
 router.post('/posting', postingFunc);

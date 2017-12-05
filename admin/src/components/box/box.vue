@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <div class="chat" :class="{an: remind, suc: connectState}" @click="chatOpenEvent">
+    <div class="chat" :class="{an: remind, suc: connect}" @click="chatOpenEvent">
       <i class="el-icon-menu" v-show="!connectLoading"></i>
       <i class="el-icon-loading" v-show="connectLoading"></i>
     </div>
@@ -12,38 +12,57 @@
 
 <script>
   import chatComponent from '../chat_component.vue';
+  import {myFriendAjax} from '../../api/ajax_router.js';
   import { createNamespacedHelpers } from 'vuex';
-  const { mapState, mapActions } = createNamespacedHelpers('box/chat');
+  const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/chat');
   export default {
     components: {
       'chat-component': chatComponent
     },
     data () {
       return {
-        chatShow: false,
-        remind: false // 新消息
+        chatShow: false
       };
+    },
+    watch: {
+      chatShow (n) {
+        this.changeChatShow(n);
+      }
     },
     computed: {
       ...mapState({
-        connectState: state => state.connectState,
+        connect: state => state.connect,
+        remind: state => state.remind,
         connectLoading: state => state.connectLoading
       })
     },
-    mounted () {
-      setTimeout(() => {
-        this.remind = true;
-      }, 10000);
-    },
     methods: {
+      ...mapMutations(['changeFriendList', 'changeChatShow', 'changeRemind']),
       ...mapActions(['connectEvent']),
       chatOpenEvent () {
-        if (!this.connectState) {
-          this.connectEvent();
+        let me = this;
+        if (!this.connect) {
+          this.connectEvent({
+            fn (text) {
+              me.toast(text);
+              me.getFriendListFunc();
+            }
+          });
         } else {
           this.chatShow = true;
-          this.remind = false;
+          this.changeRemind(false);
         }
+      },
+      async getFriendListFunc () {
+        let result = await myFriendAjax();
+        if (result.code === 200) this.changeFriendList(result.data.list);
+        else this.toast(result.message);
+      },
+      toast (text) {
+        this.$message({
+          type: 'success',
+          message: text
+        });
       }
     }
   };

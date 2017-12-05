@@ -35,7 +35,7 @@ export default {
     };
   },
   created () {
-    if (window.loginStatus) this.getUserInfo();
+    if (window.loginStatus) this.getUserInfoEvent();
   },
   computed: {
     ...mapState({
@@ -46,8 +46,8 @@ export default {
     this.boxInitEvent(this.$refs.imageScan);
   },
   methods: {
-    ...mapMutations(['boxInitEvent', 'getUserInfo']),
-    ...mapActions([]),
+    ...mapMutations(['boxInitEvent']),
+    ...mapActions(['getUserInfoEvent']),
     dialogEvent () {
       this.chatShow = true;
     }
