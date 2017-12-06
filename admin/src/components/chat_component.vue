@@ -8,7 +8,7 @@
           </div>
           <div class="user-right">
             <div class="name">{{user.userInfo.username}}</div>
-            <div class="dialog">{{'没有发送过消息'}}</div>
+            <div class="dialog">{{lastMessage(user)}}</div>
           </div>
         </li>
       </ul>
@@ -82,6 +82,13 @@ export default {
   methods: {
     ...mapMutations(['changeHotChatObjIndex', 'saveScrollFunc']),
     ...mapActions(['getDataEvent', 'sendEvent', 'sendMessageEvent']),
+    lastMessage (user) {
+      if (user.list.length === 0) {
+        return '没有消息';
+      } else {
+        return user.list[user.list.length - 1].message;
+      }
+    },
     sendEvent () {
       let value = this.trim(this.inputValue);
       this.inputValue = '';
@@ -162,6 +169,10 @@ export default {
                         overflow: hidden;
                         height: 20px;
                         color: #aaa;
+                        display: -webkit-box;
+                        -webkit-box-orient: vertical;
+                        -webkit-line-clamp: 1; // 超出行数
+                        overflow: hidden;
                     }
                 }
             }

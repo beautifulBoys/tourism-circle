@@ -4,7 +4,7 @@
       <i class="el-icon-menu" v-show="!connectLoading"></i>
       <i class="el-icon-loading" v-show="connectLoading"></i>
     </div>
-    <el-dialog title="与 最美夕阳 聊天中..." :visible.sync="chatShow" :modal-append-to-body="false">
+    <el-dialog :title="'与 ' + hotChatObj[hotChatObjIndex].userInfo.username + ' 聊天中...'" :visible.sync="chatShow" :modal-append-to-body="false">
       <chat-component></chat-component>
     </el-dialog>
   </div>
@@ -33,7 +33,9 @@
       ...mapState({
         connect: state => state.connect,
         remind: state => state.remind,
-        connectLoading: state => state.connectLoading
+        connectLoading: state => state.connectLoading,
+        hotChatObjIndex: state => state.hotChatObjIndex,
+        hotChatObj: state => state.hotChatObj
       })
     },
     methods: {

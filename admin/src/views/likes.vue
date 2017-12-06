@@ -7,6 +7,7 @@
           <li class="li" v-for="item in list">
             <dynamic :listItem="item"></dynamic>
           </li>
+          <el-button type="primary" v-show="loadmoreButtonShow" class="loadMore" @click="loadmoreEvent" :loading="loadmoreButtonStatus">点击加载更多</el-button>
         </ul>
       </div>
       <div class="right"></div>
@@ -17,31 +18,31 @@
   import Dynamic from '../components/dynamic.vue';
 
   import { createNamespacedHelpers } from 'vuex';
-  const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('box/likes');
+  const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/likes');
   export default {
     components: {
       'dynamic': Dynamic
     },
     computed: {
       ...mapState({
-        list: state => state.list
-      }),
-      ...mapGetters([])
+        list: state => state.list,
+        loadmoreButtonStatus: state => state.loadmoreButtonStatus,
+        loadmoreButtonShow: state => state.loadmoreButtonShow
+      })
     },
     mounted () {
-      let me = this;
-      this.getDataEvent({
-        error (text) {
-          me.$message({
-            type: 'error',
-            message: text
-          });
-        }
-      });
+      this.loadmoreEvent();
     },
     methods: {
-      ...mapMutations([]),
-      ...mapActions(['getDataEvent'])
+      ...mapMutations(['changePage']),
+      ...mapActions(['getDataEvent']),
+      loadmoreEvent () {
+        this.getDataEvent({
+          cbb (text) {
+            this.$message({type: 'error', message: text});
+          }
+        });
+      }
     }
   };
 </script>
@@ -67,6 +68,11 @@
         .li {
           list-style-type: none;
           margin: 15px 0;
+        }
+        .loadMore {
+          width: 300px;
+          margin: 20px auto 30px auto;
+          display: block;
         }
       }
 
