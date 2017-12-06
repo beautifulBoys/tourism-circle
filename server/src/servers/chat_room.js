@@ -100,6 +100,6 @@ module.exports = function () {
 
   const port = 3003;
   http.listen(port, function () {
-    console.log('监听端口: ' + port);
+    console.log('聊天工具监听端口: ' + port);
   });
 };

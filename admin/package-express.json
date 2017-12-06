@@ -3,13 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon src --exec babel-node",
-    "build": "babel src -d dist --source-maps",
-    "debug": "nodemon src --inspect --exec babel-node"
+    "start": "nodemon ./bin/www --exec babel-node --preset es2015，stage-0",
+    "build": "babel ./app.js --preset es2015，stage-0",
+    "debug": "nodemon ./bin/www --inspect --exec babel-node --preset es2015，stage-0"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
     "babel-register": "^6.26.0",
     "blueimp-md5": "^2.10.0",
     "body-parser": "~1.18.2",

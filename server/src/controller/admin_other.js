@@ -1,5 +1,5 @@
 
-import {china} from '../json/city.json';
+import {china} from '../data/city.js';
 import User from '../model/user.js';
 
 export const getCityDataFunc = async (req, res) => {

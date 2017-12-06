@@ -24,7 +24,6 @@ import secondBox from '@/views/box2.vue'; // 第二级架构
 
 const Dynamic = () => import('@/views/dynamic.vue');
 const Content = () => import('@/views/content.vue');
-const Circle = () => import('@/views/circle.vue');
 const Ranking = () => import('@/views/ranking.vue');
 const Posted = () => import('@/views/posted.vue');
 const Comment = () => import('@/views/comment.vue');
@@ -94,7 +93,6 @@ export default new Router({
       redirect: '/dynamic',
       children: [
         {path: '/dynamic', component: Dynamic},
-        {path: '/circle', component: Circle},
         {path: '/mine', component: Mine},
         {path: '/contact', component: Contact}
       ]

@@ -6,39 +6,39 @@ import Image from '../model/image.js';
 import Id from '../model/id.js';
 import User from '../model/user.js';
 import Api from '../model/api.js';
-import cityData from '../json/city.json';
+import cityData from '../data/city.js';
 
 import {
-  loginFunc, 
-  userInfoUpdateFunc, 
+  loginFunc,
+  userInfoUpdateFunc,
   getUserInfoFunc,
   getAllUserFunc
 } from '../controller/user.js';
 
 import {
-  postingFunc, 
-  postFunc, 
-  starFunc, 
+  postingFunc,
+  postFunc,
+  starFunc,
   pinglunFunc,
   myPostedFunc,
   changeMinePostStatusFunc
 } from '../controller/posting.js';
 
 import {
-  galleryFunc, 
+  galleryFunc,
   galleryDeleteFunc
 } from '../controller/gallery.js';
 import {
-  webMailSendFunc, 
-  messageBoxListFunc, 
+  webMailSendFunc,
+  messageBoxListFunc,
   ignoreMessageFunc,
   sendWebMailFunc
 } from '../controller/message.js';
 
 import {
-  deleteFriendFunc, 
-  addFriendFunc,  
-  myFriendFunc, 
+  deleteFriendFunc,
+  addFriendFunc,
+  myFriendFunc,
   friendHandleFunc
 } from '../controller/friend.js';
 import {
