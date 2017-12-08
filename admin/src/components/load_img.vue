@@ -21,6 +21,7 @@ const { mapActions } = createNamespacedHelpers('box/gallery');
       newImg.setAttribute('class', 'img-lixin');
       newImg.onload = () => {
         let child = this.$refs.img;
+        if (!child) return;
         let parent = child.parentNode;
         parent.replaceChild(newImg, child);
         this.status = true;

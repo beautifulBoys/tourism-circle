@@ -8,7 +8,19 @@
     }],
     "stage-2"
   ],
-  "plugins": ["transform-runtime", "babel-plugin-transform-async-to-generator"],
+  "plugins": [
+    "transform-runtime",
+    "babel-plugin-transform-async-to-generator",
+    [
+      "component",
+      [
+        {
+          "libraryName": "element-ui",
+          "styleLibraryName": "theme-default"
+        }
+      ]
+    ]
+  ],
   "env": {
     "test": {
       "presets": ["env", "stage-2"],

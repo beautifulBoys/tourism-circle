@@ -36,7 +36,11 @@ import Clipboard from 'clipboard';
         this.$emit('event', {type: 'watch', item: this.data});
       },
       deleteEvent () {
-        this.$emit('event', {type: 'delete', item: this.data});
+        this.$message({
+          type: 'warning',
+          message: '目前所有用户共用一个图片库，不允许删除，先占个坑，未来开放。'
+        });
+        // this.$emit('event', {type: 'delete', item: this.data});
       }
     }
   };
