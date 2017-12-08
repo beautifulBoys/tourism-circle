@@ -38,19 +38,18 @@ export const myFollowingFunc = async (req, res) => {
     let {list} = await Following.findOne({id: userId});
     for (let i = 0; i < list.length; i++) {
       let user = await User.findOne({id: list[i] - 0});
-      console.log(user, list);
       let item = {
-        address: user.address.length > 0 ? user.address.join('-') : '未设置',
-        email: user.email || '未设置',
+        address: user.address.length > 0 ? user.address.join('-') : '',
+        email: user.email,
         id: user.id,
         username: user.username,
         desc: user.desc,
         postNum: user.postNum,
         avatar: user.avatar
       };
-      if (user.sex === 1) item.sex = '女孩';
-      else if (user.sex === 2) item.sex = '男孩';
-      else item.sex = '未设置';
+      // if (user.sex === 1) item.sex = '女孩';
+      // else if (user.sex === 2) item.sex = '男孩';
+      // else item.sex = '未设置';
       arr.push(item);
     }
     res.send({code: 200, message: '获取关注列表成功', data: {list: arr}});
@@ -103,17 +102,15 @@ export const followsFunc = async (req, res) => {
     for (let i = 0; i < list.length; i++) {
       let user = await User.findOne({id: list[i] - 0});
       let item = {
-        address: user.address.length > 0 ? user.address.join('-') : '未设置',
-        email: user.email || '未设置',
+        address: user.address.length > 0 ? user.address.join('-') : '',
+        email: user.email,
         id: user.id,
         username: user.username,
         desc: user.desc,
         postNum: user.postNum,
-        avatar: user.avatar
+        avatar: user.avatar,
+        sex: user.sex
       };
-      if (user.sex === 1) item.sex = '女孩';
-      else if (user.sex === 2) item.sex = '男孩';
-      else item.sex = '未设置';
       arr.push(item);
     }
     res.send({code: 200, message: '获取粉丝列表成功', data: {list: arr}});

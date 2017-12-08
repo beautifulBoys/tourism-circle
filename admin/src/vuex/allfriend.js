@@ -16,8 +16,25 @@ export default {
   },
   mutations: {
     changeList (state, data) {
-      state.list = data.list;
       state.pageConfig.total = data.total;
+      let arr = [];
+      let list = data.list;
+      for (let i = 0; i < list.length; i++) {
+        let item = {
+          address: list[i].address || '未设置',
+          email: list[i].email || '未设置',
+          id: list[i].id,
+          username: list[i].username,
+          desc: list[i].desc || '未设置',
+          postNum: list[i].postNum,
+          avatar: list[i].avatar
+        };
+        if (list[i].sex === 1) item.sex = '女孩';
+        else if (list[i].sex === 2) item.sex = '男孩';
+        else item.sex = '未设置';
+        arr.push(item);
+      }
+      state.list = arr;
     },
     changePage (state, n) {
       state.pageConfig.page = n;

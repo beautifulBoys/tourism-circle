@@ -139,17 +139,18 @@ export const myFriendFunc = async (req, res) => {
       let friend = await User.findOne({id: user.list[i] - 0});
       
       let item = {
-        address: friend.address.length > 0 ? friend.address.join('-') : '未设置',
-        email: friend.email || '未设置',
+        address: friend.address.length > 0 ? friend.address.join('-') : '',
+        email: friend.email,
         id: friend.id,
         username: friend.username,
         desc: friend.desc,
         postNum: friend.postNum,
-        avatar: friend.avatar
+        avatar: friend.avatar,
+        sex: friend.sex
       };
-      if (friend.sex === 1) item.sex = '女孩';
-      else if (friend.sex === 2) item.sex = '男孩';
-      else item.sex = '未设置';
+      // if (friend.sex === 1) item.sex = '女孩';
+      // else if (friend.sex === 2) item.sex = '男孩';
+      // else item.sex = '未设置';
       list.push(item);
     }
    

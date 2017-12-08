@@ -13,17 +13,17 @@
                   <div class="user">{{ item.user.name }}</div>
                   <div class="text"><span class="horn">◀</span>{{ item.message.text }}</div>
                 </div>
-                <div class="right"></div>
+                <br style="clear: both;" />
               </div>
               <div class="item-box right-hook" v-if="item.message.type === 3">
-                <div class="left"></div>
+                <div class="right">
+                  <img :src="item.user.avatar"/>
+                </div>
                 <div class="center">
                   <div class="user">{{ item.user.name }}</div>
                   <div class="text"><span class="horn">▶</span>{{ item.message.text }}</div>
                 </div>
-                <div class="right">
-                  <img :src="item.user.avatar"/>
-                </div>
+                <br style="clear: both;" />
               </div>
               <div class="item-box center-hook" v-if="item.message.type === 1">
                 <span class="tip">{{ item.message.text }}</span>
@@ -115,8 +115,9 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/head
             .item-box {
                 width: 100%;
                 margin-bottom: 10px;
-                display: flex;
+                
                 .left {
+                    float: left;
                     width: 40px;
                     img {
                         height: 40px;
@@ -124,6 +125,7 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/head
                     }
                 }
                 .right {
+                    float: right;
                     width: 40px;
                     img {
                         height: 40px;
@@ -131,14 +133,13 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/head
                     }
                 }
                 .center {
-                    flex: 1;
+                    max-width: 65%;
                     .text {
                         position: relative;
-                        font-size: 15px;
+                        font-size: 13px;
                         padding: 8px 10px 5px;
                         border-radius: 3px;
-                        line-height: 24px;
-                        display: inline-block;
+                        line-height: 20px;
                         .horn {
                             position: absolute;
                             top: 5px;
@@ -149,9 +150,6 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/head
                 &.center-hook {
                     text-align: center;
                     padding: 10px 0;
-                    display: block;
-                    justify-content: center;
-                    align-items: center;
                     .tip {
                         padding: 3px 6px;
                         border-radius: 2px;
@@ -163,14 +161,12 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/head
                 }
             }
             .left-hook {
-                padding: 5px 0;
                 .center {
                     float: left;
                     margin-left: 10px;
                     .text {
                         background: #fff;
                         color: #333;
-                        float: left;
                         .horn {
                             color: #fff;
                             left: -6px;
@@ -185,14 +181,12 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/head
                 }
             }
             .right-hook {
-                padding: 5px 0;
                 .center {
                     float: right;
                     margin-right: 10px;
                     .text {
                         background: #499eff;
                         color: #fff;
-                        float: right;
                         .horn {
                             color: #499eff;
                             right: -6px;
