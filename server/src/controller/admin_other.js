@@ -1,4 +1,4 @@
-
+import path from 'path';
 import {china} from '../data/city.js';
 import User from '../model/user.js';
 
@@ -10,7 +10,8 @@ export const getCityDataFunc = async (req, res) => {
 export const authenticationFunc = async (req, res, next) => {
   const ignoreList = [
     '/login',
-    '/map'
+    '/map',
+    '/download'
   ];
   if (ignoreList.indexOf(req.path) !== -1) {
     next();
@@ -58,4 +59,11 @@ export const mapFunc = async (req, res, next) => {
   } catch (err) {
     res.send({code: 400, message: '数据查询失败', data: {}});
   }
+};
+
+export const downloadFunc = async (req, res, next) => {
+  res.download(path.join(__dirname, '../../resource/Desert.jpg'), 'Desert.jpg', (err) => {
+    if (err) console.log(err);
+    else console.log('没有错误');
+  });
 };

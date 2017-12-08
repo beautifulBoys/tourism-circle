@@ -64,7 +64,8 @@ import {
 import {
   getCityDataFunc,
   authenticationFunc,
-  mapFunc
+  mapFunc,
+  downloadFunc
 } from '../controller/admin_other.js';
 
 const router = express.Router();
@@ -112,7 +113,6 @@ router.post('/ranking', rankingFunc);
 router.post('/getCityData', getCityDataFunc);
 router.post('/api', apiFunc);
 router.post('/map', mapFunc);
-
-
+router.get('/download', downloadFunc);
 
 export default router;

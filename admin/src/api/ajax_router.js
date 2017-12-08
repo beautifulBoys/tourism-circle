@@ -44,3 +44,5 @@ export const rankingAjax = data => ajax1.post('/ranking', data);
 export const getCityDataAjax = data => ajax1.post('/getCityData', data);
 // api 统计
 export const apiAjax = data => ajax1.post('/api', data);
+// 测试下载
+export const testAjax = data => ajax1.post('/download', data);
