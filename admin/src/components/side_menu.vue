@@ -58,7 +58,8 @@
             text: '数据中心',
             list: [
               {path: 'ranking', text: '排行榜'},
-              {path: '3-2', text: '我的相关访问数据'}
+              {path: 'api', text: '接口访问统计'},
+              {path: 'data', text: '数据统计'}
             ]
           },
           {

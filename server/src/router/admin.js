@@ -58,8 +58,13 @@ import {
 } from '../controller/ranking.js';
 
 import {
+  apiFunc
+} from '../controller/api.js';
+
+import {
   getCityDataFunc,
-  authenticationFunc
+  authenticationFunc,
+  mapFunc
 } from '../controller/admin_other.js';
 
 const router = express.Router();
@@ -105,6 +110,8 @@ router.post('/myComments', myCommentsFunc);
 router.post('/changeMinePostStatus', changeMinePostStatusFunc);
 router.post('/ranking', rankingFunc);
 router.post('/getCityData', getCityDataFunc);
+router.post('/api', apiFunc);
+router.post('/map', mapFunc);
 
 
 

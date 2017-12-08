@@ -7,7 +7,7 @@
             <div v-for="item in messageList">
               <div class="item-box left-hook" v-if="item.message.type === 2">
                 <div class="left">
-                  <img :src="userIconUrl"/>
+                  <img :src="item.user.avatar"/>
                 </div>
                 <div class="center">
                   <div class="user">{{ item.user.name }}</div>
@@ -17,7 +17,7 @@
               </div>
               <div class="item-box right-hook" v-if="item.message.type === 3">
                 <div class="right">
-                  <img :src="userIconUrl"/>
+                  <img :src="item.user.avatar"/>
                 </div>
                 <div class="center">
                   <div class="user">{{ item.user.name }}</div>
@@ -51,8 +51,7 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/head
   export default {
     data () {
       return {
-        chat_show: false,
-        userIconUrl: 'https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(3).jpg'
+        chat_show: false
       };
     },
     computed: {

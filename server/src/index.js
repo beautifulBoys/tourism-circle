@@ -1,61 +1,68 @@
-//var express = require('express');
-import express from 'express';
-import http from 'http';
-import path from 'path';
-import favicon from 'serve-favicon';
-import logger from 'morgan';
-import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
-import cors from 'cors';
+#!/usr/bin/env node
 
-import router from './router/index.js';
-import dbconnect from './config/db.js';
+/**
+ * Module dependencies.
+ */
 
-import websit_chat_room from './servers/websit_chat_room.js';
-import chat_room from './servers/chat_room.js';
+var app = require('./app.js');
+var debug = require('debug')('a:server');
+var http = require('http');
 
-var app = express();
-var db = dbconnect();
+/**
+ * Get port from environment and store in Express.
+ */
 
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors());
-
-router(app);
-// websit_chat_room(); // 全站聊天室启动
-
-chat_room(); // 通讯录聊天功能启动
-
-app.use((req, res, next) => {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-app.use((err, req, res, next) => {
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-  res.status(err.status || 500);
-  res.render('error');
-});
-
-// server 报错处理
 var port = normalizePort(process.env.PORT || '3000');
-var server = http.createServer(app);
-server.listen(port);
-console.log('主程序启动：', port);
+app.set('port', port);
 
-server.on('error', (error) => {
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
   }
+
   var bind = typeof port === 'string'
     ? 'Pipe ' + port
     : 'Port ' + port;
 
+  // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
       console.error(bind + ' requires elevated privileges');
@@ -68,6 +75,16 @@ server.on('error', (error) => {
     default:
       throw error;
   }
-});
+}
 
-module.exports = app;
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}

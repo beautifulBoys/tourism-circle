@@ -16,6 +16,7 @@ export const messageBoxListFunc = async (req, res) => {
   try {
     let result = await Message.find({toId: req.headers.userid, status: true});
     result = result.filter(item => item.status);
+    // res.send({code: 200, message: '获取消息盒子数据成功', data: {list: result}});
     let arr = [];
     for (let i = 0; i < result.length; i++) {
       let user = await User.findOne({id: result[i].fromId});
@@ -24,7 +25,7 @@ export const messageBoxListFunc = async (req, res) => {
         fromId: result[i].fromId,
         toId: result[i].toId,
         name: user.username,
-        time: util.formatCSTDate(result[i].time, 'yy/MM/dd hh:mm:ss'),
+        time: util.formatCSTDate(result[i].time, 'MM/dd hh:mm'),
         remark: result[i].remark,
         typeText: typeToText(result[i].type),
         type: result[i].type
@@ -43,25 +44,16 @@ export const ignoreMessageFunc = async (req, res) => {
   let messageId = req.body.id - 0;
   let meId = req.headers.userid - 0;
   try {
-    await Message.update({id: messageId}, {status: false}, {multi: false}, (err) => {});
+    await Message.update({id: messageId}, {status: false}, {multi: false}, (err, docs) => {
+      if (err) {
+        console.log(err);
+        res.send({code: 300, message: '发生未知错误，忽略消息失败', data: {err, docs}});
+        return;
+      }
+      console.log(docs);
+    });
 
-    let result = await Message.find({toId: meId, status: true});
-    result = result.filter(item => item.status);
-    let arr = [];
-    for (let i = 0; i < result.length; i++) {
-      let user = await User.findOne({id: result[i].fromId});
-      let obj = {
-        messageId: result[i].id,
-        name: user.username,
-        time: util.formatCSTDate(result[i].time, 'yy/MM/dd hh:mm:ss'),
-        remark: result[i].remark,
-        typeText: typeToText(result[i].type),
-        type: result[i].type
-      };
-      arr.push(obj);
-    }
-
-    res.send({code: 200, message: '忽略消息成功', data: {list: arr}});
+    res.send({code: 200, message: '忽略消息成功', data: {}});
   } catch (err) {
     res.send({code: 300, message: '忽略消息失败，请联系管理员', data: err});
   }

@@ -40,11 +40,14 @@ import {
 } from '../controller/follow.js';
 
 import {
+  apiFunc
+} from '../controller/api.js';
+
+import {
   userMainInfoFunc,
   mineFunc,
   postInfoFunc,
-  authenticationFunc,
-  apiFunc
+  authenticationFunc
 } from '../controller/client_other.js';
 
 import {

@@ -98,8 +98,7 @@ module.exports = function () {
 
   });
 
-  const port = 3003;
-  http.listen(port, function () {
-    console.log('聊天工具监听端口: ' + port);
+  http.listen(3003, function () {
+    console.log('聊天工具启动: 3000');
   });
 };

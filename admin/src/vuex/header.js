@@ -52,6 +52,14 @@ export default {
     },
     avatar (state, avatar) {
       state.avatar = avatar;
+    },
+    deleteMessage (state, id) {
+      for (let i = 0; i < state.messageBoxList.length; i++) {
+        if (id - 0 === state.messageBoxList[i].messageId - 0) {
+          state.messageBoxList.splice(i, 1);
+          break;
+        }
+      }
     }
   },
   actions: {
@@ -82,14 +90,14 @@ export default {
       console.log('忽略的', row);
       console.log('忽略的id是：', row.messageId);
       let result = await ignoreMessageAjax({id: row.messageId});
-      commit('changeMessageBoxList', result.data.list);
+      if (result.code === 200) commit('deleteMessage', row.messageId);
     },
     async getMessageListEvent ({commit, state, rootState}) {
       let result = await messageBoxListAjax();
       commit('changeMessageBoxList', result.data.list);
     },
     connectServer ({commit, state, rootState}) {
-      state.httpServer = io.connect('http://10.209.96.67:3003');
+      state.httpServer = io.connect('http://10.209.96.67:3004');
       state.httpServer.emit('login', rootState.box.userInfo);
       state.httpServer.on('comming', obj => {
         commit('saveMessage', obj);
@@ -116,7 +124,8 @@ export default {
       state.httpServer.emit('message', { // 推送聊天记录到服务器
         user: {
           id: rootState.box.userInfo.userId,
-          name: rootState.box.userInfo.username
+          name: rootState.box.userInfo.username,
+          avatar: state.avatar
         },
         message: {
           type: 2,
@@ -126,7 +135,8 @@ export default {
       commit('saveMessage', { // 保留聊天记录到本地
         user: {
           id: rootState.box.userInfo.userId,
-          name: rootState.box.userInfo.username
+          name: rootState.box.userInfo.username,
+          avatar: state.avatar
         },
         message: {
           type: 3,

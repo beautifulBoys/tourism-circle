@@ -8,7 +8,11 @@ export const getCityDataFunc = async (req, res) => {
 
 // 统一身份验证
 export const authenticationFunc = async (req, res, next) => {
-  if (req.path === '/login') {
+  const ignoreList = [
+    '/login',
+    '/map'
+  ];
+  if (ignoreList.indexOf(req.path) !== -1) {
     next();
     return;
   }
@@ -24,5 +28,34 @@ export const authenticationFunc = async (req, res, next) => {
     }
   } catch (err) {
     res.send({code: 400, message: '此账号验证异常，请重新登录', data: {}});
+  }
+};
+
+export const mapFunc = async (req, res, next) => {
+
+  try {
+    let result = await User.find({});
+    let count = result.length;
+    let obj = {};
+    for (let i = 0; i < count; i++) {
+      if (result[i].address.length > 0) {
+        if (obj[result[i].address[0]]) obj[result[i].address[0]]++;
+        else obj[result[i].address[0]] = 1;
+      } else {
+        if (obj['未知']) obj['未知']++;
+        else obj['未知'] = 1;
+      }
+    }
+    let arr = [];
+    for (let k in obj) {
+      arr.push({
+        name: k,
+        value: obj[k],
+        rate: obj[k] / count
+      });
+    }
+    res.send({code: 200, message: '数据查询成功', data: arr});
+  } catch (err) {
+    res.send({code: 400, message: '数据查询失败', data: {}});
   }
 };

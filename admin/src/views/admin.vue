@@ -1,6 +1,6 @@
 <template>
   <div class="admin">
-    <h1>管理员权限设置</h1>
+    <h1>管理员权限设置（未完成）</h1>
     <div class="content-box">
       <div class="search">
         <el-input placeholder="请输入内容" v-model="search.input">

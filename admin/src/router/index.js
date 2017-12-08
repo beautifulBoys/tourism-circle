@@ -47,6 +47,8 @@ const Space = () => import('@/views/space.vue');
 const Gallery = () => import('@/views/gallery.vue');
 
 const Ranking = () => import('@/views/ranking.vue');
+const Api = () => import('@/views/api.vue');
+const Data = () => import('@/views/data.vue');
 
 const Personal = () => import('@/views/personal.vue');
 const Permission = () => import('@/views/permission.vue');
@@ -85,7 +87,8 @@ export default new Router({
         { path: 'gallery', component: Gallery },
 
         {path: 'ranking', component: Ranking},
-        {path: '3-2', component: {}},
+        {path: 'api', component: Api},
+        {path: 'data', component: Data},
 
         { path: 'personal', component: Personal },
         { path: 'permission', component: Permission },

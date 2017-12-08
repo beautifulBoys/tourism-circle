@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <el-badge :value="noReadMessageNum" class="item">
+    <el-badge :value="messageBoxList.length" class="item">
       <el-button size="small" @click="messageBoxShowEvent(true)">消息盒子</el-button>
     </el-badge>
 
@@ -75,7 +75,7 @@ const { mapState, mapMutations, mapActions } = createNamespacedHelpers('box/head
     },
     mounted () {
       if (!this.connect && window.loginStatus) {
-        // this.connectServer();
+        this.connectServer();
       }
       this.getMessageListEvent();
     },

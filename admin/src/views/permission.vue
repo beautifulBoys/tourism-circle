@@ -1,6 +1,6 @@
 <template>
 <div class="permission">
-  <h1>权限设置</h1>
+  <h1>权限设置（未完成）</h1>
 
 
   <el-form :label-position="'right'" label-width="80px" :model="formValue">

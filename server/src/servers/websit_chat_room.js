@@ -65,8 +65,8 @@ export default () => {
 
   });
 
-  const port = 3003;
+  const port = 3004;
   http.listen(port, function () {
-    console.log('监听端口: ' + port);
+    console.log('全站聊天室启动: ' + port);
   });
 };
