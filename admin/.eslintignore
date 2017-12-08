@@ -3,5 +3,4 @@ config/*.js
 src/lib/
 src/api/
 src/views/personal.vue
-src/views/map.js
-src/views/echarts.js
+src/lib/*.js

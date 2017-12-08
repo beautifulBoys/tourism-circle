@@ -3,13 +3,16 @@
 <div class="data">
   <h1>数据统计</h1>
   <div class="content-box">
-    <iframe src="https://www.baidu.com" height="500px" width="100%" style="outline: none; overflow: hidden; border: none;"></iframe>
+    <!-- <iframe src="https://www.baidu.com" height="500px" width="100%" style="outline: none; overflow: hidden; border: none;"></iframe> -->
   </div>
 </div>
 </template>
 <script>
+// console.log(echarts);
+  let china = require('../lib/china.js');
   export default {
     mounted () {
+      console.log(this.echarts, china);
     }
   };
 </script>

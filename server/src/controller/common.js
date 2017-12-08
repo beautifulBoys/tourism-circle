@@ -126,9 +126,9 @@ export const myCommentsFunc = async (req, res) => {
       };
       arr.push(obj);
     }
-    res.send({code: 200, message: '获取我评论的分享数据成功', data: {list: arr}});
+    res.send({code: 200, message: '获取我评论的数据成功', data: {list: arr}});
   } catch (err) {
-    res.send({code: 300, message: '获取我评论的分享数据失败，请联系管理员', data: err});
+    res.send({code: 300, message: '获取我评论的数据失败，请联系管理员', data: err});
   }
   
 };

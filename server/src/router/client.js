@@ -26,7 +26,7 @@ import {
 import {
   myStarFunc,
   myCommentsFunc
-} from '../controller/myStar_myComment.js';
+} from '../controller/common.js';
 
 import {
   rankingFunc

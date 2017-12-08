@@ -10,6 +10,8 @@ import projectConfig from './config.js';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-default/index.css';
 
+import echarts from 'echarts';
+Vue.prototype.echarts = echarts;
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
 
