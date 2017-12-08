@@ -3,33 +3,6 @@ import Router from 'vue-router';
 import Box from '@/views/box.vue';
 import Login from '@/views/login.vue';
 
-/*
-import Newest from '@/views/newest.vue';
-import Hotest from '@/views/hotest.vue';
-import Mostest from '@/views/mostest.vue';
-import Allfriend from '@/views/allfriend.vue';
-
-import Friend from '@/views/friend.vue';
-import Following from '@/views/following.vue';
-import Followers from '@/views/followers.vue';
-
-import Posting from '@/views/posting.vue';
-import Posted from '@/views/posted.vue';
-import Likes from '@/views/likes.vue';
-import Comments from '@/views/comments.vue';
-import Space from '@/views/space.vue';
-import Gallery from '@/views/gallery.vue';
-
-import Ranking from '@/views/ranking.vue';
-
-import Personal from '@/views/personal.vue';
-import Permission from '@/views/permission.vue';
-import Admin from '@/views/admin.vue';
-
-import About from '@/views/about.vue';
-import Contact from '@/views/contact.vue';
-*/
-
 const Newest = () => import('@/views/newest.vue');
 const Hotest = () => import('@/views/hotest.vue');
 const Mostest = () => import('@/views/mostest.vue');

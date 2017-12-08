@@ -14,6 +14,19 @@ const env = config.build.env
 
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
+    rules: [
+      {
+        test: /ajax\.js$/,
+        loader: 'webpack-replace-loader',
+        options: {
+          search: '/api',
+          replace: 'http://10.209.96.67:3000'
+        }
+      }
+    ]
+  }
+}, {
+  module: {
     rules: utils.styleLoaders({
       sourceMap: config.build.productionSourceMap,
       extract: true

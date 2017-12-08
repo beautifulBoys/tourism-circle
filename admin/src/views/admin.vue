@@ -42,7 +42,7 @@
 
       <br/>
 
-      <el-collapse v-model="activeNames" @change="handleChange">
+      <el-collapse>
         <el-collapse-item title="体验用户权限" name="0">
           <div>可以查看所有功能，无分享、加好友等所有功能。</div>
         </el-collapse-item>
