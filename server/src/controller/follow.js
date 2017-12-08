@@ -47,9 +47,6 @@ export const myFollowingFunc = async (req, res) => {
         postNum: user.postNum,
         avatar: user.avatar
       };
-      // if (user.sex === 1) item.sex = '女孩';
-      // else if (user.sex === 2) item.sex = '男孩';
-      // else item.sex = '未设置';
       arr.push(item);
     }
     res.send({code: 200, message: '获取关注列表成功', data: {list: arr}});

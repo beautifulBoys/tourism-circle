@@ -22,7 +22,7 @@ import {
   pinglunFunc,
   myPostedFunc,
   changeMinePostStatusFunc
-} from '../controller/posting.js';
+} from '../controller/post.js';
 
 import {
   galleryFunc,

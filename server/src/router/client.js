@@ -12,7 +12,7 @@ import {
   postingFunc,
   starFunc, 
   pinglunFunc
-} from '../controller/posting.js';
+} from '../controller/post.js';
 
 import {
   galleryFunc

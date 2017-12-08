@@ -147,9 +147,6 @@ export const getAllUserFunc = async (req, res) => {
         avatar: result[i].avatar,
         sex: result[i].sex
       };
-      // if (result[i].sex === 1) item.sex = '女孩';
-      // else if (result[i].sex === 2) item.sex = '男孩';
-      // else item.sex = '未设置';
       arr.push(item);
     }
     res.send({code: 200, message: '获取用户列表成功', data: {list: arr, total}});

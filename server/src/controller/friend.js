@@ -148,9 +148,6 @@ export const myFriendFunc = async (req, res) => {
         avatar: friend.avatar,
         sex: friend.sex
       };
-      // if (friend.sex === 1) item.sex = '女孩';
-      // else if (friend.sex === 2) item.sex = '男孩';
-      // else item.sex = '未设置';
       list.push(item);
     }
    
