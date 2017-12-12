@@ -46,7 +46,7 @@
           {
             text: '个人中心',
             list: [
-              {path: 'posting', text: '发帖子'},
+              {path: 'posting', text: '写分享'},
               {path: 'posted', text: '我发表的'},
               {path: 'likes', text: '我点赞的'},
               {path: 'comments', text: '我评论的'},
