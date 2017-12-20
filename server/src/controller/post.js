@@ -33,7 +33,7 @@ export const postingFunc = async (req, res) => {
   } catch (err) {
     res.send({code: 300, message: '分享失败', data: err});
   }
-  
+
 };
 
 function sort (type, list) {
@@ -103,7 +103,7 @@ export const postFunc = async (req, res) => {
     let commentList = [];
     for (let h = 0; h < arr[i].commentList.length; h++) {
       let user = await User.findOne({id: arr[i].commentList[h].userId});
-      
+
       commentList.push({
         comment: arr[i].commentList[h].comment,
         user: {
@@ -187,7 +187,7 @@ export const starFunc = async (req, res) => {
   } catch (err) {
     res.send({code: 300, message: '操作失败', data: err});
   }
-  
+
 };
 
 
@@ -223,7 +223,7 @@ export const pinglunFunc = async (req, res) => {
       username: user.username
     }
   };
-  
+
   let {list} = await Comment.findOne({id: userId});
   if (list.indexOf(postId) === -1) {
     list = [...list, postId];
@@ -236,7 +236,7 @@ export const pinglunFunc = async (req, res) => {
   } catch (err) {
     res.send({code: 300, message: '评论失败，请联系管理员', data: err});
   }
-  
+
 };
 export const myPostedFunc = async (req, res) => {
   let userId = req.headers.userid - 0;
@@ -247,7 +247,7 @@ export const myPostedFunc = async (req, res) => {
   let start = pageConfig.page * pageConfig.num;
   let end = start + pageConfig.num;
   let list = [];
-  
+
   try {
 
     let arr = await Post.find({userId});
@@ -264,7 +264,7 @@ export const myPostedFunc = async (req, res) => {
       let commentList = [];
       for (let h = 0; h < arr[i].commentList.length; h++) {
         let user = await User.findOne({id: arr[i].commentList[h].userId});
-        
+
         commentList.push({
           comment: arr[i].commentList[h].comment,
           user: {
@@ -297,69 +297,24 @@ export const myPostedFunc = async (req, res) => {
   } catch (err) {
     res.send({code: 300, message: '获取我的分享失败，请联系管理员', data: err});
   }
-  
 };
 
-
-
 export const changeMinePostStatusFunc = async (req, res) => {
-  let userId = req.headers.userid - 0;
   let postId = req.body.id - 0;
   let status = req.body.status;
   let list = [];
   let statusObj = {
     hide: {num: 1, text: '隐藏'},
+    show: {num: 0, text: '显示'},
     delete: {num: 2, text: '删除'}
   };
   status = statusObj[status];
   try {
     await Post.update({id: postId}, {status: status.num}, {multi: false}, () => {});
-    let arr = await Post.find({userId});
 
-    for (let i = 0; i < arr.length; i++) {
-      let user = await User.findOne({id: arr[i].userId});
-      let isStared = (arr[i].starList.indexOf(userId) === -1 ? false : true);
-      let starList = [];
-      for (let j = 0; j < arr[i].starList.length; j++) {
-        let user = await User.findOne({id: arr[i].starList[j] - 0});
-        starList.push(user);
-      }
-      let commentList = [];
-      for (let h = 0; h < arr[i].commentList.length; h++) {
-        let user = await User.findOne({id: arr[i].commentList[h].userId});
-        
-        commentList.push({
-          comment: arr[i].commentList[h].comment,
-          user: {
-            url: user.avatar,
-            name: user.username
-          }
-        });
-      }
-      let obj = {
-        id: arr[i].id,
-        userId: arr[i].userId - 0,
-        postTime: arr[i].postTime,
-        commentList,
-        starList,
-        tagList: arr[i].tagList,
-        rate: arr[i].rate,
-        urls: arr[i].urls,
-        content: arr[i].content,
-        time: arr[i].time,
-        city: arr[i].city,
-        spot: arr[i].spot,
-        title: arr[i].title,
-        avatar: user.avatar,
-        isStared,
-        status: arr[i].status
-      };
-      list.push(obj);
-    }
-
-    res.send({code: 200, message: status.text + '我的分享成功', data: {list}});
+    res.send({code: 200, message: status.text + '我的分享成功', data: {}});
   } catch (err) {
     res.send({code: 300, message: status.text + '我的分享失败，请联系管理员', data: err});
   }
-  
+
 };

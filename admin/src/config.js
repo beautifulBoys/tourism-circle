@@ -30,7 +30,8 @@ import {
   Message,
   Tag,
   Rate,
-  Notification
+  Notification,
+  MessageBox
 } from 'element-ui';
 import 'element-ui/lib/theme-default/index.css';
 
@@ -67,4 +68,7 @@ export default () => {
 
   Vue.prototype.$message = Message;
   Vue.prototype.$notify = Notification;
+  Vue.prototype.$prompt = MessageBox.prompt;
+  Vue.prototype.$confirm = MessageBox.confirm;
+  Vue.prototype.$alert = MessageBox.alert;
 };

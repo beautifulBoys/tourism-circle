@@ -59,7 +59,14 @@ export default {
       }, 2000);
     },
     checkUploadEvent () {
-      this.show = true;
+      // this.show = true;
+      this.$alert(
+        `因服务器存储空间及流量有限，所以暂不开放上传功能。未来如果搭建图片服务器了，将长期开放，如果不搭建，此功能太监。
+        如想体验上传功能，请移步个人资料设置 - 头像设置（base64），或者后期私人空间应该会有大文件上传（file）的功能，请稍安勿躁。`,
+        '图库说明',
+        {
+          confirmButtonText: '确定'
+        });
     }
   }
 };

@@ -24,11 +24,6 @@ export default {
       isStar: false
     };
   },
-  // watch: {
-  //   isStared (n) {
-  //     this.isStar = (n || false);
-  //   }
-  // },
   mounted () {
     this.isStar = this.isStared;
   },

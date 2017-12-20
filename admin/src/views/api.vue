@@ -1,5 +1,5 @@
 <template>
-<div class="ranking">
+<div class="api">
   <h1>接口统计</h1>
   <div class="content-box">
     <div class="item" v-for="(item, key) in info">
@@ -114,7 +114,6 @@ export default {
           }
         }
         this.info.allapi.value = allapicount;
-        this.status = true;
       } else {
         this.$message({type: 'error', message: result.message});
       }
@@ -124,7 +123,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.ranking {
+.api {
     box-sizing: border-box;
     padding: 20px 30px;
     h1 {

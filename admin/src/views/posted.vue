@@ -4,7 +4,7 @@
     <div class="content-box">
       <ul class="ul">
         <li class="li" v-for="item in list">
-          <dynamic type="mine" :listItem="item" :control="true"></dynamic>
+          <dynamic type="mine" @refresh="loadmoreEvent" :listItem="item" :control="true"></dynamic>
         </li>
         <el-button type="primary" v-show="loadmoreButtonShow" class="loadMore" @click="loadmoreEvent" :loading="loadmoreButtonStatus">点击加载更多</el-button>
       </ul>

@@ -12,6 +12,7 @@
         <el-button class="el-dropdown-link">操作</el-button>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="hide">隐藏</el-dropdown-item>
+          <el-dropdown-item command="show">显示</el-dropdown-item>
           <el-dropdown-item command="delete">删除</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -40,11 +41,12 @@
         </li>
       </ul>
       <div class="pagination">
-        <el-pagination layout="prev, pager, next"
+        <el-pagination
+          layout="prev, pager, next"
           :page-size="pageSize"
           @current-change="handleCurrentChange"
-
-        :total="totalNum"></el-pagination>
+          :total="totalNum">
+        </el-pagination>
       </div>
     </collapse>
   </div>
@@ -99,6 +101,10 @@ export default {
     async changeMinePostStatusEvent (value) {
       let result = await changeMinePostStatusAjax({status: value, id: this.listItem.id});
       console.log(result);
+      if (result.code === 200) {
+        this.$message({ type: 'success', message: result.message });
+        this.$emit('refresh');
+      } else this.$message({ type: 'error', message: result.message });
     },
     starEvent ({cbb}) {
       if (this.userId - 0 === this.listItem.userId) {
@@ -115,7 +121,7 @@ export default {
       console.log(result);
       if (result.code === 200) {
         let status;
-        if (result.data === 'star') status = true;
+        if (result.data.status === 'star') status = true;
         else status = false;
         cbb(status);
         this.$message({ type: 'success', message: result.message });
