@@ -2,7 +2,7 @@
   <div class="contact">
     <h1>联系我</h1>
     <div class="content-box">
-      暂无
+      内容待填充
     </div>
   </div>
 </template>

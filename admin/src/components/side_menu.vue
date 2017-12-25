@@ -96,8 +96,8 @@
   font-size: 30px;
   font-family: "微软雅黑";
   border-bottom: 1px solid #000;
-  // background: url(../images/logo.png) no-repeat center center;
-  background-size: 100px;
+  background: url(../images/logo.png) no-repeat center center;
+  background-size: 120px;
   cursor: pointer;
 }
 .el-col-12 {

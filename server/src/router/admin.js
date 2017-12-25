@@ -73,7 +73,7 @@ const router = express.Router();
 router.use(async (req, res, next) => {
   let path = req.path;
   let result = await Api.findOne({path});
-  if (result) await Api.update({path}, {$inc: {num: 172}}, {multi: false}, () => {});
+  if (result) await Api.update({path}, {$inc: {num: 12}}, {multi: false}, () => {});
   else {
     await Api.create({path}, (err, docs) => {
       if (err) console.log('create user 出错了', err);

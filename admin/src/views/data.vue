@@ -4,7 +4,8 @@
   <h1>数据统计</h1>
   <div class="content-box">
     <!-- <iframe src="https://www.baidu.com" height="500px" width="100%" style="outline: none; overflow: hidden; border: none;"></iframe> -->
-    <el-button type="default" @click="textEvent">测试下载</el-button>
+    <!-- <el-button type="default" @click="textEvent">测试下载</el-button> -->
+    数据统计正在编码中。。。
   </div>
 </div>
 </template>
@@ -14,7 +15,6 @@
     },
     methods: {
       textEvent () {
-        window.location.href = 'http://10.209.96.67:3000/admin/download';
       }
     }
   };
