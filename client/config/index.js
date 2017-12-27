@@ -34,7 +34,7 @@ module.exports = {
     proxyTable: {
       '/api': {
           // target: 'http://10.209.96.135:9090/api',
-          target: 'http://10.209.96.67:3000',
+          target: 'http://localhost:3000',
           changeOrigin: true,
           onProxyReq(e) {
               //console.log(e);
