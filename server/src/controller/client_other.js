@@ -15,6 +15,7 @@ export const userMainInfoFunc = async (req, res) => {
     let arr = [];
     for (let i = 0; i < postList.length; i++) {
       arr.push({
+        id: postList[i].id,
         title: postList[i].title,
         postTime: util.formatCSTDate(postList[i].postTime),
         avatar: user.avatar,

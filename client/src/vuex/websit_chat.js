@@ -15,20 +15,23 @@ export default {
     changeList (state, list) {
       state.list = list;
     },
+    changeStatus (state, status) {
+      state.connect = status;
+    },
     saveMessage (state, obj) {
       state.messageList.push(obj);
     }
   },
   actions: {
     connectServer ({commit, state, rootState}) {
-      state.httpServer = io.connect('http://10.209.96.67:3003');
+      state.httpServer = io.connect('http://10.209.96.67:3004');
       state.httpServer.emit('login', rootState.userInfo);
       state.httpServer.on('comming', obj => {
         commit('saveMessage', obj);
       });
       state.httpServer.on('loginSuccess', obj => { // 1 成功
         if (obj === 1) {
-          state.connect = true; // 登录状态
+          commit('changeStatus', true); // 登录状态
           console.log('聊天室已连接成功');
         }
       });

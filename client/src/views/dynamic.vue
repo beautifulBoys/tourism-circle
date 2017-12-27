@@ -36,7 +36,7 @@
   import { Scroller, Spinner } from 'vux';
   import { createNamespacedHelpers } from 'vuex';
   import {getPostAjax} from '../api/ajax_router.js';
-  const { mapState, mapMutations, mapActions, mapGetters } = createNamespacedHelpers('box1/dynamic');
+  const { mapState, mapMutations } = createNamespacedHelpers('box1/dynamic');
 
   export default {
     components: {
@@ -82,15 +82,13 @@
       ...mapState({
         wayList: state => state.wayList,
         wayIndex: state => state.wayIndex
-      }),
-      ...mapGetters([])
+      })
     },
     created () {
       this.refresh();
     },
     methods: {
       ...mapMutations(['changeWayIndex']),
-      ...mapActions([]),
       loadMore () {
         this.getDataEvent(this.wayIndex, this.pageConfig.num, this.pageConfig.page, (result) => {
           if (result.code === 200) {

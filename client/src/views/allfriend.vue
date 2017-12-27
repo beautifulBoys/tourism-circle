@@ -20,7 +20,7 @@
                 </div>
                 <div class="other">
                   <div class="name">{{item.username}}</div>
-                  <div class="desc">{{item.desc === '未设置' ? '这个人太懒了，还没有填写' : item.desc}}</div>
+                  <div class="desc">{{!item.desc ? '这个人太懒了，还没有填写呢' : item.desc}}</div>
                 </div>
               </div>
         </div>

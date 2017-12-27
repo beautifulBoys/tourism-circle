@@ -72,7 +72,7 @@ export default {
     }
   },
   mounted () {
-    // this.connectServer();
+    this.connectServer();
   },
   methods: {
     ...mapMutations(['changeSendValue']),
