@@ -12,14 +12,15 @@ export default () => {
     console.log('服务已创建 !');
 
     //监听新用户加入
-    socket.on('login', function (obj) { // {userId, username, passport}
+    socket.on('login', function (obj) { // {userId, username, passport, avatar}
       socket.socketId = obj.userId;
       onlineUserList.push(obj);
       //向除自己以外的所有客户端广播:有新用户加入
       let newUserMessage = {
         user: {
           id: obj.userId,
-          name: obj.username
+          name: obj.username,
+          avatar: obj.avatar
         },
         message: {
           type: 1,
@@ -46,7 +47,8 @@ export default () => {
       let exitUserMessage = {
         user: {
           id: exitObj.userId,
-          name: exitObj.username
+          name: exitObj.username,
+          avatar: exitObj.avatar
         },
         message: {
           type: 1,

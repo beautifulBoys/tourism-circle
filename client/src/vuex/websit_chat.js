@@ -1,12 +1,14 @@
 
 import io from 'socket.io-client';
+import {mineAjax} from '../api/ajax_router.js';
 export default {
   namespaced: true,
   state: {
     httpServer: null,
     connect: false,
     messageList: [],
-    sendInputValue: ''
+    sendInputValue: '',
+    avatar: 'https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/tourism-circle/avatar.png'
   },
   mutations: {
     changeSendValue (state, value) {
@@ -20,12 +22,24 @@ export default {
     },
     saveMessage (state, obj) {
       state.messageList.push(obj);
+    },
+    setAvatar (state, str) {
+      state.avatar = str;
     }
   },
   actions: {
+    async getUserInfo ({commit, state, rootState}) {
+      try {
+        let result = await mineAjax();
+        commit('setAvatar', result.data.avatar);
+      } catch (err) {}
+    },
     connectServer ({commit, state, rootState}) {
       state.httpServer = io.connect('http://10.209.96.67:3004');
-      state.httpServer.emit('login', rootState.userInfo);
+      state.httpServer.emit('login', {
+        ...rootState.userInfo,
+        avatar: state.avatar
+      });
       state.httpServer.on('comming', obj => {
         commit('saveMessage', obj);
       });
@@ -49,7 +63,8 @@ export default {
       state.httpServer.emit('message', { // 推送聊天记录到服务器
         user: {
           id: rootState.userInfo.userId,
-          name: rootState.userInfo.username
+          name: rootState.userInfo.username,
+          avatar: state.avatar
         },
         message: {
           type: 2,
@@ -59,7 +74,8 @@ export default {
       commit('saveMessage', { // 保留聊天记录到本地
         user: {
           id: rootState.userInfo.userId,
-          name: rootState.userInfo.username
+          name: rootState.userInfo.username,
+          avatar: state.avatar
         },
         message: {
           type: 3,

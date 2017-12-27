@@ -11,7 +11,7 @@
       <div v-for="item in messageList">
         <div class="item-box left-hook" v-if="item.message.type === 2">
           <div class="left">
-            <img :src="userIconUrl"/>
+            <img :src="item.user.avatar"/>
           </div>
           <div class="center">
             <div class="user">{{ item.user.name }}</div>
@@ -26,7 +26,7 @@
             <pre class="text"><span class="horn">▶</span>{{ item.message.text }}</pre>
           </div>
           <div class="right">
-            <img :src="userIconUrl"/>
+            <img :src="item.user.avatar"/>
           </div>
         </div>
         <div class="item-box center-hook" v-if="item.message.type === 1">
@@ -56,7 +56,6 @@ export default {
         left: '返回',
         title: '全站聊天室'
       },
-      userIconUrl: 'https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/firstSoft/picture/travel/user/user%20(3).jpg',
       inputValue: ''
     };
   },
@@ -73,10 +72,11 @@ export default {
   },
   mounted () {
     this.connectServer();
+    this.getUserInfo();
   },
   methods: {
     ...mapMutations(['changeSendValue']),
-    ...mapActions(['connectServer', 'sendMessageEvent']),
+    ...mapActions(['connectServer', 'sendMessageEvent', 'getUserInfo']),
     getUserId () {
       return (new Date().getTime() + '' + Math.floor(Math.random() * 100000 + 100)) - 0;
     },
