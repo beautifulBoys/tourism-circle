@@ -3,6 +3,7 @@
     <h1>管理员权限设置（未完成）</h1>
     <div class="content-box">
       权限功能完善后，此入口将只对管理员和超级管理员开放，普通用户无此入口。
+      <br/><br/>
       <div class="search">
         <el-input placeholder="请输入内容" v-model="search.input">
           <el-select v-model="search.select.value" slot="prepend" placeholder="请选择" style="width: 100px">
