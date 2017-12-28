@@ -3,8 +3,8 @@
     <div class="box" :class="{move: toshow}">
       <div class="logo">旅</div>
       <div class="login-box">
-        <el-input type="text" class="input" v-model="username" placeholder="用户名 (2 - 8 位)"></el-input>
-        <el-input type="password" class="input" v-model="password" placeholder="密码 (6 - 12 位)"></el-input>
+        <el-input type="text" class="input" v-model="username" placeholder="用户名（中文 2 - 10 位）"></el-input>
+        <el-input type="password" class="input" v-model="password" placeholder="密码（6 - 12 位）"></el-input>
         <div class="tag">首次登录将自动为您注册账号</div>
         <el-button class="btn" type="primary" size="large" @click="loginEvent()"> 登　录 </el-button>
         <!-- <el-button size="large">去注册</el-button> -->
@@ -26,7 +26,6 @@
     },
     created () {
       if (window.loginStatus) {
-        console.log('asdfsdfsd');
         this.$router.push({path: '/newest'});
       }
     },
