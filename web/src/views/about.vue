@@ -2,10 +2,10 @@
   <div class="about">
     <h1>关于本站</h1>
     <div class="content-box">
-      本网站是一个个人项目的线上站点。所有素材以及图片均收集自网络，绝不商用。
+      本网站是一个个人项目的线上站点。所有素材以及图片均收集自网络，仅供交流学习，不作商用。
       <br/>
       如有内容侵权，请联系我删除。
-      <br/>
+      <br/><br/>
       邮箱：1298947916@qq.com
       <br/>
       微信：lyxz12345
@@ -41,6 +41,7 @@
       width: 100%;
       height: 100px;
       display: flex;
+      line-height: 30px;
     }
   }
 </style>

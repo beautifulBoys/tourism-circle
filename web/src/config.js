@@ -31,7 +31,8 @@ import {
   Tag,
   Rate,
   Notification,
-  MessageBox
+  MessageBox,
+  Tooltip
 } from 'element-ui';
 import 'element-ui/lib/theme-default/index.css';
 
@@ -65,6 +66,7 @@ export default () => {
   Vue.use(DatePicker);
   Vue.use(Tag);
   Vue.use(Rate);
+  Vue.use(Tooltip);
 
   Vue.prototype.$message = Message;
   Vue.prototype.$notify = Notification;
