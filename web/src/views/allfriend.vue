@@ -1,6 +1,6 @@
 <template>
 <div class="allfriend">
-  <h1>我的圈友</h1>
+  <h1>所有圈友</h1>
   <div class="content-box">
 
     <el-table :data="list" style="width: 100%">

@@ -1,6 +1,6 @@
 <template>
 <div class="posting" style="">
-  <h1>发表帖子</h1>
+  <h1>写分享</h1>
 
 
   <el-form :label-position="'right'" label-width="80px" :model="formValue">
