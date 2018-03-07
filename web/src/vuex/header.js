@@ -1,6 +1,7 @@
 // import data from './data/chat_room.json';
 import io from 'socket.io-client';
 import Cookies from 'js-cookie';
+import config from '../config/index.js';
 import {webMailSendAjax, messageBoxListAjax, ignoreMessageAjax, friendHandleAjax} from '../api/ajax_router.js';
 
 export default {
@@ -97,7 +98,7 @@ export default {
       commit('changeMessageBoxList', result.data.list);
     },
     connectServer ({commit, state, rootState}) {
-      state.httpServer = io.connect('http://10.209.96.67:3004');
+      state.httpServer = io.connect(`${config.server_ip}:${config.webChat_port}`);
       state.httpServer.emit('login', rootState.box.userInfo);
       state.httpServer.on('comming', obj => {
         commit('saveMessage', obj);

@@ -15,12 +15,12 @@ function ajax (text) {
   return new Promise((resolve, reject) => {
     try {
       httpApi.get(qingyunkeUrl + encodeURI(text), (req) => {
-        req.setEncoding('utf8');  
+        req.setEncoding('utf8');
         req.on('data', function (data) {
-          resolve(data); 
+          resolve(data);
         });
         req.on('error', (e) => {
-          resolve(errObj); 
+          resolve(errObj);
         });
       });
     } catch (err) {
@@ -97,8 +97,8 @@ module.exports = function () {
     });
 
   });
-
-  http.listen(3003, function () {
-    console.log('聊天工具启动: 3000');
+  let port = 5003;
+  http.listen(port, function () {
+    console.log('聊天工具启动: ' + port);
   });
 };

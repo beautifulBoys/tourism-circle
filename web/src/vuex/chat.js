@@ -1,5 +1,6 @@
 
 import io from 'socket.io-client';
+import config from '../config/index.js';
 import data from './data/chat.json';
 
 export default {
@@ -118,7 +119,7 @@ export default {
       console.log('已发送');
     },
     connectEvent ({ commit, state }, {fn}) {
-      state.httpServer = io.connect('http://10.209.96.67:3003');
+      state.httpServer = io.connect(`${config.server_ip}:${config.chat_port}`);
       state.httpServer.emit('online', {
         fromId: state.meInfo.userId - 0,
         username: state.meInfo.username

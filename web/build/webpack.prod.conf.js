@@ -9,7 +9,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-
+const config_project = require('../src/config/index.js')
 const env = config.build.env
 
 const webpackConfig = merge(baseWebpackConfig, {
@@ -20,7 +20,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         loader: 'webpack-replace-loader',
         options: {
           search: '/api',
-          replace: 'http://10.209.96.67:3000'
+          replace: config_project.server_ip + ':' + config_project.server_port
         }
       }
     ]

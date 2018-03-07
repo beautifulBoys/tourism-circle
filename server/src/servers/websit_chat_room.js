@@ -67,7 +67,7 @@ export default () => {
 
   });
 
-  const port = 3004;
+  const port = 5004;
   http.listen(port, function () {
     console.log('全站聊天室启动: ' + port);
   });
