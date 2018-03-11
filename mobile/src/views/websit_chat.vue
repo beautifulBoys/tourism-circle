@@ -71,11 +71,12 @@ export default {
     }
   },
   mounted () {
+    this.initScroll(this.scroll);
     this.connectServer();
     this.getUserInfo();
   },
   methods: {
-    ...mapMutations(['changeSendValue']),
+    ...mapMutations(['changeSendValue', 'initScroll']),
     ...mapActions(['connectServer', 'sendMessageEvent', 'getUserInfo']),
     getUserId () {
       return (new Date().getTime() + '' + Math.floor(Math.random() * 100000 + 100)) - 0;

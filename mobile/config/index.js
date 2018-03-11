@@ -4,6 +4,7 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
+const config = require('../src/config/index.js')
 
 module.exports = {
   build: {
@@ -34,7 +35,7 @@ module.exports = {
     proxyTable: {
       '/api': {
           // target: 'http://10.209.96.135:9090/api',
-          target: 'http://localhost:3000',
+          target: 'http://127.0.0.1:' + config.server_port,
           changeOrigin: true,
           onProxyReq(e) {
               //console.log(e);

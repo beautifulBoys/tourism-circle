@@ -9,7 +9,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-
+const config_project = require('../src/config/index.js')
 const env = config.build.env
 
 const webpackConfig = merge(baseWebpackConfig, {
@@ -109,6 +109,29 @@ const webpackConfig = merge(baseWebpackConfig, {
       }
     ])
   ]
+}, {
+  module: {
+    rules: [
+      {
+        test: /ajax\.js$/,
+        loader: 'webpack-replace-loader',
+        options: {
+          search: '/api',
+          replace: 'http://47.95.212.47:' + config_project.server_port,
+          attr: 'g'
+        }
+      },
+      {
+        test: /index\.js$/,
+        loader: 'webpack-replace-loader',
+        options: {
+          search: '$IP$',
+          replace: 'http://47.95.212.47',
+          attr: 'g'
+        }
+      }
+    ]
+  }
 })
 
 if (config.build.productionGzip) {

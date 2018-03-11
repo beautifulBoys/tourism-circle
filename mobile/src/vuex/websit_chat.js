@@ -1,16 +1,21 @@
 
 import io from 'socket.io-client';
+import config from '../config/index.js';
 import {mineAjax} from '../api/ajax_router.js';
 export default {
   namespaced: true,
   state: {
     httpServer: null,
     connect: false,
+    scroll: null,
     messageList: [],
     sendInputValue: '',
     avatar: 'https://raw.githubusercontent.com/beautifulBoys/beautifulBoys.github.io/master/source/tourism-circle/avatar.png'
   },
   mutations: {
+    initScroll (state, fn) {
+      state.scroll = fn;
+    },
     changeSendValue (state, value) {
       state.sendInputValue = value;
     },
@@ -35,7 +40,7 @@ export default {
       } catch (err) {}
     },
     connectServer ({commit, state, rootState}) {
-      state.httpServer = io.connect('http://10.209.96.67:3004');
+      state.httpServer = io.connect(config.server_ip + ':' + config.webChat_port);
       state.httpServer.emit('login', {
         ...rootState.userInfo,
         avatar: state.avatar
@@ -55,6 +60,7 @@ export default {
       state.httpServer.on('message', obj => {
         console.log(obj);
         state.messageList.push(obj);
+        setTimeout(state.scroll);
       });
     },
     sendMessageEvent ({commit, state, rootState}, {success}) {
