@@ -100,6 +100,15 @@ const webpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: [
       {
+        test: /ajax\.js$/,
+        loader: 'webpack-replace-loader',
+        options: {
+          search: '/api',
+          replace: 'http://47.95.212.47:' + config_project.server_port,
+          attr: 'g'
+        }
+      },
+      {
         test: /index\.js$/,
         loader: 'webpack-replace-loader',
         options: {
