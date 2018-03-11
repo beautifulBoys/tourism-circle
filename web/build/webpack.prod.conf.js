@@ -14,19 +14,6 @@ const env = config.build.env
 
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
-    rules: [
-      {
-        test: /ajax\.js$/,
-        loader: 'webpack-replace-loader',
-        options: {
-          search: '/api',
-          replace: config_project.server_ip + ':' + config_project.server_port
-        }
-      }
-    ]
-  }
-}, {
-  module: {
     rules: utils.styleLoaders({
       sourceMap: config.build.productionSourceMap,
       extract: true
@@ -109,6 +96,20 @@ const webpackConfig = merge(baseWebpackConfig, {
       }
     ])
   ]
+}, {
+  module: {
+    rules: [
+      {
+        test: /index\.js$/,
+        loader: 'webpack-replace-loader',
+        options: {
+          search: '$IP$',
+          replace: 'http://47.95.212.47',
+          attr: 'g'
+        }
+      }
+    ]
+  }
 })
 
 if (config.build.productionGzip) {

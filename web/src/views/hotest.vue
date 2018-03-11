@@ -37,9 +37,10 @@
       ...mapMutations(['changePage']),
       ...mapActions(['getDataEvent']),
       loadmoreEvent () {
+        let _this = this;
         this.getDataEvent({
           cbb (text) {
-            this.$message({type: 'error', message: text});
+            _this.$message({type: 'error', message: text});
           }
         });
       }

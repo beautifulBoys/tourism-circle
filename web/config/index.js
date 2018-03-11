@@ -34,7 +34,7 @@ module.exports = {
     proxyTable: {
       '/api': {
           // target: 'http://10.209.96.135:9090/api',
-          target: config.server_ip + ':' + config.server_port,
+          target: 'http://192.168.31.42:' + config.server_port,
           changeOrigin: true,
           onProxyReq(e) {
               //console.log(e);

@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/controller/test.js"],"names":["a","console","log"],"mappings":";;AAAA,SAASA,CAAT,GAAc;AACZC,UAAQC,GAAR,CAAY,2BAAZ;AACD","file":"test.js","sourcesContent":["function a () {\r\n  console.log('大师傅的说法是的访客的设计费里的数据付了款接待来访');\r\n}"]}

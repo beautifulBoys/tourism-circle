@@ -33,4 +33,18 @@ module.exports = merge(baseWebpackConfig, {
     }),
     new FriendlyErrorsPlugin()
   ]
+}, {
+  module: {
+    rules: [
+      {
+        test: /index\.js$/,
+        loader: 'webpack-replace-loader',
+        options: {
+          search: '$IP$',
+          replace: 'http://127.0.0.1',
+          attr: 'g'
+        }
+      }
+    ]
+  }
 })

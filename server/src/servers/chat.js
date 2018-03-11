@@ -3,6 +3,7 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 import chatRobot from './chat_robot.js';
+import config from '../config/index.js';
 
 const errObj = {
   result: 0,
@@ -97,7 +98,7 @@ module.exports = function () {
     });
 
   });
-  let port = 5003;
+  let port = config.chat_port;
   http.listen(port, function () {
     console.log('聊天工具启动: ' + port);
   });
