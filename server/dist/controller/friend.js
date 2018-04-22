@@ -87,30 +87,7 @@ var addFriendFunc = exports.addFriendFunc = function () {
 
           case 21:
             obj = _context.sent;
-
-            if (!obj) {
-              _context.next = 27;
-              break;
-            }
-
-            _context.next = 25;
-            return _id2.default.update({ _id: obj._id }, { value: obj.value + 1 }, { multi: false }, function () {});
-
-          case 25:
-            _context.next = 29;
-            break;
-
-          case 27:
-            _context.next = 29;
-            return _id2.default.create({ type: 'messageId' });
-
-          case 29:
-            _context.next = 31;
-            return _id2.default.findOne({ type: 'messageId' });
-
-          case 31:
-            obj = _context.sent;
-            _context.next = 34;
+            _context.next = 24;
             return _message2.default.create({
               id: obj.value + 1,
               type: 'add-friend',
@@ -119,24 +96,24 @@ var addFriendFunc = exports.addFriendFunc = function () {
               remark: remark
             });
 
-          case 34:
+          case 24:
             res.send({ code: 200, message: '添加好友请求发送成功', data: {} });
-            _context.next = 41;
+            _context.next = 31;
             break;
 
-          case 37:
-            _context.prev = 37;
+          case 27:
+            _context.prev = 27;
             _context.t0 = _context['catch'](18);
 
             console.log(_context.t0);
             res.send({ code: 300, message: '添加好友请求发送失败', data: _context.t0 });
 
-          case 41:
+          case 31:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, undefined, [[18, 37]]);
+    }, _callee, undefined, [[18, 27]]);
   }));
 
   return function addFriendFunc(_x, _x2) {

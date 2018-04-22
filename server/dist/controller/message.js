@@ -184,9 +184,7 @@ var sendWebMailFunc = exports.sendWebMailFunc = function () {
 
           case 9:
             obj = _context3.sent;
-
-            if (obj) _id2.default.update({ _id: obj._id }, { value: obj.value + 1 }, { multi: false }, function () {});else _id2.default.create({ type: 'messageId' });
-            _context3.next = 13;
+            _context3.next = 12;
             return _message2.default.create({
               id: obj.value + 1,
               type: 'web-mail',
@@ -195,24 +193,24 @@ var sendWebMailFunc = exports.sendWebMailFunc = function () {
               remark: remark
             });
 
-          case 13:
+          case 12:
             res.send({ code: 200, message: '站内信发送成功', data: {} });
-            _context3.next = 20;
+            _context3.next = 19;
             break;
 
-          case 16:
-            _context3.prev = 16;
+          case 15:
+            _context3.prev = 15;
             _context3.t0 = _context3['catch'](6);
 
             console.log(_context3.t0);
             res.send({ code: 300, message: '站内信发送失败', data: _context3.t0 });
 
-          case 20:
+          case 19:
           case 'end':
             return _context3.stop();
         }
       }
-    }, _callee3, undefined, [[6, 16]]);
+    }, _callee3, undefined, [[6, 15]]);
   }));
 
   return function sendWebMailFunc(_x5, _x6) {

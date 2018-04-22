@@ -67,7 +67,7 @@ var loginFunc = exports.loginFunc = function () {
         switch (_context.prev = _context.next) {
           case 0:
             if (!(req.body.username && req.body.password)) {
-              _context.next = 51;
+              _context.next = 41;
               break;
             }
 
@@ -102,7 +102,7 @@ var loginFunc = exports.loginFunc = function () {
             res.send({ code: 300, message: '用户名或密码输入错误', data: {} });
 
           case 15:
-            _context.next = 44;
+            _context.next = 34;
             break;
 
           case 17:
@@ -111,33 +111,10 @@ var loginFunc = exports.loginFunc = function () {
 
           case 19:
             obj = _context.sent;
-
-            if (!obj) {
-              _context.next = 25;
-              break;
-            }
-
-            _context.next = 23;
-            return _id2.default.update({ _id: obj._id }, { value: obj.value + 1 }, { multi: false }, function () {});
-
-          case 23:
-            _context.next = 27;
-            break;
-
-          case 25:
-            _context.next = 27;
-            return _id2.default.create({ type: 'userId' });
-
-          case 27:
-            _context.next = 29;
-            return _id2.default.findOne({ type: 'userId' });
-
-          case 29:
-            obj = _context.sent;
             userId = obj.value + 1;
             // 创建 user 表
 
-            _context.next = 33;
+            _context.next = 23;
             return _user2.default.create({
               id: userId,
               username: req.body.username,
@@ -147,8 +124,8 @@ var loginFunc = exports.loginFunc = function () {
               if (err) console.log('create user 出错了', err);
             });
 
-          case 33:
-            _context.next = 35;
+          case 23:
+            _context.next = 25;
             return _following2.default.create({
               id: userId,
               userId: userId
@@ -156,8 +133,8 @@ var loginFunc = exports.loginFunc = function () {
               if (err) console.log('create following 出错了', err);
             });
 
-          case 35:
-            _context.next = 37;
+          case 25:
+            _context.next = 27;
             return _follow2.default.create({
               id: userId,
               userId: userId
@@ -165,8 +142,8 @@ var loginFunc = exports.loginFunc = function () {
               if (err) console.log('create follow 出错了', err);
             });
 
-          case 37:
-            _context.next = 39;
+          case 27:
+            _context.next = 29;
             return _friend2.default.create({
               id: userId,
               userId: userId
@@ -174,8 +151,8 @@ var loginFunc = exports.loginFunc = function () {
               if (err) console.log('create friend 出错了', err);
             });
 
-          case 39:
-            _context.next = 41;
+          case 29:
+            _context.next = 31;
             return _star2.default.create({
               id: userId,
               userId: userId
@@ -183,8 +160,8 @@ var loginFunc = exports.loginFunc = function () {
               if (err) console.log('create star 出错了', err);
             });
 
-          case 41:
-            _context.next = 43;
+          case 31:
+            _context.next = 33;
             return _comment2.default.create({
               id: userId,
               userId: userId
@@ -192,7 +169,7 @@ var loginFunc = exports.loginFunc = function () {
               if (err) console.log('create comment 出错了', err);
             });
 
-          case 43:
+          case 33:
 
             res.send({ code: 200, message: '你好：' + username + '，已自动为您注册账号', data: {
                 passport: passport,
@@ -200,29 +177,29 @@ var loginFunc = exports.loginFunc = function () {
                 username: username
               } });
 
-          case 44:
-            _context.next = 49;
+          case 34:
+            _context.next = 39;
             break;
 
-          case 46:
-            _context.prev = 46;
+          case 36:
+            _context.prev = 36;
             _context.t0 = _context['catch'](1);
 
             res.send({ code: 300, message: '登录故障，请联系管理员', data: {} });
 
-          case 49:
-            _context.next = 52;
+          case 39:
+            _context.next = 42;
             break;
 
-          case 51:
+          case 41:
             res.send({ code: 300, message: '用户名和密码请输入完整', data: {} });
 
-          case 52:
+          case 42:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, undefined, [[1, 46]]);
+    }, _callee, undefined, [[1, 36]]);
   }));
 
   return function loginFunc(_x, _x2) {

@@ -273,7 +273,6 @@ var myCommentsFunc = exports.myCommentsFunc = function () {
           case 35:
             _user2 = _context2.sent;
 
-
             commentList.push({
               comment: post.commentList[h].comment,
               user: {

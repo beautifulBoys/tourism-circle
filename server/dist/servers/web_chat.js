@@ -22,7 +22,7 @@ var onlineUserCount = 0;
 
 exports.default = function () {
   io.on('connection', function (socket) {
-    console.log('服务已创建 !');
+    console.log('全站聊天室-服务已创建 !');
 
     //监听新用户加入
     socket.on('login', function (obj) {

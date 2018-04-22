@@ -106,31 +106,8 @@ var postingFunc = exports.postingFunc = function () {
 
           case 3:
             obj = _context.sent;
-
-            if (!obj) {
-              _context.next = 9;
-              break;
-            }
-
+            _context.prev = 4;
             _context.next = 7;
-            return _id2.default.update({ _id: obj._id }, { value: obj.value + 1 }, { multi: false }, function () {});
-
-          case 7:
-            _context.next = 11;
-            break;
-
-          case 9:
-            _context.next = 11;
-            return _id2.default.create({ type: 'postId' });
-
-          case 11:
-            _context.next = 13;
-            return _id2.default.findOne({ type: 'postId' });
-
-          case 13:
-            obj = _context.sent;
-            _context.prev = 14;
-            _context.next = 17;
             return _post2.default.create({
               title: req.body.title,
               spot: req.body.spot,
@@ -146,27 +123,27 @@ var postingFunc = exports.postingFunc = function () {
               id: obj.value + 1
             });
 
-          case 17:
-            _context.next = 19;
+          case 7:
+            _context.next = 9;
             return _user5.default.update({ id: userId }, { $inc: { postNum: 1 } }, { multi: false }, function () {});
 
-          case 19:
+          case 9:
             res.send({ code: 200, message: '分享成功', data: {} });
-            _context.next = 25;
+            _context.next = 15;
             break;
 
-          case 22:
-            _context.prev = 22;
-            _context.t0 = _context['catch'](14);
+          case 12:
+            _context.prev = 12;
+            _context.t0 = _context['catch'](4);
 
             res.send({ code: 300, message: '分享失败', data: _context.t0 });
 
-          case 25:
+          case 15:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, undefined, [[14, 22]]);
+    }, _callee, undefined, [[4, 12]]);
   }));
 
   return function postingFunc(_x, _x2) {
