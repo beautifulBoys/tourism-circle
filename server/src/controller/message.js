@@ -69,8 +69,6 @@ export const sendWebMailFunc = async (req, res) => {
   }
   try {
     let obj = await Id.findOne({type: 'messageId'});
-    if (obj) Id.update({_id: obj._id}, {value: obj.value + 1}, {multi: false}, () => {});
-    else Id.create({type: 'messageId'});
     await Message.create({
       id: obj.value + 1,
       type: 'web-mail',
@@ -94,7 +92,7 @@ export const webMailSendFunc = async (req, res) => {
   let remark = req.body.remark;
   let fromId = req.body.fromId - 0;
   let toId = req.body.toId - 0;
-  console.log(messageId, remark, fromId, toId);  
+  console.log(messageId, remark, fromId, toId);
   try {
     await Message.update({id: messageId}, {fromId: toId, toId: fromId, remark: remark}, {multi: false}, (err) => {
       if (err) console.log(err);

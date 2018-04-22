@@ -18,6 +18,4 @@ export const galleryDeleteFunc = async (req, res) => {
   } catch (err) {
     res.send({code: 300, message: '删除图片失败', data: err});
   }
-  
 };
-

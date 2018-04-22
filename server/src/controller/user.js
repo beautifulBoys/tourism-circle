@@ -28,9 +28,6 @@ export const loginFunc = async (req, res) => {
         }
       } else {
         let obj = await Id.findOne({type: 'userId'});
-        if (obj) await Id.update({_id: obj._id}, {value: obj.value + 1}, {multi: false}, () => {});
-        else await Id.create({type: 'userId'});
-        obj = await Id.findOne({type: 'userId'});
         let userId = obj.value + 1;
         // 创建 user 表
         await User.create({
@@ -41,7 +38,7 @@ export const loginFunc = async (req, res) => {
         }, (err, docs) => {
           if (err) console.log('create user 出错了', err);
         });
-  
+
         // 同步创建 following 表
         await Following.create({
           id: userId,
@@ -77,18 +74,18 @@ export const loginFunc = async (req, res) => {
         }, (err, docs) => {
           if (err) console.log('create comment 出错了', err);
         });
-  
-  
+
+
         res.send({code: 200, message: '你好：' + username + '，已自动为您注册账号', data: {
-          passport, 
-          userId: obj.value + 1, 
+          passport,
+          userId: obj.value + 1,
           username
         }});
       }
     } catch (err) {
       res.send({code: 300, message: '登录故障，请联系管理员', data: {}});
     }
-    
+
   } else {
     res.send({code: 300, message: '用户名和密码请输入完整', data: {}});
   }
@@ -112,7 +109,7 @@ export const getUserInfoFunc = async (req, res) => {
     console.log(err);
     res.send({code: 200, message: '获取用户信息失败', data: err});
   }
-  
+
 };
 export const userInfoUpdateFunc = async (req, res) => {
   try {
@@ -154,4 +151,3 @@ export const getAllUserFunc = async (req, res) => {
     res.send({code: 300, message: '获取用户列表失败', data: err});
   }
 };
-
